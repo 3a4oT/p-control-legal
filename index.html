@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p-control — Privacy Policy</title>
+<meta name="description" content="Privacy policy for the p-control Android TV parental-control app.">
+<style>
+  :root {
+    --ink: #0F172A;
+    --paper: #F3F5FA;
+    --surface: #FFFFFF;
+    --accent: #2563EB;
+    --accent-2: #38BDF8;
+    --muted: #565F7B;
+    --line: rgba(15, 23, 42, 0.12);
+    --line-strong: rgba(15, 23, 42, 0.22);
+    --code-bg: rgba(37, 99, 235, 0.07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #E7ECF6;
+      --paper: #0B1220;
+      --surface: #131C30;
+      --accent: #5B8DF6;
+      --accent-2: #38BDF8;
+      --muted: #93A1C4;
+      --line: rgba(147, 161, 196, 0.18);
+      --line-strong: rgba(147, 161, 196, 0.32);
+      --code-bg: rgba(91, 141, 246, 0.12);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .doc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .masthead {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .masthead svg { flex: 0 0 auto; border-radius: 22%; }
+  .masthead h1 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .masthead .meta {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .lede {
+    font-size: 1.08rem;
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 0 0 2.5rem;
+  }
+
+  nav.toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 3rem;
+    font-size: 0.92rem;
+  }
+  nav.toc .label {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 1.2rem;
+    columns: 2;
+    column-gap: 1.5rem;
+  }
+  nav.toc li { margin-bottom: 0.35rem; break-inside: avoid; }
+  nav.toc a { color: var(--ink); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  section { margin-bottom: 2.75rem; scroll-margin-top: 1.5rem; }
+  h2 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 1.32rem;
+    font-weight: 600;
+    margin: 0 0 0.9rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  h2 .num {
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 1.4rem 0 0.5rem;
+  }
+  p { margin: 0 0 1rem; }
+  ul, ol.plain { margin: 0 0 1rem; padding-left: 1.3rem; }
+  li { margin-bottom: 0.4rem; }
+  a { color: var(--accent); }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.88em;
+  }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 560px; }
+  th, td { text-align: left; padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    background: var(--code-bg);
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-variant-numeric: tabular-nums; }
+
+  .callout {
+    background: var(--code-bg);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    font-size: 0.93rem;
+  }
+  .callout strong { color: var(--accent); }
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 520px) {
+    .doc { padding: 2.5rem 1.1rem 4rem; }
+    nav.toc ol { columns: 1; }
+    .masthead { gap: 0.75rem; }
+    .masthead h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="masthead">
+    <svg width="44" height="44" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <rect width="512" height="512" rx="102" fill="#0F172A"/>
+      <path d="M256 70L390 120V240C390 335 330 415 256 442C182 415 122 335 122 240V120L256 70Z" fill="#2563EB"/>
+      <rect x="210" y="160" width="36" height="180" rx="18" fill="#FFFFFF"/>
+      <path d="M228 160H280C307.614 160 330 182.386 330 210C330 237.614 307.614 260 280 260H228V160Z" fill="#38BDF8"/>
+      <circle cx="280" cy="210" r="16" fill="#0F172A"/>
+    </svg>
+    <div>
+      <h1>Privacy Policy — p-control</h1>
+      <span class="meta">Draft · Effective date: pending publication</span>
+    </div>
+  </div>
+
+  <p class="lede">
+    p-control is a parental-control app for Android TV. This page explains, plainly, what the
+    app and its companion service collect, why, and how a household can remove it.
+  </p>
+
+  <nav class="toc" aria-label="Table of contents">
+    <span class="label">On this page</span>
+    <ol>
+      <li><a href="#overview">1. What p-control is</a></li>
+      <li><a href="#device-data">2. Data collected on the TV</a></li>
+      <li><a href="#server-data">3. Data collected by the household service</a></li>
+      <li><a href="#permissions">4. Android permissions</a></li>
+      <li><a href="#sharing">5. Who your data is shared with</a></li>
+      <li><a href="#retention">6. How long data is kept</a></li>
+      <li><a href="#children">7. Children's data</a></li>
+      <li><a href="#rights">8. Access, correction, deletion</a></li>
+      <li><a href="#security">9. Security measures</a></li>
+      <li><a href="#changes">10. Changes to this policy</a></li>
+      <li><a href="#contact">11. Contact</a></li>
+    </ol>
+  </nav>
+
+  <section id="overview">
+    <h2><span class="num">01</span> What p-control is</h2>
+    <p>
+      p-control runs on an Android TV device and helps a parent enforce app time limits and
+      block lists on that device. A parent manages the household's rules through a companion
+      Telegram bot, connected to the TV app over an encrypted MQTT link to a server the
+      developer operates. There is no separate mobile app or web login — the bot is the entire
+      admin surface.
+    </p>
+  </section>
+
+  <section id="device-data">
+    <h2><span class="num">02</span> Data collected on the TV</h2>
+    <p>Everything below stays on the device except where this page says otherwise.</p>
+
+    <h3>App usage (for enforcement)</h3>
+    <p>
+      p-control reads which app is in the foreground via Android's Usage Access API to detect
+      and block restricted apps, and to compute daily screen time. This runs continuously while
+      the app is active, entirely on-device. Only the aggregated result — which rules were
+      applied, when a block screen was shown — is relayed to the household's own server; raw,
+      second-by-second usage is not transmitted.
+    </p>
+
+    <h3>Product analytics</h3>
+    <p>
+      p-control uses Firebase Analytics to record anonymous, count-only product events —
+      for example <code>gate_shown</code>, <code>app_blocked</code>, <code>pairing_succeeded</code>.
+      These events carry no names, no pairing codes, no device identifiers, and no information
+      about which specific apps were blocked.
+    </p>
+
+    <h3>Crash reports</h3>
+    <p>
+      p-control uses Firebase Crashlytics to record crash and error reports if something goes
+      wrong. Reports contain a stack trace and a short technical label describing what the app
+      was doing (e.g. <code>enforcement_loop_crash</code>) — never a profile name, PIN, pairing
+      code, or device identifier.
+    </p>
+
+    <div class="callout">
+      <strong>Not collected:</strong> advertising identifiers, location, contacts, microphone,
+      or camera. p-control does not show ads and does not use an ads SDK.
+    </div>
+  </section>
+
+  <section id="server-data">
+    <h2><span class="num">03</span> Data collected by the household service</h2>
+    <p>
+      Once a device is paired via the Telegram bot, the household's own server (operated by the
+      developer, not a third party) stores what it needs to run the household's rules:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Data</th><th>Why</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Telegram chat ID</td><td>Identifies the parent account controlling the household</td></tr>
+          <tr><td>Household &amp; device names</td><td>Labels the parent chose, e.g. "Living room TV"</td></tr>
+          <tr><td>Child profile name &amp; PIN-protected code</td><td>Lets a child identify themselves at the "who's watching" gate</td></tr>
+          <tr><td>Installed app list, per device</td><td>Lets a parent pick which apps to restrict</td></tr>
+          <tr><td>Per-app usage timestamps &amp; durations</td><td>Powers the usage statistics a parent sees in the bot</td></tr>
+          <tr><td>Approval requests (who asked, when, decision)</td><td>Records the "ask a parent" flow's outcome</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="permissions">
+    <h2><span class="num">04</span> Android permissions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Permission</th><th>What it's for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>PACKAGE_USAGE_STATS</code></td><td>Detect which app is currently in the foreground, to enforce the block list and time limits. Read on-device only.</td></tr>
+          <tr><td><code>SYSTEM_ALERT_WINDOW</code></td><td>Show the full-screen block/stop screen over a restricted app in real time.</td></tr>
+          <tr><td><code>FOREGROUND_SERVICE</code> / <code>FOREGROUND_SERVICE_SPECIAL_USE</code></td><td>Keep enforcement running reliably while the TV is on.</td></tr>
+          <tr><td><code>RECEIVE_BOOT_COMPLETED</code></td><td>Restart enforcement automatically after the TV reboots.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="sharing">
+    <h2><span class="num">05</span> Who your data is shared with</h2>
+    <ul>
+      <li>The household's own parent, via the Telegram bot — that is the product's purpose.</li>
+      <li><strong>Google Firebase</strong> (Analytics, Crashlytics) — as a data processor, for
+        the anonymous events and crash reports described above.</li>
+      <li><strong>Telegram</strong> — the bot's messages are delivered through Telegram's own
+        infrastructure, subject to Telegram's own privacy terms.</li>
+      <li>No data is sold. No data is shared with advertisers or data brokers.</li>
+    </ul>
+  </section>
+
+  <section id="retention">
+    <h2><span class="num">06</span> How long data is kept</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Data</th><th class="num">Retention</th></tr></thead>
+        <tbody>
+          <tr><td>Raw per-session usage events</td><td class="num">90 days</td></tr>
+          <tr><td>Daily usage aggregates (e.g. "42 min on App X, Aug 8")</td><td class="num">Kept while the household is active</td></tr>
+          <tr><td>Household, device, and profile records</td><td class="num">Kept while the household is active</td></tr>
+          <tr><td>Pairing codes, login requests</td><td class="num">Short-lived, self-expiring</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="children">
+    <h2><span class="num">07</span> Children's data</h2>
+    <p>
+      p-control is a tool a parent installs and configures — a child does not create an account,
+      does not interact with Telegram, and does not provide any data directly. Everything in
+      §3 about a child (profile name, usage) is entered or generated by the household's own
+      device, on the parent's instruction, for the parent's own use in managing that household.
+    </p>
+  </section>
+
+  <section id="rights">
+    <h2><span class="num">08</span> Access, correction, deletion</h2>
+    <p>
+      A parent can remove any child profile, app rule, or the pairing itself at any time from
+      the Telegram bot. Unpairing a device clears its stored credentials. To request full
+      deletion of a household's data from the server, contact the developer (§11).
+    </p>
+  </section>
+
+  <section id="security">
+    <h2><span class="num">09</span> Security measures</h2>
+    <ul>
+      <li>The TV app never stores its pairing/MQTT credentials in plain text — they're
+        encrypted at rest using Android Keystore-backed encryption (Google Tink).</li>
+      <li>The block/stop screen and PIN entry screens are excluded from screenshots and the
+        recent-apps preview (<code>FLAG_SECURE</code>).</li>
+      <li>The TV app talks to the server exclusively over an encrypted MQTT connection (TLS).</li>
+      <li>A parent-set PIN gates access to the app's own settings on the TV.</li>
+    </ul>
+  </section>
+
+  <section id="changes">
+    <h2><span class="num">10</span> Changes to this policy</h2>
+    <p>
+      If this policy changes in a way that affects what's collected or how it's used, the
+      effective date above will be updated and, where required, users will be notified through
+      the Telegram bot or the app itself.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2><span class="num">11</span> Contact</h2>
+    <p>
+      Questions about this policy or a data request: <em>[add a contact email or Telegram
+      handle before publishing]</em>.
+    </p>
+  </section>
+
+  <footer>
+    Draft prepared 2026-08-10 — confirm the children's-data framing (§7) and jurisdiction
+    requirements (COPPA/GDPR-K, depending on where users are) before publishing, and fill in
+    §11's contact detail.
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+# Play Console — Data safety form (draft answers)
+
+Play Console → App content → Data safety. This is a structured questionnaire, not free text —
+below maps each relevant data type to the answer this app's actual behavior supports. **You are
+the one accountable for this form's accuracy to Google — read each row against the code before
+submitting, don't paste blind.**
+
+## Does your app collect or share any of the required user data types?
+
+**Yes.**
+
+## Data types
+
+| Data type | Collected? | Shared? | Purpose | Optional? |
+|---|---|---|---|---|
+| **Personal info → Name** | Yes (child profile name, entered by the parent) | No (not shared with third parties — only stored on the household's own self-hosted server, which the developer, not a third-party company, operates) | App functionality | Required for the "who's watching" feature |
+| **App activity → App interactions** | Yes (which app was foregrounded, to enforce blocking) | No | App functionality | Required — core purpose |
+| **App activity → In-app search history** | No | — | — | — |
+| **App info and performance → Crash logs** | Yes (via Firebase Crashlytics) | Yes — with Google (Firebase, as the analytics/crash provider) | Analytics | Not user-facing/optional — standard crash reporting |
+| **App info and performance → Diagnostics** | Yes (via Firebase Crashlytics — device/OS info attached to crash reports) | Yes — with Google (Firebase) | Analytics | Same as above |
+| **Device or other IDs → Device or other IDs** | Yes (Firebase Analytics' app-instance identifier — not the Android advertising ID, not used for cross-app tracking) | Yes — with Google (Firebase) | Analytics | Not optional — SDK default |
+| **Location** | No | — | — | — |
+| **Financial info** | No | — | — | — |
+| **Health and fitness** | No | — | — | — |
+| **Messages** | No | — | — | — |
+| **Photos and videos** | No | — | — | — |
+| **Audio files** | No | — | — | — |
+| **Files and docs** | No | — | — | — |
+| **Calendar** | No | — | — | — |
+| **Contacts** | No | — | — | — |
+| **Web browsing history** | No | — | — | — |
+
+## Security practices section
+
+- **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses
+  TLS; Firebase SDK traffic is HTTPS by default.
+- **Do you provide a way for users to request data deletion?** Yes — unpairing a device from
+  the Telegram bot clears its stored credentials; a parent can also contact the developer
+  directly for full account/household deletion (see privacy policy §8).
+- **Data collection is required or can users opt out?** Core enforcement data (app activity) is
+  required — it's the product's function. Analytics/crash reporting (Firebase) currently has no
+  in-app opt-out toggle; note this honestly rather than claim one that doesn't exist. If an
+  opt-out is added later, update this section then.
+
+## Two judgment calls flagged for your decision, not assumed
+
+1. **Is the household's own self-hosted server a "third party" for Play's purposes?** Google's
+   definition centers on *other companies*; a service the developer personally operates for
+   their own users arguably isn't one — I've marked profile-name sharing "No" on that reading.
+   If you'd rather declare it transparently as shared regardless, flip that row to "Yes,
+   shared with: service provider" — it's a defensible, more conservative choice.
+2. **Firebase Analytics/Crashlytics rows above assume default SDK behavior** (no consent-gated
+   collection, no ad personalization use). If either SDK's config in this app has been
+   customized beyond what `FirebaseAnalyticsRepository`/`FirebaseCrashReportingRepository`
+   show, re-verify against Firebase's own current data-safety mapping guide before submitting.
