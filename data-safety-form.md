@@ -65,18 +65,43 @@ usage history, **no** screen-time totals, **no** installed-app list, and **no** 
 status. If a later release starts sending any of them, this form and privacy-policy §3 both need
 updating before that release ships.
 
-## The requirement this form and the policy both fail to satisfy
+## Prominent disclosure and consent — satisfied by a screen, not by this form
 
-**Prominent disclosure and consent.** Play requires an *in-app* disclosure wherever collection
-could exceed a user's expectations, and names background collection explicitly — which is what
-`MonitorService` does. It must appear during normal use, describe the data **and how it is used
-and shared**, and be followed by an affirmative tap. Google states it cannot be satisfied by the
-privacy policy or the terms of service.
+**Play requires an *in-app* disclosure** wherever collection could exceed a user's expectations,
+and names background collection explicitly — which is what `MonitorService` does. It must appear
+during normal use, describe the data **and how it is used and shared**, and be followed by an
+affirmative tap. Google states it cannot be satisfied by the privacy policy or the terms of
+service, so nothing in this document or on the published page closes it.
 
-The current onboarding explains three permissions (`permissions_overlay_rationale_v2`,
-`permissions_usage_rationale_v2`, `permissions_notifications_rationale`) and says
-"Connect Telegram — you'll manage limits from there". **None of it tells the parent that anything
-leaves the television.** Neither this form nor the privacy policy closes that; a screen does.
+**It is built.** `p-control-android` shows `DataDisclosureScreen` as the first screen of first run
+(`disclosure_leaves_device`, `disclosure_sharing`, `disclosure_accept`), stores the accepted
+revision, and `MainActivity.startMonitorServiceIfPermitted` gates the foreground service on it —
+so enforcement cannot begin before the parent has been told. The accepted revision is what
+`DeviceStatus.disclosure_version` carries. Its rules live in that repo's
+`docs/superpowers/specs/2026-08-13-in-app-data-disclosure-design.md`; **the revision moves only
+when what leaves the device widens**, which is the check to run against every row of this form.
+
+## Pending: the account, and the email address it collects
+
+**DECIDED 2026-08-13 in `p-control-server`, and deliberately NOT yet written into `index.html`.**
+The identity model changes: a parent will sign up on `control.rovenskyi.com` with an **email
+address and a password**, tenancy will key on that account, and a Telegram chat becomes an
+optional linked channel rather than the identity. Play's *App access* declaration is one of the
+reasons — a reviewer needs unchanging, reusable, location-independent credentials, which a
+Telegram account cannot be.
+
+Two rows here and three passages on the published page move with it when it ships:
+
+- a new **Personal info → Email address** row: collected, not shared, App functionality
+  (account/authentication), required;
+- the **Data deletion** answer, which will name deleting the account as well as unpairing;
+- `index.html`'s "no account to create" (§2), its "a sign-in confirmed through Telegram" (§2), and
+  the §3 recipients/identifier table.
+
+**The page is not edited now, on purpose.** No shipped code asks for an email address, and a
+policy describing collection that does not happen is wrong in the same way as one that omits
+collection that does — the Data safety form has to match observed behaviour. The edit lands in
+the same change that makes `POST /api/v1/auth/signup` reachable in production, and before it.
 
 ## Security practices section
 
