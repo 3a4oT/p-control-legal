@@ -65,6 +65,19 @@ usage history, **no** screen-time totals, **no** installed-app list, and **no** 
 status. If a later release starts sending any of them, this form and privacy-policy §3 both need
 updating before that release ships.
 
+## The requirement this form and the policy both fail to satisfy
+
+**Prominent disclosure and consent.** Play requires an *in-app* disclosure wherever collection
+could exceed a user's expectations, and names background collection explicitly — which is what
+`MonitorService` does. It must appear during normal use, describe the data **and how it is used
+and shared**, and be followed by an affirmative tap. Google states it cannot be satisfied by the
+privacy policy or the terms of service.
+
+The current onboarding explains three permissions (`permissions_overlay_rationale_v2`,
+`permissions_usage_rationale_v2`, `permissions_notifications_rationale`) and says
+"Connect Telegram — you'll manage limits from there". **None of it tells the parent that anything
+leaves the television.** Neither this form nor the privacy policy closes that; a screen does.
+
 ## Security practices section
 
 - **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses
