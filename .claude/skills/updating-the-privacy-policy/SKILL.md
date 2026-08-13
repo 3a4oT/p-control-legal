@@ -94,17 +94,30 @@ handled: the child's own rights are reachable only through the parent's account,
 "teen" case. Whether that is sufficient depends on jurisdiction (COPPA under 13, GDPR-K 13–16
 depending on member state) and is legal work, not an architectural claim.
 
-## Do not fabricate
+## Model it on a shipped product, not on instinct
 
-The server's own data-protection spec says full legal-basis documentation, policy text and DPA
-text are real legal work. This skill gets the page **accurate to the code** and structurally
-complete; it does not make it lawyer-reviewed. Two values are deliberately left as placeholders
-until a human fills them, and both block publication:
+The page is written; do not start it over from a template. When a new obligation appears, look at
+how a comparable parental-control product words the same thing before inventing phrasing —
+Qustodio's family policy is the reference used so far, and three of its patterns are already in
+our page: performance-of-a-contract as the ground for the monitoring itself, concrete retention
+per category rather than one blanket sentence, and an explicit undertaking by the parent that
+they have told the monitored person the software is there. That last one is the pattern most
+easily missed: monitoring software should not be a secret from the person monitored, and the
+policy is where the parent accepts that duty.
 
-- the developer name exactly as it appears on the Play listing;
-- the privacy contact address.
+## What is still genuinely undone
 
-The effective date stays a placeholder until the page is actually published.
+Two things, and neither may be described as handled:
+
+- **No lawyer has reviewed the text.** It is accurate to the code and structurally complete
+  against Play's and the GDPR's requirements. That is not the same as legal review, and the
+  difference matters most for the children's-data framing, where COPPA and national GDPR
+  implementations diverge.
+- **There is no DPA with any processor** (Google, Telegram, Hetzner, Cloudflare).
+
+The controller is named as an individual developer with an email contact and no postal address.
+That is normal for an indie developer and is what the page says; if the publisher ever becomes a
+company, §1 and §15 both change.
 
 ## Procedure
 
