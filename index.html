@@ -192,197 +192,318 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Draft · Effective date: pending publication</span>
+      <span class="meta">Version 1.0 · Effective 13 August 2026</span>
     </div>
   </div>
 
   <p class="lede">
     p-control is a parental-control app for Android TV. This page explains, plainly, what the
-    app and its companion service collect, why, and how a household can remove it.
+    app and its companion service collect, why, who else sees it, and how to get it deleted.
   </p>
 
   <nav class="toc" aria-label="Table of contents">
     <span class="label">On this page</span>
     <ol>
-      <li><a href="#overview">1. What p-control is</a></li>
-      <li><a href="#device-data">2. Data collected on the TV</a></li>
-      <li><a href="#server-data">3. Data collected by the household service</a></li>
-      <li><a href="#permissions">4. Android permissions</a></li>
-      <li><a href="#sharing">5. Who your data is shared with</a></li>
-      <li><a href="#retention">6. How long data is kept</a></li>
-      <li><a href="#children">7. Children's data</a></li>
-      <li><a href="#rights">8. Access, correction, deletion</a></li>
-      <li><a href="#security">9. Security measures</a></li>
-      <li><a href="#changes">10. Changes to this policy</a></li>
-      <li><a href="#contact">11. Contact</a></li>
+      <li><a href="#who">1. Who we are</a></li>
+      <li><a href="#overview">2. What p-control is</a></li>
+      <li><a href="#device-data">3. What we never collect</a></li>
+      <li><a href="#sent">4. What this device sends</a></li>
+      <li><a href="#server-data">5. What the service stores</a></li>
+      <li><a href="#basis">6. Why we are allowed to</a></li>
+      <li><a href="#sharing">7. Who else sees it</a></li>
+      <li><a href="#transfers">8. Where it goes</a></li>
+      <li><a href="#retention">9. How long we keep it</a></li>
+      <li><a href="#children">10. Children, and your duty to tell them</a></li>
+      <li><a href="#rights">11. Your rights</a></li>
+      <li><a href="#security">12. How we protect it</a></li>
+      <li><a href="#permissions">13. Android permissions</a></li>
+      <li><a href="#changes">14. Changes to this policy</a></li>
+      <li><a href="#contact">15. Contact</a></li>
     </ol>
   </nav>
 
-  <section id="overview">
-    <h2><span class="num">01</span> What p-control is</h2>
+  <section id="who">
+    <h2><span class="num">01</span> Who we are</h2>
     <p>
-      p-control runs on an Android TV device and helps a parent enforce app time limits and
-      block lists on that device. A parent manages the household's rules through a companion
-      Telegram bot, connected to the TV app over an encrypted MQTT link to a server the
-      developer operates. There is no separate mobile app or web login — the bot is the entire
-      admin surface.
+      p-control is published by <strong>Petro Rovenskyi</strong>, an individual developer, who is
+      the <strong>data controller</strong> for everything described on this page. There is no
+      company behind it and no third-party operator.
+    </p>
+    <p>
+      Privacy contact: <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>.
+      Every request under §11 goes to that address and is answered by a person.
+    </p>
+  </section>
+
+  <section id="overview">
+    <h2><span class="num">02</span> What p-control is</h2>
+    <p>
+      p-control runs on an Android TV and helps a parent block apps and enforce time limits on
+      that device. A parent manages the rules through a companion Telegram bot, which talks
+      to the TV over an encrypted connection to a server we operate. There is no separate mobile
+      app and no account to create.
+    </p>
+    <p>
+      <strong>Coming, not yet available:</strong> a web admin panel served by the same service,
+      where a parent signs in from a browser instead of chatting with the bot. It will add a
+      browser session — a sign-in confirmed through Telegram, and a session cookie — and will not
+      change what the device collects or sends. This page will be updated, with a new
+      effective date, before it is available to anyone.
     </p>
   </section>
 
   <section id="device-data">
-    <h2><span class="num">02</span> Data collected on the TV</h2>
-    <p>Everything below stays on the device except where this page says otherwise.</p>
-
-    <h3>App usage (for enforcement)</h3>
+    <h2><span class="num">03</span> What we never collect</h2>
     <p>
-      p-control reads which app is in the foreground via Android's Usage Access API to detect
-      and block restricted apps, and to compute daily screen time. This runs continuously while
-      the app is active, entirely on-device. Only the aggregated result — which rules were
-      applied, when a block screen was shown — is relayed to the household's own server; raw,
-      second-by-second usage is not transmitted.
+      p-control reads which app is in the foreground, using Android’s Usage Access permission, so
+      it can tell whether that app should be blocked and how long it has been open. <strong>An app
+      identifier and a duration is the entirety of what this app is ever allowed to record about
+      what happens on the device.</strong>
     </p>
-
-    <h3>Product analytics</h3>
-    <p>
-      p-control uses Firebase Analytics to record anonymous, count-only product events —
-      for example <code>gate_shown</code>, <code>app_blocked</code>, <code>pairing_succeeded</code>.
-      These events carry no names, no pairing codes, no device identifiers, and no information
-      about which specific apps were blocked.
-    </p>
-
-    <h3>Crash reports</h3>
-    <p>
-      p-control uses Firebase Crashlytics to record crash and error reports if something goes
-      wrong. Reports contain a stack trace and a short technical label describing what the app
-      was doing (e.g. <code>enforcement_loop_crash</code>) — never a profile name, PIN, pairing
-      code, or device identifier.
-    </p>
-
     <div class="callout">
-      <strong>Not collected:</strong> advertising identifiers, location, contacts, microphone,
-      or camera. p-control does not show ads and does not use an ads SDK.
+      <strong>Never collected, in any version:</strong> what you type, what is on your screen,
+      screenshots, your clipboard, the addresses of pages you visit, file names, your location,
+      your contacts, your microphone or your camera. p-control shows no ads and contains no
+      advertising SDK. This is a binding rule on every p-control client, not a description of the
+      current release.
+    </div>
+    <p>
+      The parent’s PIN is stored only as a salted hash, never as the PIN itself, and never leaves
+      the device.
+    </p>
+  </section>
+
+  <section id="sent">
+    <h2><span class="num">04</span> What this device sends</h2>
+    <p>
+      An <strong>unpaired</strong> device sends nothing at all. Once a parent confirms the pairing
+      in Telegram, this is what travels to the household service:
+    </p>
+    <ol class="plain">
+      <li>
+        <strong>At pairing:</strong> a random identifier we generate for this installation; a
+        device identifier Android provides to this app, which is specific to p-control and to this
+        device’s user profile, cannot be used to recognise it in any other app, and is not an
+        advertising identifier; and the device model reported by Android. The device identifier
+        exists so that reinstalling p-control is recognised as the same device returning, instead
+        of leaving a dead entry in the parent’s list.
+      </li>
+      <li>
+        <strong>Which apps are installed</strong>, so a parent can choose which ones to limit
+        without typing package names.
+      </li>
+      <li>
+        <strong>Which app is open, and for how long</strong> — an app identifier and a duration,
+        nothing else — so a parent can see how time is spent and so limits can be enforced across
+        every device in the household rather than per device.
+      </li>
+      <li>
+        <strong>When a child asks a parent to unblock something:</strong> the identifier of that
+        one app, so the parent knows what they are approving.
+      </li>
+      <li>
+        <strong>After the parent changes a rule:</strong> a short acknowledgement that the device
+        received it.
+      </li>
+    </ol>
+    <div class="callout">
+      Items 2 and 3 are what the app is built to do and what §5 stores. <strong>The current
+      release does not send them yet</strong> — the code that would is not written. We describe
+      them here, and in the app’s own first-run screen, because a household should agree to them
+      before they start rather than be told afterwards. The Play Data safety declaration states
+      what the shipped binary actually does.
     </div>
   </section>
 
   <section id="server-data">
-    <h2><span class="num">03</span> Data collected by the household service</h2>
+    <h2><span class="num">05</span> What the service stores</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Data</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Telegram chat ID of the parent</td><td>Identifies who controls the household</td></tr>
+          <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
+          <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
+          <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
+          <tr><td>Device identifiers from §4</td><td>Binds the device to the household and recognises a reinstall</td></tr>
+          <tr><td>Approval requests — which app, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
+        </tbody>
+      </table>
+    </div>
     <p>
-      Once a device is paired via the Telegram bot, the household's own server (operated by the
-      developer, not a third party) stores what it needs to run the household's rules:
+      The installed-app list and per-app usage totals are held here as §4 describes. Everything on
+      this page is written to cover them, so no household has to be asked again when the code that
+      sends them ships.
+    </p>
+  </section>
+
+  <section id="basis">
+    <h2><span class="num">06</span> Why we are allowed to</h2>
+    <p>
+      If you are in the UK, the EU/EEA, or somewhere with comparable law, these are our grounds:
     </p>
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr><th>Data</th><th>Why</th></tr>
-        </thead>
+        <thead><tr><th>What</th><th>Ground</th></tr></thead>
         <tbody>
-          <tr><td>Telegram chat ID</td><td>Identifies the parent account controlling the household</td></tr>
-          <tr><td>Household &amp; device names</td><td>Labels the parent chose, e.g. "Living room TV"</td></tr>
-          <tr><td>Child profile name &amp; PIN-protected code</td><td>Lets a child identify themselves at the "who's watching" gate</td></tr>
-          <tr><td>Installed app list, per device</td><td>Lets a parent pick which apps to restrict</td></tr>
-          <tr><td>Per-app usage timestamps &amp; durations</td><td>Powers the usage statistics a parent sees in the bot</td></tr>
-          <tr><td>Approval requests (who asked, when, decision)</td><td>Records the "ask a parent" flow's outcome</td></tr>
+          <tr><td>Blocking, time limits, pairing, profiles, approvals</td><td><strong>Performance of a contract.</strong> It is the service you installed the app to get; without it there is no product.</td></tr>
+          <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You may object; see §11.</td></tr>
+          <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
         </tbody>
       </table>
     </div>
-  </section>
-
-  <section id="permissions">
-    <h2><span class="num">04</span> Android permissions</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Permission</th><th>What it's for</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>PACKAGE_USAGE_STATS</code></td><td>Detect which app is currently in the foreground, to enforce the block list and time limits. Read on-device only.</td></tr>
-          <tr><td><code>SYSTEM_ALERT_WINDOW</code></td><td>Show the full-screen block/stop screen over a restricted app in real time.</td></tr>
-          <tr><td><code>FOREGROUND_SERVICE</code> / <code>FOREGROUND_SERVICE_SPECIAL_USE</code></td><td>Keep enforcement running reliably while the TV is on.</td></tr>
-          <tr><td><code>RECEIVE_BOOT_COMPLETED</code></td><td>Restart enforcement automatically after the TV reboots.</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <p>
+      We do not use your data for advertising, do not profile anyone for marketing, and make no
+      automated decisions that produce legal or similarly significant effects.
+    </p>
   </section>
 
   <section id="sharing">
-    <h2><span class="num">05</span> Who your data is shared with</h2>
+    <h2><span class="num">07</span> Who else sees it</h2>
+    <p>We do not sell data, and we share it with no advertiser or data broker. These parties are involved:</p>
     <ul>
-      <li>The household's own parent, via the Telegram bot — that is the product's purpose.</li>
-      <li><strong>Google Firebase</strong> (Analytics, Crashlytics) — as a data processor, for
-        the anonymous events and crash reports described above.</li>
-      <li><strong>Telegram</strong> — the bot's messages are delivered through Telegram's own
-        infrastructure, subject to Telegram's own privacy terms.</li>
-      <li>No data is sold. No data is shared with advertisers or data brokers.</li>
+      <li><strong>The household’s own parent</strong>, through the Telegram bot. That is the product’s purpose.</li>
+      <li><strong>Google (Firebase)</strong> — crash reports and anonymous, count-only product events such as <code>app_blocked</code>. These carry no names, no codes, no profile information and nothing about which specific app was blocked.</li>
+      <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms.</li>
+      <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
+      <li><strong>Cloudflare</strong> — sits in front of the service’s web endpoints and therefore handles connecting IP addresses and request metadata. The device’s own link does not pass through it.</li>
     </ul>
   </section>
 
+  <section id="transfers">
+    <h2><span class="num">08</span> Where it goes</h2>
+    <p>
+      The service and its database are in the EU. Google (Firebase), Telegram and Cloudflare may
+      process data outside the EEA under their own transfer safeguards, including the European
+      Commission’s standard contractual clauses where those apply. We add no further
+      destinations of our own.
+    </p>
+  </section>
+
   <section id="retention">
-    <h2><span class="num">06</span> How long data is kept</h2>
+    <h2><span class="num">09</span> How long we keep it</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Data</th><th class="num">Retention</th></tr></thead>
+        <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
         <tbody>
-          <tr><td>Raw per-session usage events</td><td class="num">90 days</td></tr>
-          <tr><td>Daily usage aggregates (e.g. "42 min on App X, Aug 8")</td><td class="num">Kept while the household is active</td></tr>
-          <tr><td>Household, device, and profile records</td><td class="num">Kept while the household is active</td></tr>
-          <tr><td>Pairing codes, login requests</td><td class="num">Short-lived, self-expiring</td></tr>
+          <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically</td></tr>
+          <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
+          <tr><td>Approval requests</td><td class="num">While the household is in use</td></tr>
+          <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
         </tbody>
       </table>
     </div>
+    <p>
+      Unpairing a device deletes the credentials it holds. Ask us (§15) to delete a whole
+      household and we delete it, including everything in §5.
+    </p>
   </section>
 
   <section id="children">
-    <h2><span class="num">07</span> Children's data</h2>
+    <h2><span class="num">10</span> Children, and your duty to tell them</h2>
     <p>
-      p-control is a tool a parent installs and configures — a child does not create an account,
-      does not interact with Telegram, and does not provide any data directly. Everything in
-      §3 about a child (profile name, usage) is entered or generated by the household's own
-      device, on the parent's instruction, for the parent's own use in managing that household.
+      p-control is installed and configured by a parent. A child creates no account, never
+      interacts with Telegram, and gives us nothing directly. Everything in §5 concerning a child
+      is entered by the parent, or generated by the household’s own device on the
+      parent’s instruction.
+    </p>
+    <p>
+      <strong>Monitoring software should not be a secret from the person being monitored.</strong>
+      By using p-control you confirm that you hold parental responsibility for the household, and
+      that you have told anyone old enough to understand it that this device runs control and
+      monitoring software.
+    </p>
+    <p>
+      Two consequences of this design are stated rather than glossed over: a child’s own
+      requests about their data reach us only through the parent’s account, and there is no
+      separate handling for teenagers. Whether that is sufficient depends on where you live —
+      the rules differ between COPPA in the United States and national implementations of the
+      GDPR in Europe.
     </p>
   </section>
 
   <section id="rights">
-    <h2><span class="num">08</span> Access, correction, deletion</h2>
+    <h2><span class="num">11</span> Your rights</h2>
+    <p>Some of these you can exercise yourself, immediately, without asking us:</p>
+    <ul>
+      <li>Remove a child profile, a rule, or the pairing itself — from the Telegram bot, at any time.</li>
+      <li>Uninstall the app — which ends all collection on that device.</li>
+    </ul>
+    <p>For the rest, write to <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>:</p>
+    <ul>
+      <li><strong>Access</strong> — a copy of what we hold about you.</li>
+      <li><strong>Correction</strong> — fix anything inaccurate.</li>
+      <li><strong>Erasure</strong> — delete a household and everything in §5.</li>
+      <li><strong>Restriction</strong> — have us stop using data while a dispute is resolved.</li>
+      <li><strong>Objection</strong> — to anything we base on legitimate interests (§6).</li>
+      <li><strong>Portability</strong> — your data in a machine-readable form.</li>
+    </ul>
     <p>
-      A parent can remove any child profile, app rule, or the pairing itself at any time from
-      the Telegram bot. Unpairing a device clears its stored credentials. To request full
-      deletion of a household's data from the server, contact the developer (§11).
+      We reply within one month. If a request is unusually complex we may take a further two
+      months and will tell you why within the first. Exercising any of these costs nothing and
+      changes nothing about how the app works for you.
+    </p>
+    <p>
+      If you are in the UK or EU/EEA and think we have got this wrong, you may complain to your
+      national data-protection authority.
     </p>
   </section>
 
   <section id="security">
-    <h2><span class="num">09</span> Security measures</h2>
+    <h2><span class="num">12</span> How we protect it</h2>
     <ul>
-      <li>The TV app never stores its pairing/MQTT credentials in plain text — they're
-        encrypted at rest using Android Keystore-backed encryption (Google Tink).</li>
-      <li>The block/stop screen and PIN entry screens are excluded from screenshots and the
-        recent-apps preview (<code>FLAG_SECURE</code>).</li>
-      <li>The TV app talks to the server exclusively over an encrypted MQTT connection (TLS).</li>
-      <li>A parent-set PIN gates access to the app's own settings on the TV.</li>
+      <li>The device’s credentials are encrypted at rest with a key held in Android’s hardware-backed Keystore.</li>
+      <li>The parent’s PIN is stored as a salted hash, never as the PIN.</li>
+      <li>The block screen and the PIN screens are excluded from screenshots and from the recent-apps preview.</li>
+      <li>The device talks to the service only over an encrypted (TLS) connection, and each device is issued its own credential that reaches only its own data.</li>
+      <li>The service and database run in the EU with access restricted to the developer.</li>
     </ul>
+    <p>
+      No system is perfect, and we will not pretend otherwise. If we ever discover a breach
+      affecting your data, we will tell affected households and the relevant authority as the law
+      requires.
+    </p>
+  </section>
+
+  <section id="permissions">
+    <h2><span class="num">13</span> Android permissions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Permission</th><th>What it is for</th></tr></thead>
+        <tbody>
+          <tr><td><code>PACKAGE_USAGE_STATS</code></td><td>See which app is in the foreground, to enforce the block list and time limits. Read on the device only.</td></tr>
+          <tr><td><code>SYSTEM_ALERT_WINDOW</code></td><td>Show the full-screen block screen over a restricted app.</td></tr>
+          <tr><td><code>FOREGROUND_SERVICE</code> / <code>FOREGROUND_SERVICE_SPECIAL_USE</code></td><td>Keep enforcement running while the device is on.</td></tr>
+          <tr><td><code>RECEIVE_BOOT_COMPLETED</code></td><td>Resume enforcement after the device restarts.</td></tr>
+          <tr><td><code>INTERNET</code> / <code>ACCESS_NETWORK_STATE</code></td><td>Reach the service over the encrypted link, and notice when it drops.</td></tr>
+          <tr><td><code>POST_NOTIFICATIONS</code></td><td>Show the ongoing notification Android requires while enforcement runs.</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section id="changes">
-    <h2><span class="num">10</span> Changes to this policy</h2>
+    <h2><span class="num">14</span> Changes to this policy</h2>
     <p>
-      If this policy changes in a way that affects what's collected or how it's used, the
-      effective date above will be updated and, where required, users will be notified through
-      the Telegram bot or the app itself.
+      If what we collect, how we use it, or who receives it changes, we update this page and its
+      effective date before that change reaches anyone, and we say what changed. Where the law
+      requires it, we will also notify you through the bot or the app.
     </p>
   </section>
 
   <section id="contact">
-    <h2><span class="num">11</span> Contact</h2>
+    <h2><span class="num">15</span> Contact</h2>
     <p>
-      Questions about this policy or a data request: <em>[add a contact email or Telegram
-      handle before publishing]</em>.
+      Petro Rovenskyi —
+      <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>. Questions about
+      this policy, and any request under §11.
     </p>
   </section>
 
   <footer>
-    Draft prepared 2026-08-10 — confirm the children's-data framing (§7) and jurisdiction
-    requirements (COPPA/GDPR-K, depending on where users are) before publishing, and fill in
-    §11's contact detail.
+    p-control Privacy Policy, version 1.0, effective 13 August 2026. This page describes the app
+    and service as they behave today; §4 and §5 name what is not yet sent, so that a later
+    release cannot quietly widen it without this page changing first.
   </footer>
 
 </div>
