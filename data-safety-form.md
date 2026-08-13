@@ -42,6 +42,14 @@ answer it for the union and be ready to explain the split:
    the household server only, and only after a parent confirms the pairing in Telegram; an
    unpaired app transmits nothing.
 
+The API name belongs here and **not** on the public policy page, which says "a device
+identifier Android provides to this app" instead. Neither Play's User Data policy nor GDPR
+Art. 13 asks a policy to name the API it read — they ask for the *category*, the purpose and the
+recipients. Keeping the exact symbol in this working document is what makes the form above
+answerable and re-checkable against the code; putting it on a published page would mean every
+refactor is a legal-document edit, and a page that names one symbol and misses another reads as
+a complete inventory when it is not.
+
 `ANDROID_ID` is the one that needs care in the answer. On Android 8 and later it is scoped per
 app-signing-key and per user profile, so it cannot correlate this device across other apps. It
 is sent for one purpose: recognising that a reinstall of p-control is the same television
