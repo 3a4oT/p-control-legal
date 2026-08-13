@@ -237,9 +237,32 @@
     <p>
       p-control reads which app is in the foreground via Android's Usage Access API to detect
       and block restricted apps, and to compute daily screen time. This runs continuously while
-      the app is active, entirely on-device. Only the aggregated result — which rules were
-      applied, when a block screen was shown — is relayed to the household's own server; raw,
-      second-by-second usage is not transmitted.
+      the app is active, and the reading itself never leaves the TV: the current app version
+      transmits no usage history, no screen-time totals and no installed-app list at all.
+    </p>
+    <p>
+      Three things do leave the TV, and only these: the identifiers below when a parent pairs
+      the device; the identifier of one specific app at the moment a child uses "ask a parent"
+      to request it (so the parent knows what they are approving); and a short acknowledgement
+      that a settings update was received.
+    </p>
+
+    <h3>Device identifiers sent when pairing</h3>
+    <p>
+      Pairing a TV to a household sends the household's server:
+    </p>
+    <ul>
+      <li>a random identifier p-control generates for this installation;</li>
+      <li><code>ANDROID_ID</code>, an identifier Android gives this app for this device. It is
+        specific to p-control and to the device's user profile, cannot be used to recognise the
+        device in any other app, and is sent so that reinstalling p-control is recognised as the
+        same television returning rather than as a brand-new one;</li>
+      <li>the device model as reported by Android (e.g. "Xiaomi MiBox4"), so a parent with
+        several TVs can tell them apart when confirming the pairing.</li>
+    </ul>
+    <p>
+      An unpaired TV sends none of this. Nothing is transmitted before a parent confirms the
+      pairing in Telegram.
     </p>
 
     <h3>Product analytics</h3>
@@ -279,9 +302,11 @@
           <tr><td>Telegram chat ID</td><td>Identifies the parent account controlling the household</td></tr>
           <tr><td>Household &amp; device names</td><td>Labels the parent chose, e.g. "Living room TV"</td></tr>
           <tr><td>Child profile name &amp; PIN-protected code</td><td>Lets a child identify themselves at the "who's watching" gate</td></tr>
-          <tr><td>Installed app list, per device</td><td>Lets a parent pick which apps to restrict</td></tr>
-          <tr><td>Per-app usage timestamps &amp; durations</td><td>Powers the usage statistics a parent sees in the bot</td></tr>
+          <tr><td>Device identifiers (see §2)</td><td>Binds the TV to the household and recognises a reinstall of p-control on the same television</td></tr>
+          <tr><td>The app named in an "ask a parent" request</td><td>Tells the parent which app they are being asked to approve</td></tr>
           <tr><td>Approval requests (who asked, when, decision)</td><td>Records the "ask a parent" flow's outcome</td></tr>
+          <tr><td>Installed app list, per device <em>— designed, not built</em></td><td>Would let a parent pick which apps to restrict. The current app version does not send it.</td></tr>
+          <tr><td>Per-app usage timestamps &amp; durations <em>— designed, not built</em></td><td>Would power usage statistics in the bot. The current app version does not send them.</td></tr>
         </tbody>
       </table>
     </div>
@@ -299,6 +324,8 @@
           <tr><td><code>SYSTEM_ALERT_WINDOW</code></td><td>Show the full-screen block/stop screen over a restricted app in real time.</td></tr>
           <tr><td><code>FOREGROUND_SERVICE</code> / <code>FOREGROUND_SERVICE_SPECIAL_USE</code></td><td>Keep enforcement running reliably while the TV is on.</td></tr>
           <tr><td><code>RECEIVE_BOOT_COMPLETED</code></td><td>Restart enforcement automatically after the TV reboots.</td></tr>
+          <tr><td><code>INTERNET</code> / <code>ACCESS_NETWORK_STATE</code></td><td>Reach the household's server over the encrypted MQTT link, and notice when the connection drops.</td></tr>
+          <tr><td><code>POST_NOTIFICATIONS</code></td><td>Show the ongoing notification Android requires while enforcement is running.</td></tr>
         </tbody>
       </table>
     </div>
@@ -380,9 +407,10 @@
   </section>
 
   <footer>
-    Draft prepared 2026-08-10 — confirm the children's-data framing (§7) and jurisdiction
-    requirements (COPPA/GDPR-K, depending on where users are) before publishing, and fill in
-    §11's contact detail.
+    Draft — confirm the children's-data framing (§7) and jurisdiction requirements
+    (COPPA/GDPR-K, depending on where users are) before publishing, and fill in §11's contact
+    detail. §2's device-identifier list and §3's table describe the app as it behaves now;
+    re-read both against the code before each release that changes what is transmitted.
   </footer>
 
 </div>

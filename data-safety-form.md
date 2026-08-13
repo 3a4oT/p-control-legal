@@ -14,11 +14,11 @@ submitting, don't paste blind.**
 | Data type | Collected? | Shared? | Purpose | Optional? |
 |---|---|---|---|---|
 | **Personal info → Name** | Yes (child profile name, entered by the parent) | No (not shared with third parties — only stored on the household's own self-hosted server, which the developer, not a third-party company, operates) | App functionality | Required for the "who's watching" feature |
-| **App activity → App interactions** | Yes (which app was foregrounded, to enforce blocking) | No | App functionality | Required — core purpose |
+| **App activity → App interactions** | Yes (which app was foregrounded, to enforce blocking — read on-device only). Additionally, when a child uses "ask a parent", the identifier of that one app is sent to the household server so the parent knows what they are approving. | No | App functionality | Required — core purpose |
 | **App activity → In-app search history** | No | — | — | — |
 | **App info and performance → Crash logs** | Yes (via Firebase Crashlytics) | Yes — with Google (Firebase, as the analytics/crash provider) | Analytics | Not user-facing/optional — standard crash reporting |
 | **App info and performance → Diagnostics** | Yes (via Firebase Crashlytics — device/OS info attached to crash reports) | Yes — with Google (Firebase) | Analytics | Same as above |
-| **Device or other IDs → Device or other IDs** | Yes (Firebase Analytics' app-instance identifier — not the Android advertising ID, not used for cross-app tracking) | Yes — with Google (Firebase) | Analytics | Not optional — SDK default |
+| **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server (same judgment call as the profile-name row) | Analytics (Firebase) **and** App functionality (pairing) | Not optional — the app cannot pair without sending them |
 | **Location** | No | — | — | — |
 | **Financial info** | No | — | — | — |
 | **Health and fitness** | No | — | — | — |
@@ -29,6 +29,33 @@ submitting, don't paste blind.**
 | **Calendar** | No | — | — | — |
 | **Contacts** | No | — | — | — |
 | **Web browsing history** | No | — | — | — |
+
+### Note on "Device or other IDs" — read this before answering that row
+
+Two different identifiers, with different destinations. Google's form has one row for both, so
+answer it for the union and be ready to explain the split:
+
+1. **Firebase Analytics' app-instance ID** — SDK default, goes to Google, not the advertising
+   ID, not used for cross-app tracking.
+2. **Pairing identifiers, added when the app gained a real pairing flow** — a random
+   per-installation UUID, the device model string, and `Settings.Secure.ANDROID_ID`. These go to
+   the household server only, and only after a parent confirms the pairing in Telegram; an
+   unpaired app transmits nothing.
+
+`ANDROID_ID` is the one that needs care in the answer. On Android 8 and later it is scoped per
+app-signing-key and per user profile, so it cannot correlate this device across other apps. It
+is sent for one purpose: recognising that a reinstall of p-control is the same television
+returning, instead of stranding the old device record offline forever. **It is still a device
+identifier and must be declared as one** — the scoping changes the privacy impact, not the
+disclosure obligation.
+
+## What the current app version does NOT transmit
+
+Worth stating because the privacy policy's §3 table describes the household service's full
+design, part of which the app does not implement yet. As of this app version, the TV sends **no**
+usage history, **no** screen-time totals, **no** installed-app list, and **no** online/offline
+status. If a later release starts sending any of them, this form and privacy-policy §3 both need
+updating before that release ships.
 
 ## Security practices section
 
