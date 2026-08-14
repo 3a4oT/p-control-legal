@@ -81,35 +81,39 @@ so enforcement cannot begin before the parent has been told. The accepted revisi
 `docs/superpowers/specs/2026-08-13-in-app-data-disclosure-design.md`; **the revision moves only
 when what leaves the device widens**, which is the check to run against every row of this form.
 
-## Pending: the account, and the email address it collects
+## The account, and the email address it collects
 
-**DECIDED 2026-08-13 in `p-control-server`, and deliberately NOT yet written into `index.html`.**
-The identity model changes: a parent will sign up on `control.rovenskyi.com` with an **email
-address and a password**, tenancy will key on that account, and a Telegram chat becomes an
-optional linked channel rather than the identity. Play's *App access* declaration is one of the
-reasons — a reviewer needs unchanging, reusable, location-independent credentials, which a
-Telegram account cannot be.
+**LIVE since 14 August 2026.** A parent signs in at `control.rovenskyi.com` with an **email
+address and a password**, tenancy keys on that account, and a Telegram chat is an optional linked
+channel rather than the identity. Play's *App access* declaration is one of the reasons a reviewer
+needs unchanging, reusable, location-independent credentials, which a Telegram account cannot be.
 
-Two rows here and three passages on the published page move with it when it ships:
+The row this adds to the table above:
 
-- a new **Personal info → Email address** row: collected, not shared, App functionality
-  (account/authentication), required;
-- the **Data deletion** answer, which will name deleting the account as well as unpairing;
-- `index.html`'s "no account to create" (§2), its "a sign-in confirmed through Telegram" (§2), and
-  the §3 recipients/identifier table.
+| Data type | Collected | Shared | Purpose | Notes |
+|---|---|---|---|---|
+| **Personal info → Email address** | Yes (the parent's, at sign-up) | No | App functionality (account management, authentication) | Required. It identifies the account that owns a household and is how the developer reaches that parent about it. The password is not a Data safety data type — it is a credential, stored only as a scrypt hash — but it belongs in the security section below |
 
-**The page is not edited now, on purpose.** No shipped code asks for an email address, and a
-policy describing collection that does not happen is wrong in the same way as one that omits
-collection that does — the Data safety form has to match observed behaviour. The edit lands in
-the same change that makes `POST /api/v1/auth/signup` reachable in production, and before it.
+**The first account is not created through an open sign-up form.** It comes from first-run setup,
+gated on a token the server prints once to its own log; every account after it is created by
+redeeming an invite. There is no public registration endpoint, and the form should not be answered
+as though there were one.
+
+**What this row does NOT cover, deliberately.** Installed apps and per-app usage totals are still
+not sent by the shipped binary — the server can receive and store them and no released client
+publishes them. The rows above say so, and they must keep saying so until that code ships. A form
+that overstates collection is wrong in exactly the way one that understates it is.
 
 ## Security practices section
 
 - **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses
   TLS; Firebase SDK traffic is HTTPS by default.
-- **Do you provide a way for users to request data deletion?** Yes — unpairing a device from
-  the Telegram bot clears its stored credentials; a parent can also contact the developer
-  directly for full account/household deletion (see privacy policy §8).
+- **Do you provide a way for users to request data deletion?** Yes, at three levels. Unpairing a
+  device from the web panel clears the credentials it holds. Signing out everywhere ends every
+  browser session at once. For the account and the whole household — the email address, the
+  password hash, the profiles, the rules and the history — a parent contacts the developer
+  directly, and that request is answered by a person (privacy policy §11). **There is no
+  self-service account deletion in the panel yet**; say so rather than implying a button exists.
 - **Data collection is required or can users opt out?** Core enforcement data (app activity) is
   required — it's the product's function. Analytics/crash reporting (Firebase) currently has no
   in-app opt-out toggle; note this honestly rather than claim one that doesn't exist. If an

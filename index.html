@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.0 · Effective 13 August 2026</span>
+      <span class="meta">Version 1.1 · Effective 14 August 2026</span>
     </div>
   </div>
 
@@ -239,16 +239,22 @@
     <h2><span class="num">02</span> What p-control is</h2>
     <p>
       p-control runs on an Android TV and helps a parent block apps and enforce time limits on
-      that device. A parent manages the rules through a companion Telegram bot, which talks
-      to the TV over an encrypted connection to a server we operate. There is no separate mobile
-      app and no account to create.
+      that device. A parent manages the rules from a web panel at
+      <strong>control.rovenskyi.com</strong>, which talks to the TV over an encrypted connection
+      to a server we operate. There is no separate mobile app.
     </p>
     <p>
-      <strong>Coming, not yet available:</strong> a web admin panel served by the same service,
-      where a parent signs in from a browser instead of chatting with the bot. It will add a
-      browser session — a sign-in confirmed through Telegram, and a session cookie — and will not
-      change what the device collects or sends. This page will be updated, with a new
-      effective date, before it is available to anyone.
+      <strong>Managing a household needs an account.</strong> It is an email address and a
+      password you choose, and it exists so that rules belong to a person rather than to whoever
+      is holding a phone. Creating one adds your email address, your password stored only as a
+      hash, and a browser session, to everything §5 lists. It changes nothing about what the
+      device collects or sends.
+    </p>
+    <p>
+      <strong>Telegram is optional.</strong> A parent may link a Telegram account to receive
+      approval requests and alerts in a chat, and may unlink it again; nothing requires it, and a
+      household that never links one loses no feature it needs. Where this page mentions Telegram,
+      it describes a channel you chose, not a step you must take.
     </p>
   </section>
 
@@ -276,8 +282,9 @@
   <section id="sent">
     <h2><span class="num">04</span> What this device sends</h2>
     <p>
-      An <strong>unpaired</strong> device sends nothing at all. Once a parent confirms the pairing
-      in Telegram, this is what travels to the household service:
+      An <strong>unpaired</strong> device sends nothing at all. The television shows a code, the
+      parent confirms it in the web panel, and only then does this travel to the household
+      service:
     </p>
     <ol class="plain">
       <li>
@@ -321,7 +328,11 @@
       <table>
         <thead><tr><th>Data</th><th>Why</th></tr></thead>
         <tbody>
-          <tr><td>Telegram chat ID of the parent</td><td>Identifies who controls the household</td></tr>
+          <tr><td>Your email address</td><td>Identifies the account that controls the household, and is how we reach you about it</td></tr>
+          <tr><td>Your password, as a hash</td><td>Lets you sign in. Stored only as a slow, salted hash (scrypt) — never as the password, and it cannot be read back out</td></tr>
+          <tr><td>Browser sessions</td><td>Keeps you signed in. A session record per browser, which you can end from the panel or by signing out everywhere</td></tr>
+          <tr><td>Your chosen language</td><td>So the panel and any messages arrive in the language you picked</td></tr>
+          <tr><td>Telegram chat ID — <strong>only if you link one</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
@@ -347,6 +358,7 @@
         <thead><tr><th>What</th><th>Ground</th></tr></thead>
         <tbody>
           <tr><td>Blocking, time limits, pairing, profiles, approvals</td><td><strong>Performance of a contract.</strong> It is the service you installed the app to get; without it there is no product.</td></tr>
+          <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You may object; see §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
         </tbody>
@@ -362,9 +374,9 @@
     <h2><span class="num">07</span> Who else sees it</h2>
     <p>We do not sell data, and we share it with no advertiser or data broker. These parties are involved:</p>
     <ul>
-      <li><strong>The household’s own parent</strong>, through the Telegram bot. That is the product’s purpose.</li>
+      <li><strong>The household’s own parent</strong>, through the web panel and, if they linked one, a Telegram chat. That is the product’s purpose.</li>
       <li><strong>Google (Firebase)</strong> — crash reports and anonymous, count-only product events such as <code>app_blocked</code>. These carry no names, no codes, no profile information and nothing about which specific app was blocked.</li>
-      <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms.</li>
+      <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
       <li><strong>Cloudflare</strong> — sits in front of the service’s web endpoints and therefore handles connecting IP addresses and request metadata. The device’s own link does not pass through it.</li>
     </ul>
@@ -389,6 +401,8 @@
           <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests</td><td class="num">While the household is in use</td></tr>
+          <tr><td>Your account — email address, password hash, language</td><td class="num">Until you ask us to delete it</td></tr>
+          <tr><td>A browser session</td><td class="num">Until you sign out, sign out everywhere, or change your password — any of which ends it immediately</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
         </tbody>
       </table>
@@ -426,7 +440,8 @@
     <h2><span class="num">11</span> Your rights</h2>
     <p>Some of these you can exercise yourself, immediately, without asking us:</p>
     <ul>
-      <li>Remove a child profile, a rule, or the pairing itself — from the Telegram bot, at any time.</li>
+      <li>Remove a child profile, a rule, or the pairing itself — from the web panel, at any time.</li>
+      <li>End a browser session, or every session at once, and unlink a Telegram account you linked.</li>
       <li>Uninstall the app — which ends all collection on that device.</li>
     </ul>
     <p>For the rest, write to <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>:</p>
@@ -454,6 +469,8 @@
     <ul>
       <li>The device’s credentials are encrypted at rest with a key held in Android’s hardware-backed Keystore.</li>
       <li>The parent’s PIN is stored as a salted hash, never as the PIN.</li>
+      <li>Your password is stored as a slow, salted hash (scrypt) chosen so that guessing is expensive even if the database is stolen. We never see it and cannot recover it — only reset it.</li>
+      <li>Sessions live in the service’s database, not in a cache that can be evicted, and the cookie that carries one is restricted to this site and unreadable to JavaScript.</li>
       <li>The block screen and the PIN screens are excluded from screenshots and from the recent-apps preview.</li>
       <li>The device talks to the service only over an encrypted (TLS) connection, and each device is issued its own credential that reaches only its own data.</li>
       <li>The service and database run in the EU with access restricted to the developer.</li>
@@ -501,7 +518,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.0, effective 13 August 2026. This page describes the app
+    p-control Privacy Policy, version 1.1, effective 14 August 2026. This page describes the app
     and service as they behave today; §4 and §5 name what is not yet sent, so that a later
     release cannot quietly widen it without this page changing first.
   </footer>
