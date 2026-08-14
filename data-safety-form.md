@@ -51,11 +51,33 @@ refactor is a legal-document edit, and a page that names one symbol and misses a
 a complete inventory when it is not.
 
 `ANDROID_ID` is the one that needs care in the answer. On Android 8 and later it is scoped per
-app-signing-key and per user profile, so it cannot correlate this device across other apps. It
-is sent for one purpose: recognising that a reinstall of p-control is the same television
-returning, instead of stranding the old device record offline forever. **It is still a device
-identifier and must be declared as one** — the scoping changes the privacy impact, not the
-disclosure obligation.
+app-signing-key and per user profile, so it cannot correlate this device across other apps. **It
+is still a device identifier and must be declared as one** — the scoping changes the privacy
+impact, not the disclosure obligation.
+
+It is sent by the device for one reason and used by the server for two, and the second is the one
+to keep an eye on, because a *purpose* is what Art. 13 asks about and a new purpose for an
+existing field is a real change even when nothing new leaves the device:
+
+1. **Recognising a reinstall**, so the same television returning does not strand the old device
+   record offline forever. Scoped to the confirming person's own households.
+2. **Recognising that a device registered to one household has been claimed by another**, so the
+   household that loses it is told at the moment of the claim rather than inferring it from
+   silence three days later. This one is matched **globally**, across households — which is why
+   what it may disclose is deliberately asymmetric: the losing household is told about **its own**
+   device and the time, and learns nothing about who claimed it; the claimant is told only that
+   the machine is registered somewhere else, never where or to whom.
+
+Neither adds a field to the wire, a recipient, or a retention period — `control/v1` is unchanged
+and the anchor never leaves the household service. `p-control-server`'s
+`2026-08-14-device-reinstall-design.md` owns the design and records the rule that the anchor is
+never shown to a human and never accepted as input, so it cannot become a search index across
+families.
+
+**Judgment call left to a human:** whether purpose 2 needs its own line in the Data safety form's
+purpose selection, or is covered by the existing "App functionality" answer. It is app
+functionality on any reading, and no new data type or recipient appears — so this document treats
+the existing answer as still correct and flags it rather than deciding it.
 
 ## What the current app version does NOT transmit
 

@@ -292,8 +292,13 @@
         device identifier Android provides to this app, which is specific to p-control and to this
         device’s user profile, cannot be used to recognise it in any other app, and is not an
         advertising identifier; and the device model reported by Android. The device identifier
-        exists so that reinstalling p-control is recognised as the same device returning, instead
-        of leaving a dead entry in the parent’s list.
+        exists for two things. First, so that reinstalling p-control is recognised as the same
+        device returning, instead of leaving a dead entry in the parent’s list. Second, so that
+        if a device already registered to one household is paired into another, the household
+        that loses it is told — the alternative is a television that goes quiet with no
+        explanation, which is indistinguishable from one that was switched off. That alert names
+        the device the losing household already knows about, the time, and nothing about the
+        household that claimed it.
       </li>
       <li>
         <strong>Which apps are installed</strong>, so a parent can choose which ones to limit
@@ -336,7 +341,7 @@
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
-          <tr><td>Device identifiers from §4</td><td>Binds the device to the household and recognises a reinstall</td></tr>
+          <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
           <tr><td>Approval requests — which app, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
         </tbody>
       </table>
