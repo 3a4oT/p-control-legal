@@ -302,9 +302,11 @@
         household that claimed it.
       </li>
       <li>
-        <strong>Which apps are installed</strong>, so a parent can choose which ones to limit
-        without typing package names. For each one: its name, its version, when it was first
-        installed and when it was last updated, where it came from (an app store, a sideloaded
+        <strong>Which apps can be opened from the home screen</strong>, so a parent can choose which
+        ones to limit without typing package names. Only those: an app with no entry on the home
+        screen is not in the list, and Android’s own visibility rules mean p-control does not see
+        one either. For each one: its name, its version, when it was first installed and when it
+        was last updated, where it came from (an app store, a sideloaded
         file, or the manufacturer), the category Android files it under, and whether it is part of
         the system. The list is sent when the device connects and again whenever an app is
         installed, updated or removed.
@@ -316,11 +318,16 @@
         anything from the screen.
       </li>
       <li>
-        <strong>Which app is open, and for how long</strong> — an app identifier and the times it
-        started and stopped, nothing else — so a parent can see how time is spent and so limits can
-        be enforced across every device in the household rather than per device. It is sent in
-        batches about once a minute, and held on the device until the connection returns if it is
-        offline.
+        <strong>Which app is open, and for how long</strong> — an app identifier, the times it
+        started and stopped, and the child profile that was watching where the device knows which
+        one it was — so a parent can see how time is spent and so limits can be enforced across
+        every device in the household rather than per device. It is sent in batches about once a
+        minute, and held on the device until the connection returns if it is offline.
+      </li>
+      <li>
+        <strong>Which app has just come to the front</strong>, as a short live signal each time that
+        changes: the app’s identifier and the moment it happened, and nothing else. It is what makes
+        the parent’s panel show what is on screen now rather than what was on screen a minute ago.
       </li>
       <li>
         <strong>When a child asks a parent to unblock something:</strong> the identifier of that
@@ -344,8 +351,8 @@
     <div class="callout">
       <strong>Every item above is sent by the current release.</strong> The app’s own first-run
       screen says the same thing in shorter words, and a parent is asked again whenever this list
-      grows — which is what happened for the detail in items 2, 3, 4 and 6. Nothing here is a
-      description of a future version.
+      grows — which is what happened for items 2 to 5 and for the description of the device in
+      item 7. Nothing here is a description of a future version.
     </div>
   </section>
 
@@ -433,14 +440,20 @@
           <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests</td><td class="num">While the household is in use</td></tr>
-          <tr><td>A device’s installed-app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
-          <tr><td>Per-app usage</td><td class="num">While the household is in use, then deleted on request</td></tr>
+          <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
+          <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language</td><td class="num">Until you ask us to delete it</td></tr>
           <tr><td>A browser session</td><td class="num">Until you sign out, sign out everywhere, or change your password — any of which ends it immediately</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
         </tbody>
       </table>
     </div>
+    <p>
+      Each row is the longest anything is kept, not a promise that it is kept. As §5 says, per-app
+      usage, the icons and the device description are received by the service and not yet stored
+      anywhere at all — for those, the answer today is that nothing is retained, and the row above
+      is the bound that applies once they are.
+    </p>
     <p>
       Unpairing a device deletes the credentials it holds. Ask us (§15) to delete a whole
       household and we delete it, including everything in §5.

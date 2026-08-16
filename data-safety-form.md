@@ -80,10 +80,10 @@ purpose selection, or is covered by the existing "App functionality" answer. It 
 functionality on any reading, and no new data type or recipient appears — so this document treats
 the existing answer as still correct and flags it rather than deciding it.
 
-## Three taxonomy calls this release forces — decide them, do not inherit them
+## Four taxonomy calls this release forces — decide them, do not inherit them
 
 Disclosure revision 2 (installed-app detail, icons, the device description, usage as time) puts
-three questions to Play's data-type picker that the picker does not answer cleanly. Each is
+four questions to Play's data-type picker that the picker does not answer cleanly. Each is
 written below as a recommendation with its reasoning and its runner-up, because a wrong row here
 is a policy violation and not a wording preference. **None of them is settled by this document.**
 
@@ -111,6 +111,33 @@ page and in the in-app screen. Rejected: *Photos and videos*, which is about a u
 would misdescribe this badly. The conservative alternative, if preferred, is to keep the row absent
 but say "including app icons" in the Installed apps free-text description — which the table above
 already does.
+
+**4. Whether App activity is "linked to the user" — and, underneath it, whether the monitored child
+is a *user* at all.** This is the sharpest of the four and the one with the most consequence, since
+Play asks per data type whether the collection is linked to a user's identity, and answering wrong
+is a misdeclaration rather than a wording preference.
+
+A `UsageEvent` carries `profile_id` whenever the device knows which child was watching — the
+active-allowance path fills it from the profile whose gate opened the app. A profile has a name the
+parent typed. So the household server can say "this child watched this app from 19:04 to 19:41",
+and on the plain reading **App activity is linked to a user** and must be declared as such. The
+same then applies to the installed-app list, which is linked to a device that is linked to an
+account.
+
+The prior question is whether the child is a *user* for Play's purposes. The child creates no
+account, supplies nothing directly, and everything about them is entered by the parent, who is the
+one contracting; on that reading the only user is the parent, the profile is the parent's own
+label for a person in their household, and App activity is linked to **the parent's** account
+rather than to the child's identity — which still lands on "linked", just by a different route.
+The reading that would produce "not linked" requires treating the profile as an anonymous bucket,
+and it is not one: it has a name, and a parent can read a timeline off it.
+
+**Recommendation: declare App activity as linked to the user, and do not spend the argument about
+who the user is on this row.** Both defensible readings arrive at "linked"; only the strained one
+arrives elsewhere, and Play's reviewers see the account, the profile name and the timeline in the
+same panel. The unresolved half — a child's rights being reachable only through the parent's
+account, and no separate handling for teenagers — is stated on the policy page's §10 rather than
+argued away here, and it is legal work, not a form answer.
 
 ## What the current app version does NOT transmit
 
