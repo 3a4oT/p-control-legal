@@ -81,11 +81,19 @@ the existing answer as still correct and flags it rather than deciding it.
 
 ## What the current app version does NOT transmit
 
-Worth stating because the privacy policy's §3 table describes the household service's full
-design, part of which the app does not implement yet. As of this app version, the TV sends **no**
-usage history, **no** screen-time totals, **no** installed-app list, and **no** online/offline
-status. If a later release starts sending any of them, this form and privacy-policy §3 both need
-updating before that release ships.
+Worth stating because the privacy policy describes the household service's full design, part of
+which the app does not implement yet. As of this app version, the TV sends **no** usage history,
+**no** screen-time totals and **no** installed-app list. If a later release starts sending any of
+them, this form and the privacy policy both need updating before that release ships.
+
+**It does send an online/offline status, and that belongs on the form rather than in this list.**
+`DeviceStatusReporter` publishes ONLINE on connect, retained, and registers the OFFLINE payload as
+the connection's Last Will so the broker sends it when the device stops answering. The same
+message carries the app's version, what this build is able to do, whether the permissions
+enforcement needs are still granted, and the disclosure revision the household accepted. It says
+nothing about a person — it is what lets a parent's panel show a television as connected instead
+of leaving them to infer it from silence. Understating collection is the worse direction of the
+two errors this section exists to prevent.
 
 ## Prominent disclosure and consent — satisfied by a screen, not by this form
 
