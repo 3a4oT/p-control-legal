@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.1 · Effective 14 August 2026</span>
+      <span class="meta">Version 1.2 · Effective 16 August 2026</span>
     </div>
   </div>
 
@@ -264,7 +264,8 @@
       p-control reads which app is in the foreground, using Android’s Usage Access permission, so
       it can tell whether that app should be blocked and how long it has been open. <strong>An app
       identifier and a duration is the entirety of what this app is ever allowed to record about
-      what happens on the device.</strong>
+      what happens on the device.</strong> The rest of what §4 sends describes the apps themselves
+      and the television they are on — never what anyone does inside an app.
     </p>
     <div class="callout">
       <strong>Never collected, in any version:</strong> what you type, what is on your screen,
@@ -302,12 +303,24 @@
       </li>
       <li>
         <strong>Which apps are installed</strong>, so a parent can choose which ones to limit
-        without typing package names.
+        without typing package names. For each one: its name, its version, when it was first
+        installed and when it was last updated, where it came from (an app store, a sideloaded
+        file, or the manufacturer), the category Android files it under, and whether it is part of
+        the system. The list is sent when the device connects and again whenever an app is
+        installed, updated or removed.
       </li>
       <li>
-        <strong>Which app is open, and for how long</strong> — an app identifier and a duration,
-        nothing else — so a parent can see how time is spent and so limits can be enforced across
-        every device in the household rather than per device.
+        <strong>An app’s own icon</strong>, when the service asks for one, so the parent’s panel
+        shows a recognisable row rather than a package name. The service names the apps it wants an
+        icon for and the device answers with those; it is the icon the app ships with, never
+        anything from the screen.
+      </li>
+      <li>
+        <strong>Which app is open, and for how long</strong> — an app identifier and the times it
+        started and stopped, nothing else — so a parent can see how time is spent and so limits can
+        be enforced across every device in the household rather than per device. It is sent in
+        batches about once a minute, and held on the device until the connection returns if it is
+        offline.
       </li>
       <li>
         <strong>When a child asks a parent to unblock something:</strong> the identifier of that
@@ -317,9 +330,11 @@
         <strong>Whether this device is reachable:</strong> a message when it connects saying it is
         online, and one the server is given in advance and delivers when the device stops
         answering. It carries the app’s version, what this build of it is able to do, whether the
-        permissions enforcement needs are still granted, and which version of the app’s first-run
-        data screen you agreed to — so a parent sees a television as connected or gone rather than
-        inferring it from silence.
+        permissions enforcement needs are still granted, which version of the app’s first-run data
+        screen you agreed to, and a description of the device itself — its model, its Android
+        version, its language and its time zone. A parent sees a television as connected or gone
+        rather than inferring it from silence, and the time zone is there so a schedule set for
+        “after eight in the evening” means the household’s evening rather than the television’s.
       </li>
       <li>
         <strong>After the parent changes a rule:</strong> a short acknowledgement that the device
@@ -327,11 +342,10 @@
       </li>
     </ol>
     <div class="callout">
-      Items 2 and 3 are what the app is built to do and what §5 stores. <strong>The current
-      release does not send them yet</strong> — the code that would is not written. We describe
-      them here, and in the app’s own first-run screen, because a household should agree to them
-      before they start rather than be told afterwards. The Play Data safety declaration states
-      what the shipped binary actually does.
+      <strong>Every item above is sent by the current release.</strong> The app’s own first-run
+      screen says the same thing in shorter words, and a parent is asked again whenever this list
+      grows — which is what happened for the detail in items 2, 3, 4 and 6. Nothing here is a
+      description of a future version.
     </div>
   </section>
 
@@ -351,13 +365,18 @@
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
           <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
           <tr><td>Approval requests — which app, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
+          <tr><td>The list of apps installed on each device, with the details in §4, and their icons</td><td>Fills the app picker the parent chooses rules from, and shows each app as it looks on the television. The newest list replaces the previous one rather than accumulating</td></tr>
+          <tr><td>Per-app usage — which app, when it started, when it stopped, and which child profile was in effect</td><td>Shows a parent how time is spent, and is what a daily limit is counted against across every device in the household</td></tr>
+          <tr><td>What each device is — model, Android version, language, time zone — and whether it is online</td><td>Shows the parent which television is which and whether it is reachable, and keeps a schedule on the household’s clock rather than the device’s</td></tr>
         </tbody>
       </table>
     </div>
     <p>
-      The installed-app list and per-app usage totals are held here as §4 describes. Everything on
-      this page is written to cover them, so no household has to be asked again when the code that
-      sends them ships.
+      §4 is the authoritative list of what leaves a device; this table is what the service holds
+      once it arrives. Parts of the service are still being built, so some of what the device
+      sends — per-app usage, icons, the device description — is received and not yet kept
+      anywhere. That gap can only shrink what is stored; it never widens what is sent, and §4 is
+      what the app asks your agreement to.
     </p>
   </section>
 
@@ -414,6 +433,8 @@
           <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests</td><td class="num">While the household is in use</td></tr>
+          <tr><td>A device’s installed-app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
+          <tr><td>Per-app usage</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Your account — email address, password hash, language</td><td class="num">Until you ask us to delete it</td></tr>
           <tr><td>A browser session</td><td class="num">Until you sign out, sign out everywhere, or change your password — any of which ends it immediately</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
@@ -531,9 +552,9 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.1, effective 14 August 2026. This page describes the app
-    and service as they behave today; §4 and §5 name what is not yet sent, so that a later
-    release cannot quietly widen it without this page changing first.
+    p-control Privacy Policy, version 1.2, effective 16 August 2026. This page describes the app
+    and service as they behave today. §4 is the whole list of what a paired device sends, and it
+    cannot widen without this page changing and the app asking the household again.
   </footer>
 
 </div>

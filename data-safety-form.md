@@ -14,10 +14,11 @@ submitting, don't paste blind.**
 | Data type | Collected? | Shared? | Purpose | Optional? |
 |---|---|---|---|---|
 | **Personal info → Name** | Yes (child profile name, entered by the parent) | No (not shared with third parties — only stored on the household's own self-hosted server, which the developer, not a third-party company, operates) | App functionality | Required for the "who's watching" feature |
-| **App activity → App interactions** | Yes (which app was foregrounded, to enforce blocking — read on-device only). Additionally, when a child uses "ask a parent", the identifier of that one app is sent to the household server so the parent knows what they are approving. | No | App functionality | Required — core purpose |
+| **App activity → App interactions** | Yes. Which app is in the foreground, read on-device to enforce blocking, **and sent to the household server**: one live signal per foreground change, and a batch about once a minute of closed sessions (app identifier, start time, end time, child profile where one is known). Also, when a child uses "ask a parent", the identifier of that one app. | No (same reading as the profile-name row — the household server is the developer's own, not another company) | App functionality | Required — core purpose |
+| **App activity → Installed apps** | Yes — the launchable apps on the device, each with name, version, first-install and last-update times, install source, Android's own category, and whether it is a system app — plus the app's own launcher icon, sent only for the apps the server asks for. Sent on connect and on every install/update/removal. See the judgment call below. | No (same reading) | App functionality — it is the picker a parent chooses rules from | Required; there is no way to choose an app to block without a list of apps |
 | **App activity → In-app search history** | No | — | — | — |
 | **App info and performance → Crash logs** | Yes (via Firebase Crashlytics) | Yes — with Google (Firebase, as the analytics/crash provider) | Analytics | Not user-facing/optional — standard crash reporting |
-| **App info and performance → Diagnostics** | Yes (via Firebase Crashlytics — device/OS info attached to crash reports) | Yes — with Google (Firebase) | Analytics | Same as above |
+| **App info and performance → Diagnostics** | Yes, from two sources: Firebase Crashlytics attaches device/OS info to crash reports, and the device's own status message carries its model, Android version, language and time zone to the household server. See the judgment call below. | Yes — with Google (Firebase) for the crash half. The status half goes only to the household server | Analytics (Firebase) **and** App functionality (naming a device in the panel, and keeping schedules on the household's clock) | Not optional |
 | **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server (same judgment call as the profile-name row) | Analytics (Firebase) **and** App functionality (pairing) | Not optional — the app cannot pair without sending them |
 | **Location** | No | — | — | — |
 | **Financial info** | No | — | — | — |
@@ -39,7 +40,7 @@ answer it for the union and be ready to explain the split:
    ID, not used for cross-app tracking.
 2. **Pairing identifiers, added when the app gained a real pairing flow** — a random
    per-installation UUID, the device model string, and `Settings.Secure.ANDROID_ID`. These go to
-   the household server only, and only after a parent confirms the pairing in Telegram; an
+   the household server only, and only after a parent confirms the pairing in the web panel; an
    unpaired app transmits nothing.
 
 The API name belongs here and **not** on the public policy page, which says "a device
@@ -79,12 +80,55 @@ purpose selection, or is covered by the existing "App functionality" answer. It 
 functionality on any reading, and no new data type or recipient appears — so this document treats
 the existing answer as still correct and flags it rather than deciding it.
 
+## Three taxonomy calls this release forces — decide them, do not inherit them
+
+Disclosure revision 2 (installed-app detail, icons, the device description, usage as time) puts
+three questions to Play's data-type picker that the picker does not answer cleanly. Each is
+written below as a recommendation with its reasoning and its runner-up, because a wrong row here
+is a policy violation and not a wording preference. **None of them is settled by this document.**
+
+**1. Where the installed-app list goes.** Play's *App activity* group is documented as including an
+**Installed apps** type — "information about the apps installed on a user's device" — and that is
+the exact fit; the table above answers on that basis. If the live Console picker does not offer it
+under whatever it is currently named, the runner-up inside the same group is *App activity → Other
+actions* with a plain description; *App info and performance* is the wrong group, because that
+group is about how **this** app behaves, not about what else is on the device. **Read the Console's
+own picker before submitting** — this document cannot see it, and the type list changes.
+
+**2. Where the device description goes** — model, Android version, language, time zone.
+Recommendation: *App info and performance → Diagnostics*, which is where device and OS
+characteristics already sit for the Crashlytics half, with **App functionality** added as a
+purpose alongside Analytics because the household panel uses it to name a television and to keep a
+schedule on the household's clock. Rejected: *Device or other IDs* — none of these four identifies
+anything, and folding them into that row would blur an answer that currently has one careful,
+`ANDROID_ID`-shaped explanation. Rejected also: leaving it undeclared because it feels like
+plumbing. It leaves the device, so it is declared.
+
+**3. Whether an icon is a data type at all.** Recommendation: **no separate row.** An app icon is a
+resource shipped inside an already-declared installed app, produced by its developer, containing
+nothing about the user; it is disclosed in the *Installed apps* description above, on the policy
+page and in the in-app screen. Rejected: *Photos and videos*, which is about a user's own media and
+would misdescribe this badly. The conservative alternative, if preferred, is to keep the row absent
+but say "including app icons" in the Installed apps free-text description — which the table above
+already does.
+
 ## What the current app version does NOT transmit
 
-Worth stating because the privacy policy describes the household service's full design, part of
-which the app does not implement yet. As of this app version, the TV sends **no** usage history,
-**no** screen-time totals and **no** installed-app list. If a later release starts sending any of
-them, this form and the privacy policy both need updating before that release ships.
+The list is short now, and that is the point of keeping it: the app version that carries
+`CURRENT_DATA_DISCLOSURE_VERSION = 2` sends the installed-app list, per-app usage and app icons,
+all of which earlier versions did not. What it still does not send is everything §3 of the policy
+page calls never-collected — window titles, keystrokes, screenshots, clipboard contents, visited
+URLs, file names, location, contacts, microphone and camera — and, specifically, no free-text
+field of any kind travels with a usage record: an app identifier and two timestamps is the whole
+of it.
+
+**What the server does with each message is not what the form asks about.** As this release
+ships, `p-control-server` ingests the installed-app snapshot (`InstalledAppsSubscriber` →
+`InstalledAppsService`) and the status message; there is no usage ingest and no icon handler yet,
+so those two are published to the household broker and dropped for want of a subscriber. The rows
+above still answer **Yes** for both, because Play's question is what the app collects and
+transmits, not what survives at the other end — and a subscriber appearing later must not be the
+event that changes this form.
 
 **It does send an online/offline status, and that belongs on the form rather than in this list.**
 `DeviceStatusReporter` publishes ONLINE on connect, retained, and registers the OFFLINE payload as
@@ -103,11 +147,15 @@ during normal use, describe the data **and how it is used and shared**, and be f
 affirmative tap. Google states it cannot be satisfied by the privacy policy or the terms of
 service, so nothing in this document or on the published page closes it.
 
-**It is built.** `p-control-android` shows `DataDisclosureScreen` as the first screen of first run
-(`disclosure_leaves_device`, `disclosure_sharing`, `disclosure_accept`), stores the accepted
-revision, and `MainActivity.startMonitorServiceIfPermitted` gates the foreground service on it —
-so enforcement cannot begin before the parent has been told. The accepted revision is what
-`DeviceStatus.disclosure_version` carries. Its rules live in that repo's
+**It is built, and it is at revision 2.** `p-control-android` shows `DataDisclosureScreen` as the
+first screen of first run (`disclosure_leaves_device`, `disclosure_sharing`, `disclosure_accept`),
+stores the accepted revision, and `MainActivity.startMonitorServiceIfPermitted` gates the
+foreground service on it — so enforcement cannot begin before the parent has been told. Revision 2
+is the one that names each app's version, dates, origin and icon, the device's own description, and
+usage as time that leaves the device; a household that accepted revision 1 is asked again before
+any of it is sent. The accepted revision is what `DeviceStatus.disclosure_version` carries, and the
+server refuses an installed-app snapshot from a device still reporting 1. Its rules live in that
+repo's
 `docs/superpowers/specs/2026-08-13-in-app-data-disclosure-design.md`; **the revision moves only
 when what leaves the device widens**, which is the check to run against every row of this form.
 
@@ -129,10 +177,12 @@ gated on a token the server prints once to its own log; every account after it i
 redeeming an invite. There is no public registration endpoint, and the form should not be answered
 as though there were one.
 
-**What this row does NOT cover, deliberately.** Installed apps and per-app usage totals are still
-not sent by the shipped binary — the server can receive and store them and no released client
-publishes them. The rows above say so, and they must keep saying so until that code ships. A form
-that overstates collection is wrong in exactly the way one that understates it is.
+**What this row does NOT cover.** The account is the parent's own data on the server; it is
+unrelated to what a television sends, and adding an account changed nothing about the device's
+collection. Installed apps and per-app usage are covered by the App activity rows above, which the
+current binary does send — a form that overstates collection is wrong in exactly the way one that
+understates it is, and the check that keeps both honest is reading the rows against the code
+rather than against the design.
 
 ## Security practices section
 
@@ -149,7 +199,9 @@ that overstates collection is wrong in exactly the way one that understates it i
   in-app opt-out toggle; note this honestly rather than claim one that doesn't exist. If an
   opt-out is added later, update this section then.
 
-## Two judgment calls flagged for your decision, not assumed
+## Two further judgment calls flagged for your decision, not assumed
+
+These are older than the three taxonomy calls above and are unrelated to them.
 
 1. **Is the household's own self-hosted server a "third party" for Play's purposes?** Google's
    definition centers on *other companies*; a service the developer personally operates for
