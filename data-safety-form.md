@@ -198,6 +198,19 @@ The row this adds to the table above:
 | Data type | Collected | Shared | Purpose | Notes |
 |---|---|---|---|---|
 | **Personal info → Email address** | Yes (the parent's, at sign-up) | No | App functionality (account management, authentication) | Required. It identifies the account that owns a household and is how the developer reaches that parent about it. The password is not a Data safety data type — it is a credential, stored only as a scrypt hash — but it belongs in the security section below |
+| **Personal info → Phone number** | Yes (the parent's, when they link a Telegram chat) | No | App functionality (account management) | **Optional**, and optional in the sense Play means: a parent who never links a chat never provides one, and every feature except Telegram delivery works without it. It arrives from Telegram's own `request_contact` button — the parent taps to share their own number, so Telegram has verified it against the device holding it — and `p-control-server` stores it on the account. Nothing else reads it, and it is shown to no one but its owner. The Android app never touches it: linking happens between the parent's Telegram client and the server |
+
+**Why a phone number is declared at all when the app never sees it.** The same reason the email
+row above is: Play asks what the *app's* product collects, and a parent using this app has one
+account across the television, the panel and the bot. Declaring only what crosses the app's own
+process would understate collection, which is the worse of the two errors this document exists to
+prevent. It is the same judgment already made for the account itself on 14 August 2026.
+
+**The in-app disclosure revision does not move for this.** `CURRENT_DATA_DISCLOSURE_VERSION` tracks
+what leaves the **device**, and nothing new leaves it: the number travels from the parent's Telegram
+client to the server, and the television's agent is not in that path. Re-prompting every household
+to accept a revision that describes no change to their device would train them to tap through the
+prompt that does matter.
 
 **The first account is not created through an open sign-up form.** It comes from first-run setup,
 gated on a token the server prints once to its own log; every account after it is created by

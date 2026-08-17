@@ -278,6 +278,12 @@
       The parent’s PIN is stored only as a salted hash, never as the PIN itself, and never leaves
       the device.
     </p>
+    <p>
+      “Your contacts” above means your address book, and nothing in p-control ever reads it. The
+      phone number in §5 is a different thing: it is the parent’s own, handed over deliberately by
+      tapping a button inside Telegram while linking a chat, and the app on the television plays no
+      part in it.
+    </p>
   </section>
 
   <section id="sent">
@@ -367,6 +373,7 @@
           <tr><td>Browser sessions</td><td>Keeps you signed in. A session record per browser, which you can end from the panel or by signing out everywhere</td></tr>
           <tr><td>Your chosen language</td><td>So the panel and any messages arrive in the language you picked</td></tr>
           <tr><td>Telegram chat ID — <strong>only if you link one</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
+          <tr><td>Your phone number — <strong>only if you link Telegram</strong></td><td>Linking finishes by tapping Telegram’s “share my number” button, so we know the account was linked by the person holding that phone rather than by whoever opened the link. It is never shown to anyone else, including other members of your own household, and no other part of the service reads it. Absent for anyone who never links Telegram. Unlinking removes the chat but keeps the number, the same way it keeps your email address — ask us (§15) to delete your account and it goes with it</td></tr>
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
@@ -442,7 +449,7 @@
           <tr><td>Approval requests</td><td class="num">While the household is in use</td></tr>
           <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
-          <tr><td>Your account — email address, password hash, language</td><td class="num">Until you ask us to delete it</td></tr>
+          <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
           <tr><td>A browser session</td><td class="num">Until you sign out, sign out everywhere, or change your password — any of which ends it immediately</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
         </tbody>
