@@ -284,6 +284,14 @@
       tapping a button inside Telegram while linking a chat, and the app on the television plays no
       part in it.
     </p>
+    <p>
+      “Your location” above means what a device can tell about where it is — satellite position,
+      nearby networks, anything a location permission grants. p-control asks for none of it and no
+      p-control client ever will. The IP address in §5 is a different thing again: it is the
+      address your browser connects to our panel from, it is recorded only for the sessions you are
+      signed in on, and we <strong>never</strong> look up where it is. Nothing in this product turns
+      an address into a town, a region or a map, and nothing sends it to a service that would.
+    </p>
   </section>
 
   <section id="sent">
@@ -370,7 +378,7 @@
         <tbody>
           <tr><td>Your email address</td><td>Identifies the account that controls the household, and is how we reach you about it</td></tr>
           <tr><td>Your password, as a hash</td><td>Lets you sign in. Stored only as a slow, salted hash (scrypt) — never as the password, and it cannot be read back out</td></tr>
-          <tr><td>Browser sessions</td><td>Keeps you signed in. A session record per browser, which you can end from the panel or by signing out everywhere</td></tr>
+          <tr><td>Browser sessions — including the browser and operating system you signed in with, and the IP address that session was last seen from</td><td>Keeps you signed in, and lets you answer one question the panel could not answer before: <em>is one of these sessions not me?</em> The browser and system are matched to a short list of known names — “Firefox”, “Linux” — and the browser’s own identification string is never stored. The address is kept as it is and is <strong>never turned into a place</strong>: we do no geolocation, here or anywhere, and it is not shared with anyone. Both exist because “Firefox on Linux” describes both parents’ laptops in most homes, and without the address the list cannot tell you which row is the one you do not recognise. You can end any single session, or all of them, from the panel</td></tr>
           <tr><td>Your chosen language</td><td>So the panel and any messages arrive in the language you picked</td></tr>
           <tr><td>Telegram chat ID — <strong>only if you link one</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
           <tr><td>Your phone number — <strong>only if you link Telegram</strong></td><td>Linking finishes by tapping Telegram’s “share my number” button, so we know the account was linked by the person holding that phone rather than by whoever opened the link. It is never shown to anyone else, including other members of your own household, and no other part of the service reads it. Absent for anyone who never links Telegram. Unlinking removes the chat but keeps the number, the same way it keeps your email address — ask us (§15) to delete your account and it goes with it</td></tr>
@@ -405,6 +413,7 @@
         <tbody>
           <tr><td>Blocking, time limits, pairing, profiles, approvals</td><td><strong>Performance of a contract.</strong> It is the service you installed the app to get; without it there is no product.</td></tr>
           <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
+          <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept only while the session is, and never used to work out where you are; you may object, see §11.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You may object; see §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
         </tbody>
@@ -450,7 +459,7 @@
           <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
-          <tr><td>A browser session</td><td class="num">Until you sign out, sign out everywhere, or change your password — any of which ends it immediately</td></tr>
+          <tr><td>A browser session, and the browser, system and address recorded with it</td><td class="num">Until you sign out, end that session, sign out everywhere, or change your password — any of which ends it immediately. There is no separate history of addresses: when the session goes, they go with it</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
         </tbody>
       </table>

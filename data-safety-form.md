@@ -224,13 +224,40 @@ current binary does send — a form that overstates collection is wrong in exact
 understates it is, and the check that keeps both honest is reading the rows against the code
 rather than against the design.
 
+## The panel's session records, and why this form does not grow a row for them
+
+**Added 2026-08-19.** Signing in to the web panel now records, per session: the browser and
+operating system matched to a short list of known names, and the IP address the session was last
+seen from. A person can list their sessions and end one.
+
+**No row in the table above changes, and `Location` stays "No".** Play's Data safety form declares
+what **this app** collects and shares. The app does not sign in to the panel, does not see a
+browser, and never handles an IP address of its own — the collection happens in a browser talking
+to the household server. The distinction is worth writing down because "we now store IP addresses"
+sounds like it must belong here, and answering `Location: Yes` because of it would be **wrong** in
+the direction that matters: it would declare a data type the app does not collect, against a
+binary Google can and does check.
+
+Two things follow, and neither is optional:
+
+- **The privacy policy carries it**, because that page covers the service and not only the app —
+  §5 names what a session record holds, §3 says plainly that an address is never turned into a
+  place, §6 gives its ground (legitimate interests, account security) and §9 says it dies with the
+  session it belongs to. That is where a reader looks, and it is the artifact Play's User Data
+  policy requires to be complete.
+- **If a future app build ever authenticates to the panel itself** — a phone client, a companion
+  app — this call reverses and the row is real. Whoever writes that build reads this paragraph
+  first.
+
 ## Security practices section
 
 - **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses
   TLS; Firebase SDK traffic is HTTPS by default.
 - **Do you provide a way for users to request data deletion?** Yes, at three levels. Unpairing a
   device from the web panel clears the credentials it holds. Signing out everywhere ends every
-  browser session at once. For the account and the whole household — the email address, the
+  browser session at once, and a single session can now be ended on its own — which also deletes
+  the browser, system and address recorded with it, since those are columns of the session row and
+  nothing keeps a history of them. For the account and the whole household — the email address, the
   password hash, the profiles, the rules and the history — a parent contacts the developer
   directly, and that request is answered by a person (privacy policy §11). **There is no
   self-service account deletion in the panel yet**; say so rather than implying a button exists.
