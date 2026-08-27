@@ -316,10 +316,12 @@
         household that claimed it.
       </li>
       <li>
-        <strong>Which apps can be opened from the home screen</strong>, so a parent can choose which
-        ones to limit without typing package names. Only those: an app with no entry on the home
-        screen is not in the list, and Android’s own visibility rules mean p-control does not see
-        one either. For each one: its name, its version, when it was first installed and when it
+        <strong>Which apps anyone here can open, and the home screen itself</strong>, so a parent
+        can choose which ones to limit without typing package names. Only those: an app that cannot
+        be opened is not in the list, and Android’s own visibility rules mean p-control does not
+        see one either. The home screen is in it because a television spends real time showing it,
+        and an app the device counts time against has to be an app the parent can see a name for.
+        For each one: its name, its version, when it was first installed and when it
         was last updated, where it came from (an app store, a sideloaded
         file, or the manufacturer), the category Android files it under, and whether it is part of
         the system. The list is sent when the device connects and again whenever an app is
@@ -345,7 +347,8 @@
       </li>
       <li>
         <strong>When a child asks a parent to unblock something:</strong> the identifier of that
-        one app, so the parent knows what they are approving.
+        one app, and which child is asking where the device knows, so the parent knows what they
+        are approving and for whom. Where nobody has said who is watching, no child is named.
       </li>
       <li>
         <strong>Whether this device is reachable:</strong> a message when it connects saying it is
@@ -386,9 +389,9 @@
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
           <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
-          <tr><td>Approval requests — which app, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
+          <tr><td>Approval requests — which app, which child where the device knows, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
           <tr><td>The list of apps installed on each device, with the details in §4, and their icons</td><td>Fills the app picker the parent chooses rules from, and shows each app as it looks on the television. The newest list replaces the previous one rather than accumulating</td></tr>
-          <tr><td>Per-app usage — which app, when it started, when it stopped, and which child profile was in effect</td><td>Shows a parent how time is spent, and is what a daily limit is counted against across every device in the household</td></tr>
+          <tr><td>Per-app usage — which app, which hour, how many of its seconds the app held the screen, when a session began inside it, and whose time it is: a child, an adult who answered, or nobody</td><td>Shows a parent how time is spent, and is what a daily limit is counted against across every device in the household</td></tr>
           <tr><td>What each device is — model, Android version, language, time zone — and whether it is online</td><td>Shows the parent which television is which and whether it is reachable, and keeps a schedule on the household’s clock rather than the device’s</td></tr>
         </tbody>
       </table>
