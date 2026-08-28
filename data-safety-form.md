@@ -249,6 +249,39 @@ Two things follow, and neither is optional:
   app — this call reverses and the row is real. Whoever writes that build reads this paragraph
   first.
 
+## Retention is now enforced by a job, not only stated on the page
+
+**Changed 2026-08-28**, and it moves two rows from "kept while the household is in use" to a
+bounded window, which is a Data safety **retention** answer rather than a new data type.
+
+`p-control-server`'s `RetentionSweep` now deletes `approval_requests`, `device_events` and the
+per-parent copies in `notifications` at the household's plan window (`plans.usage_history_days`,
+90 days on the seeded free plan), on the same schedule that already swept usage and presence. A
+plan naming no window keeps them, which is what an unlimited-history tier means.
+
+Three details this form has to carry, because the page states them only in plain words:
+
+- **A copy never outlives its record, and a record that survives keeps its copy.** The inbox rows
+  are per-person copies of an approval or a device event; they are deleted in the same statement
+  as the row they copy, so no reader can observe one without the other.
+- **A read-and-expired inbox copy goes at 90 days regardless of the plan**, and an unread one is
+  never swept early — an unread tamper alert is the point of the inbox. It still leaves at the
+  plan window with everything else.
+- **No row is kept past the window for any reason.** A request that granted bonus time used to be
+  kept indefinitely so the grant could point at it; the foreign key is now `ON DELETE SET NULL`,
+  the grant keeps its own record — profile, day, minutes, who granted it — and retention is
+  uniform. Keeping personal data indefinitely to preserve a pointer to that same data was
+  circular.
+
+**No new data type, no new recipient, no new permission.** `control/v1` is unchanged: nothing new
+leaves the device, and `device_events` rows are derived on the server from what a device already
+reports.
+
+**Judgment call left to a human:** the Data safety form asks whether data "can be deleted by the
+user" and whether it is deleted automatically. Both are now true for these categories, and the
+answer should say so — but which of the form's fixed phrasings fits a *plan-dependent* window is
+a choice about the form, not about the code.
+
 ## Security practices section
 
 - **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses

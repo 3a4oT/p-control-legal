@@ -390,6 +390,7 @@
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
           <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
           <tr><td>Approval requests — which app, which child where the device knows, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
+          <tr><td>What a screen reports about itself — that it went quiet, was reinstalled, raised an integrity warning, or refused a configuration</td><td>Tells you when a screen stops being supervised, and is what the alerts in your inbox are made from</td></tr>
           <tr><td>The list of apps installed on each device, with the details in §4, and their icons</td><td>Fills the app picker the parent chooses rules from, and shows each app as it looks on the television. The newest list replaces the previous one rather than accumulating</td></tr>
           <tr><td>Per-app usage — which app, which hour, how many of its seconds the app held the screen, when a session began inside it, and whose time it is: a child, an adult who answered, or nobody</td><td>Shows a parent how time is spent, and is what a daily limit is counted against across every device in the household</td></tr>
           <tr><td>What each device is — model, Android version, language, time zone — and whether it is online</td><td>Shows the parent which television is which and whether it is reachable, and keeps a schedule on the household’s clock rather than the device’s</td></tr>
@@ -458,7 +459,8 @@
         <tbody>
           <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
-          <tr><td>Approval requests</td><td class="num">While the household is in use</td></tr>
+          <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
+          <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
           <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
