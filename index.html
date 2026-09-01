@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.2 · Effective 16 August 2026</span>
+      <span class="meta">Version 1.3 · Effective 30 August 2026</span>
     </div>
   </div>
 
@@ -271,7 +271,9 @@
       <strong>Never collected, in any version:</strong> what you type, what is on your screen,
       screenshots, your clipboard, the addresses of pages you visit, file names, your location,
       your contacts, your microphone or your camera. p-control shows no ads and contains no
-      advertising SDK. This is a binding rule on every p-control client, not a description of the
+      advertising SDK, and <strong>no version of it asks Android for your advertising identifier</strong> —
+      the permission that would allow it is removed from the app before it is built, so the request cannot be
+      made even by accident. This is a binding rule on every p-control client, not a description of the
       current release.
     </div>
     <p>
@@ -418,7 +420,7 @@
           <tr><td>Blocking, time limits, pairing, profiles, approvals</td><td><strong>Performance of a contract.</strong> It is the service you installed the app to get; without it there is no product.</td></tr>
           <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
           <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept only while the session is, and never used to work out where you are; you may object, see §11.</td></tr>
-          <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You may object; see §11.</td></tr>
+          <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You can stop this yourself: <strong>Settings → Privacy → Send diagnostics</strong> on the television, which switches off both crash reporting and product analytics. See §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
         </tbody>
       </table>
@@ -434,7 +436,7 @@
     <p>We do not sell data, and we share it with no advertiser or data broker. These parties are involved:</p>
     <ul>
       <li><strong>The household’s own parent</strong>, through the web panel and, if they linked one, a Telegram chat. That is the product’s purpose.</li>
-      <li><strong>Google (Firebase)</strong> — crash reports and anonymous, count-only product events such as <code>app_blocked</code>. These carry no names, no codes, no profile information and nothing about which specific app was blocked.</li>
+      <li><strong>Google (Firebase)</strong> — crash reports and anonymous, count-only product events such as <code>app_blocked</code>. These carry no names, no codes, no profile information and nothing about which specific app was blocked. <strong>This is the one collection you can switch off and keep the product:</strong> <em>Settings → Privacy → Send diagnostics</em> on the television turns off crash reporting and product analytics together, at once, without a restart. Nothing else on this page changes when you do — the rules, limits and screen time your household relies on are not telemetry, and they keep working.</li>
       <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
       <li><strong>Cloudflare</strong> — sits in front of the service’s web endpoints and therefore handles connecting IP addresses and request metadata. The device’s own link does not pass through it.</li>
@@ -510,6 +512,9 @@
     <ul>
       <li>Remove a child profile, a rule, or the pairing itself — from the web panel, at any time.</li>
       <li>End a browser session, or every session at once, and unlink a Telegram account you linked.</li>
+      <li>Switch off crash reports and product analytics — <strong>Settings → Privacy → Send diagnostics</strong>
+        on the television. This is the objection in §6 exercised directly, so you do not have to write to us
+        for it.</li>
       <li>Uninstall the app — which ends all collection on that device.</li>
     </ul>
     <p>For the rest, write to <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>:</p>
@@ -574,6 +579,23 @@
       effective date before that change reaches anyone, and we say what changed. Where the law
       requires it, we will also notify you through the bot or the app.
     </p>
+    <p>
+      <strong>Version 1.3, 30 August 2026 — what changed.</strong> Both changes reduce what is
+      collected, and neither reaches anyone before the release that carries them.
+    </p>
+    <ul>
+      <li>
+        Crash reporting and product analytics can now be switched off on the television, in
+        <strong>Settings → Privacy → Send diagnostics</strong>. Before this there was no way to
+        stop them short of uninstalling. See §7 and §11.
+      </li>
+      <li>
+        The app no longer asks Android for the advertising identifier. The permission arrived
+        through the Firebase Analytics library rather than from anything p-control does with it,
+        and is now removed from the app before it is built. Nothing in the app ever read that
+        identifier; this closes the possibility rather than a practice. See §4.
+      </li>
+    </ul>
   </section>
 
   <section id="contact">
@@ -586,7 +608,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.2, effective 16 August 2026. This page describes the app
+    p-control Privacy Policy, version 1.3, effective 30 August 2026. This page describes the app
     and service as they behave today. §4 is the whole list of what a paired device sends, and it
     cannot widen without this page changing and the app asking the household again.
   </footer>

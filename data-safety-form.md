@@ -294,10 +294,19 @@ a choice about the form, not about the code.
   password hash, the profiles, the rules and the history — a parent contacts the developer
   directly, and that request is answered by a person (privacy policy §11). **There is no
   self-service account deletion in the panel yet**; say so rather than implying a button exists.
-- **Data collection is required or can users opt out?** Core enforcement data (app activity) is
-  required — it's the product's function. Analytics/crash reporting (Firebase) currently has no
-  in-app opt-out toggle; note this honestly rather than claim one that doesn't exist. If an
-  opt-out is added later, update this section then.
+- **Data collection is required or can users opt out?** Two different answers, and Play's form
+  takes them per data type rather than once.
+  - **Core enforcement data (app activity) is required** — it is the product's function, and a
+    household that switches it off has switched off the product.
+  - **Analytics and crash reporting are optional as of 2026-08-30.** *Settings → Privacy → Send
+    diagnostics* on the television switches off Firebase Analytics and Crashlytics together, at
+    the SDK level (`setAnalyticsCollectionEnabled` / `isCrashlyticsCollectionEnabled`), so the
+    automatic events — sessions, first-open, screen views — stop as well, not just the events this
+    app logs itself. Mark every Firebase-sourced row **Optional**. Debug builds never report at
+    all, whatever the setting says, which is a build-time rule and not a user-facing one.
+
+  Do not mark the pairing identifiers optional: they go to the household's own server and the app
+  cannot pair without them.
 
 ## Two further judgment calls flagged for your decision, not assumed
 
@@ -308,7 +317,23 @@ These are older than the three taxonomy calls above and are unrelated to them.
    their own users arguably isn't one — I've marked profile-name sharing "No" on that reading.
    If you'd rather declare it transparently as shared regardless, flip that row to "Yes,
    shared with: service provider" — it's a defensible, more conservative choice.
-2. **Firebase Analytics/Crashlytics rows above assume default SDK behavior** (no consent-gated
-   collection, no ad personalization use). If either SDK's config in this app has been
-   customized beyond what `FirebaseAnalyticsRepository`/`FirebaseCrashReportingRepository`
-   show, re-verify against Firebase's own current data-safety mapping guide before submitting.
+2. **Firebase Analytics/Crashlytics are consent-gated as of 2026-08-30**, so the rows above are
+   no longer "default SDK behavior". `AnalyticsConsentRepository` stores the household's answer and
+   `ApplyAnalyticsConsentUseCase` holds both SDKs to it for the life of the process; the default is
+   on, and a parent switching it off is obeyed without a restart. What has *not* changed is ad
+   personalization: it was never used and is now unreachable — see the advertising-ID note below.
+   Re-verify against Firebase's own current data-safety mapping guide before submitting anyway.
+3. **The advertising ID is no longer collected, and the row should say so.** Until 2026-08-30 the
+   Firebase Analytics library merged `com.google.android.gms.permission.AD_ID` and two Privacy
+   Sandbox ad-services permissions into the built app, even though nothing in this codebase reads
+   an advertising ID. All three are removed with `tools:node="remove"`. **Verify before every
+   submission rather than trusting this note** — the source manifest never showed them, which is
+   how they went unnoticed for three weeks:
+
+   ```bash
+   grep -o 'uses-permission[^>]*' app/build/intermediates/merged_manifests/release/*/AndroidManifest.xml | sort -u
+   ```
+
+   Confirmed on the release variant 2026-08-30: eleven permissions, none of them advertising.
+   `com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE` remains and is
+   deliberate — install attribution is not the advertising ID and Play does not treat it as one.
