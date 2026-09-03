@@ -249,6 +249,32 @@ Two things follow, and neither is optional:
   app — this call reverses and the row is real. Whoever writes that build reads this paragraph
   first.
 
+## The self-expiring records are swept too, and one of them held an address
+
+**Changed 2026-09-03.** A retention answer rather than a new data type: nothing new is collected,
+and something that was kept **forever** now has a bound.
+
+Four tables carry their own `expires_at`, checked when the row is read and enforced by nothing
+that removed it: `pending_pairings`, `telegram_link_requests`, `password_resets` and
+`refresh_tokens`. `RetentionSweep` now deletes each one a week after its own expiry.
+
+**`refresh_tokens` is the row that matters for this form.** It carries `client_ip`, which this
+document already lists as collected personal data, and until now an expired session nobody had
+signed out of kept that address indefinitely. The page said a session's address goes "when the
+session goes"; for a session that simply stopped being used, nothing went. The page now states the
+expiry path explicitly rather than leaving the reader to read the sign-out path as the only one.
+
+The week is not for the rows — a spent pairing token is useless the moment it expires. It is so
+that "why did my session end on Tuesday" is answerable on Wednesday. `RetentionSweep.expiredGraceDays`
+is the constant.
+
+**`invites` is deliberately left standing** and is not an omission: an expired invite is shown to
+the household that minted it, as expired, and a consumed one records how a member came to be one.
+Removing either changes what a household is told, which is a product decision rather than
+retention.
+
+**No new data type, no new recipient, no new permission.**
+
 ## Retention is now enforced by a job, not only stated on the page
 
 **Changed 2026-08-28**, and it moves two rows from "kept while the household is in use" to a

@@ -291,7 +291,7 @@
       nearby networks, anything a location permission grants. p-control asks for none of it and no
       p-control client ever will. The IP address in §5 is a different thing again: it is the
       address your browser connects to our panel from, it is recorded only for the sessions you are
-      signed in on, and we <strong>never</strong> look up where it is. Nothing in this product turns
+      signed in on, it leaves with them (§9), and we <strong>never</strong> look up where it is. Nothing in this product turns
       an address into a town, a region or a map, and nothing sends it to a service that would.
     </p>
   </section>
@@ -419,7 +419,7 @@
         <tbody>
           <tr><td>Blocking, time limits, pairing, profiles, approvals</td><td><strong>Performance of a contract.</strong> It is the service you installed the app to get; without it there is no product.</td></tr>
           <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
-          <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept only while the session is, and never used to work out where you are; you may object, see §11.</td></tr>
+          <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept while that session is, and for a week after it expires if you never end it yourself; never used to work out where you are. You may object, see §11.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You can stop this yourself: <strong>Settings → Privacy → Send diagnostics</strong> on the television, which switches off both crash reporting and product analytics. See §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
         </tbody>
@@ -459,14 +459,15 @@
       <table>
         <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
         <tbody>
-          <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically</td></tr>
+          <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically. The expired record itself is deleted a week later</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
           <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
           <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
-          <tr><td>A browser session, and the browser, system and address recorded with it</td><td class="num">Until you sign out, end that session, sign out everywhere, or change your password — any of which ends it immediately. There is no separate history of addresses: when the session goes, they go with it</td></tr>
+          <tr><td>A browser session, and the browser, system and address recorded with it</td><td class="num">Until you sign out, end that session, sign out everywhere, or change your password — any of which ends it immediately. A session you simply stop using expires on its own, and its record, including the address, is deleted a week after that. There is no separate history of addresses: when the session goes, they go with it</td></tr>
+          <tr><td>Single-use links — a password reset, and the link that connects a Telegram chat to your account</td><td class="num">Until used, or until they expire on their own. Either way the record is deleted a week after it expires</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
         </tbody>
       </table>
