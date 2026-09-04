@@ -249,6 +249,31 @@ Two things follow, and neither is optional:
   app — this call reverses and the row is real. Whoever writes that build reads this paragraph
   first.
 
+## The developer's own support access, and why this form does not grow a data-type row
+
+**Added 2026-09-04.** A super admin — today, the developer alone — can now open a household's own
+data directly, from a console separate from the household's own panel, to answer a support
+question or diagnose a fault: the same rules, devices, profiles and history that household's own
+panel already shows it, nothing more.
+
+**No row in the table above changes.** Play's Data safety form declares what the app collects,
+transmits and shares with parties outside the service; a support session is the developer's own
+service looking at data the developer's own service already holds, not a new data type, a new
+recipient or a new company in the path — the same reasoning the panel's session records section
+above gives for staying out of this table.
+
+**What changed belongs on the privacy policy page, and now does.** `p-control-server`'s
+`2026-08-14-super-admin-console-design.md` "Support access" section owns the mechanism: a
+**support session** is a distinct, time-limited access token — up to one hour — derived from the
+super admin's own sign-in rather than a silent widening of an existing one, and every household it
+enters and every write it makes is recorded in an append-only log
+(`super_admin_audit`) that only a super admin can read. The household is not notified of an
+individual visit, which is a deliberate product decision the policy states rather than glosses
+over. §6, §7, §9 and §11 of the published page carry the household-facing half of it: the legal
+basis, who this is, how long the log itself is kept, and how a household asks about it.
+
+**No new data type, no new recipient, no new permission.**
+
 ## The self-expiring records are swept too, and one of them held an address
 
 **Changed 2026-09-03.** A retention answer rather than a new data type: nothing new is collected,

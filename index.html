@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.3 · Effective 30 August 2026</span>
+      <span class="meta">Version 1.4 · Effective 4 September 2026</span>
     </div>
   </div>
 
@@ -421,6 +421,7 @@
           <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
           <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept while that session is, and for a week after it expires if you never end it yourself; never used to work out where you are. You may object, see §11.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You can stop this yourself: <strong>Settings → Privacy → Send diagnostics</strong> on the television, which switches off both crash reporting and product analytics. See §11.</td></tr>
+          <tr><td>Opening a household’s own data to answer a support question</td><td><strong>Legitimate interests</strong> — diagnosing and fixing the problem you raised is not possible without seeing what you see. Every session and every change made inside it is logged; see §7. You may object, see §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
         </tbody>
       </table>
@@ -440,6 +441,7 @@
       <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
       <li><strong>Cloudflare</strong> — sits in front of the service’s web endpoints and therefore handles connecting IP addresses and request metadata. The device’s own link does not pass through it.</li>
+      <li><strong>Us, when we open a support session.</strong> To answer a question you raised or diagnose a fault, someone operating the service can open your household’s own data directly — the same rules, devices, profiles and history the panel already shows you, nothing more. That is a separate, time-limited session, up to one hour, rather than an unaudited look: every household it enters, and every change made while it is open, is written to a log that only we can read. We do not tell you about an individual visit — that is a deliberate choice, not an oversight — but the log itself is something you can ask about under §11.</li>
     </ul>
   </section>
 
@@ -469,6 +471,7 @@
           <tr><td>A browser session, and the browser, system and address recorded with it</td><td class="num">Until you sign out, end that session, sign out everywhere, or change your password — any of which ends it immediately. A session you simply stop using expires on its own, and its record, including the address, is deleted a week after that. There is no separate history of addresses: when the session goes, they go with it</td></tr>
           <tr><td>Single-use links — a password reset, and the link that connects a Telegram chat to your account</td><td class="num">Until used, or until they expire on their own. Either way the record is deleted a week after it expires</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
+          <tr><td>The log of a support session — who opened it, which household, when, and what changed</td><td class="num">Kept indefinitely, as our own operational record rather than as part of a household’s own data. It is append-only by design: nothing edits or removes an entry once written, which is what makes it a record rather than a claim</td></tr>
         </tbody>
       </table>
     </div>
@@ -520,7 +523,7 @@
     </ul>
     <p>For the rest, write to <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>:</p>
     <ul>
-      <li><strong>Access</strong> — a copy of what we hold about you.</li>
+      <li><strong>Access</strong> — a copy of what we hold about you, including whether a support session has opened your household (§7) and when.</li>
       <li><strong>Correction</strong> — fix anything inaccurate.</li>
       <li><strong>Erasure</strong> — delete a household and everything in §5.</li>
       <li><strong>Restriction</strong> — have us stop using data while a dispute is resolved.</li>
@@ -548,6 +551,7 @@
       <li>The block screen and the PIN screens are excluded from screenshots and from the recent-apps preview.</li>
       <li>The device talks to the service only over an encrypted (TLS) connection, and each device is issued its own credential that reaches only its own data.</li>
       <li>The service and database run in the EU with access restricted to the developer.</li>
+      <li>Opening a household’s own data directly — for support — is not the same access as running the service: it mints its own time-limited credential, separate from anything a household holds, and every household it touches and every change it makes is recorded rather than passing unseen. See §7.</li>
     </ul>
     <p>
       No system is perfect, and we will not pretend otherwise. If we ever discover a breach
@@ -581,6 +585,17 @@
       requires it, we will also notify you through the bot or the app.
     </p>
     <p>
+      <strong>Version 1.4, 4 September 2026 — what changed.</strong> A new way for us to see a
+      household’s own data, disclosed before it was used on anyone.
+    </p>
+    <ul>
+      <li>
+        We can now open a household’s own data directly, to answer a support question — a
+        separate, time-limited session rather than an unaudited look, and every one of them is
+        logged. See §6, §7, §9 and §11.
+      </li>
+    </ul>
+    <p>
       <strong>Version 1.3, 30 August 2026 — what changed.</strong> Both changes reduce what is
       collected, and neither reaches anyone before the release that carries them.
     </p>
@@ -609,7 +624,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.3, effective 30 August 2026. This page describes the app
+    p-control Privacy Policy, version 1.4, effective 4 September 2026. This page describes the app
     and service as they behave today. §4 is the whole list of what a paired device sends, and it
     cannot widen without this page changing and the app asking the household again.
   </footer>
