@@ -337,14 +337,24 @@ a choice about the form, not about the code.
 
 - **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses
   TLS; Firebase SDK traffic is HTTPS by default.
-- **Do you provide a way for users to request data deletion?** Yes, at three levels. Unpairing a
-  device from the web panel clears the credentials it holds. Signing out everywhere ends every
-  browser session at once, and a single session can now be ended on its own — which also deletes
-  the browser, system and address recorded with it, since those are columns of the session row and
-  nothing keeps a history of them. For the account and the whole household — the email address, the
-  password hash, the profiles, the rules and the history — a parent contacts the developer
-  directly, and that request is answered by a person (privacy policy §11). **There is no
-  self-service account deletion in the panel yet**; say so rather than implying a button exists.
+- **Do you provide a way for users to request data deletion?** Yes, at four levels, and the last
+  of them is self-service. Unpairing a device from the web panel clears the credentials it holds.
+  Signing out everywhere ends every browser session at once, and a single session can be ended on
+  its own — which also deletes the browser, system and address recorded with it, since those are
+  columns of the session row and nothing keeps a history of them.
+
+  **A parent closes the whole account themselves**, from Account → Close this account. It takes
+  the email address, the phone, the password hash, every session and the Telegram link with it,
+  and any home the person is the only member of closes with them — every screen in it disconnected
+  and every child's history erased. The panel names those homes before the act and asks for the
+  password again, because a session left open on a shared machine may not end somebody's account.
+
+  Two accounts cannot do it and the panel says which applies. One that is the last person able to
+  administer a home other people are still in is refused, because erasing it would leave a home
+  nobody can run; handing that over first clears it. And an account that has acted inside other
+  people's homes as a server administrator is refused, because that record is not the account
+  holder's to erase — the accountability carve-out GDPR Article 17(3) makes. Both are answered by a
+  person at the address in privacy policy §11.
 - **Data collection is required or can users opt out?** Two different answers, and Play's form
   takes them per data type rather than once.
   - **Core enforcement data (app activity) is required** — it is the product's function, and a
