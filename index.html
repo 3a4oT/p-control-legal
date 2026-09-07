@@ -387,6 +387,7 @@
           <tr><td>Your chosen language</td><td>So the panel and any messages arrive in the language you picked</td></tr>
           <tr><td>Telegram chat ID — <strong>only if you link one</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
           <tr><td>Your phone number — <strong>only if you link Telegram</strong></td><td>Linking finishes by tapping Telegram’s “share my number” button, so we know the account was linked by the person holding that phone rather than by whoever opened the link. It is never shown to anyone else, including other members of your own household, and no other part of the service reads it. Absent for anyone who never links Telegram. Unlinking removes the chat but keeps the number, the same way it keeps your email address — close your account (§9) and it goes with it</td></tr>
+          <tr><td>A linked Google account — <strong>only if you sign in with Google</strong></td><td>Google's own account identifier and the address Google confirmed it has verified. The identifier, not the address, is what signs you in afterwards: an address can move between Google accounts and an identifier cannot. We ask Google for nothing else, we are given nothing else, and we can read nothing in your Google account. Absent for anyone who signs in with a password, and removed when you remove that way in from your account page</td></tr>
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
@@ -439,6 +440,7 @@
       <li><strong>The household’s own parent</strong>, through the web panel and, if they linked one, a Telegram chat. That is the product’s purpose.</li>
       <li><strong>Google (Firebase)</strong> — crash reports and anonymous, count-only product events such as <code>app_blocked</code>. These carry no names, no codes, no profile information and nothing about which specific app was blocked. <strong>This is the one collection you can switch off and keep the product:</strong> <em>Settings → Privacy → Send diagnostics</em> on the television turns off crash reporting and product analytics together, at once, without a restart. Nothing else on this page changes when you do — the rules, limits and screen time your household relies on are not telemetry, and they keep working.</li>
       <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
+      <li><strong>Google, again, if the web panel offers its sign-in button.</strong> The button is drawn by Google’s own code, which the panel loads from <code>accounts.google.com</code> when — and only when — the operator has switched that way in on. While it is on, opening the sign-in page tells Google that a browser visited it, before anybody has pressed anything; the panel loads nothing from Google when it is off. Pressing the button hands us a signed statement from Google carrying the two things in §5 and no more. This is separate from Firebase above, it happens in a browser rather than on the television, and a household that signs in with a password never meets it.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
       <li><strong>Cloudflare</strong> — sits in front of the service’s web endpoints and therefore handles connecting IP addresses and request metadata. The device’s own link does not pass through it.</li>
       <li><strong>Us, when we open a support session.</strong> To answer a question you raised or diagnose a fault, someone operating the service can open your household’s own data directly — the same rules, devices, profiles and history the panel already shows you, nothing more. That is a separate, time-limited session, up to one hour, rather than an unaudited look: every household it enters, and every change made while it is open, is written to a log that only we can read. We do not tell you about an individual visit — that is a deliberate choice, not an oversight — but the log itself is something you can ask about under §11.</li>
@@ -448,7 +450,8 @@
   <section id="transfers">
     <h2><span class="num">08</span> Where it goes</h2>
     <p>
-      The service and its database are in the EU. Google (Firebase), Telegram and Cloudflare may
+      The service and its database are in the EU. Google (Firebase, and Sign-In where it is
+      offered), Telegram and Cloudflare may
       process data outside the EEA under their own transfer safeguards, including the European
       Commission’s standard contractual clauses where those apply. We add no further
       destinations of our own.

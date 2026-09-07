@@ -200,6 +200,30 @@ The row this adds to the table above:
 | **Personal info → Email address** | Yes (the parent's, at sign-up) | No | App functionality (account management, authentication) | Required. It identifies the account that owns a household and is how the developer reaches that parent about it. The password is not a Data safety data type — it is a credential, stored only as a scrypt hash — but it belongs in the security section below |
 | **Personal info → Phone number** | Yes (the parent's, when they link a Telegram chat) | No | App functionality (account management) | **Optional**, and optional in the sense Play means: a parent who never links a chat never provides one, and every feature except Telegram delivery works without it. It arrives from Telegram's own `request_contact` button — the parent taps to share their own number, so Telegram has verified it against the device holding it — and `p-control-server` stores it on the account. Nothing else reads it, and it is shown to no one but its owner. The Android app never touches it: linking happens between the parent's Telegram client and the server |
 
+### Signing in with Google — LIVE since 7 September 2026
+
+A parent may sign in at `control.rovenskyi.com` with a Google account instead of a password, when
+the operator has switched that door on. What the server is given is a signed ID token carrying
+Google's account identifier (`sub`) and the address Google says it has verified; it is stored as a
+row beside the account, and the identifier rather than the address is what signs the person in
+afterwards.
+
+| Data type | Collected | Shared | Purpose | Notes |
+|---|---|---|---|---|
+| **Personal info → Email address** | Already declared above; Google supplies a verified one for a parent who signs in this way | No | App functionality (authentication) | The same row as the address a parent types — the source differs, the collection does not |
+| **Personal info → User IDs** | Yes — Google's account identifier for that parent, when they use this way in | No | App functionality (authentication) | Absent for a parent who signs in with a password, and removed with the linked account from the account page. It is an identifier for **the parent's own account**, never for a child or a device |
+
+**What is shared with Google, and by whom.** Not by us: the browser loads Google's own script from
+`accounts.google.com` to draw the button, so Google learns that a browser opened the panel's
+sign-in page while the door is open — before anybody presses anything. The panel loads nothing from
+Google when the door is shut. This is a browser-side disclosure of the kind Play's form does not
+have a row for, and it is stated on the policy page's §7 instead, which is where a person can act
+on it.
+
+**The in-app disclosure revision does not move for this.** `CURRENT_DATA_DISCLOSURE_VERSION`
+tracks what leaves the **device**, and nothing new leaves it: this happens in a browser, and the
+television's agent is not in the path. The same reading as the phone number below.
+
 **Why a phone number is declared at all when the app never sees it.** The same reason the email
 row above is: Play asks what the *app's* product collects, and a parent using this app has one
 account across the television, the panel and the bot. Declaring only what crosses the app's own
