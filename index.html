@@ -299,16 +299,31 @@
   <section id="sent">
     <h2><span class="num">04</span> What this device sends</h2>
     <p>
-      An <strong>unpaired</strong> device sends nothing at all. The television shows a code, the
-      parent confirms it in the web panel, and only then does this travel to the household
-      service:
+      An <strong>unpaired</strong> device sends one thing, once, before anybody has confirmed
+      anything: to be given a code at all, it has to ask the household service for one, and that
+      request carries what the device knows about itself &mdash; a random identifier we generate
+      for this installation, a device identifier Android provides to this app, the device model
+      reported by Android, and what sort of device it is. Nothing else, and nothing about what
+      anybody does on it: no apps, no activity, no accounts, no names.
+    </p>
+    <p>
+      That one request goes to our web address over HTTPS, so it passes through Cloudflare like
+      every other request to that address (&sect;7). Everything below, and everything the device
+      sends for as long as it stays paired, travels instead on the device&rsquo;s own encrypted
+      link to the household service, which does not pass through Cloudflare.
+    </p>
+    <p>
+      The television shows the code, the parent confirms it in the web panel, and this is what
+      travels to the household service:
     </p>
     <ol class="plain">
       <li>
-        <strong>At pairing:</strong> a random identifier we generate for this installation; a
+        <strong>At pairing &mdash; the same four already sent in the request for a code,
+        above:</strong> a random identifier we generate for this installation; a
         device identifier Android provides to this app, which is specific to p-control and to this
         device’s user profile, cannot be used to recognise it in any other app, and is not an
-        advertising identifier; and the device model reported by Android. The device identifier
+        advertising identifier; the device model reported by Android; and what sort of device it is
+        (a television, a tablet, a phone). The device identifier
         exists for two things. First, so that reinstalling p-control is recognised as the same
         device returning, instead of leaving a dead entry in the parent’s list. Second, so that
         if a device already registered to one household is paired into another, the household
@@ -442,7 +457,7 @@
       <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
       <li><strong>Google, again, if the web panel offers its sign-in button.</strong> The button is drawn by Google’s own code, which the panel loads from <code>accounts.google.com</code> when — and only when — the operator has switched that way in on. While it is on, opening the sign-in page tells Google that a browser visited it, before anybody has pressed anything; the panel loads nothing from Google when it is off. Pressing the button hands us a signed statement from Google carrying the two things in §5 and no more. This is separate from Firebase above, it happens in a browser rather than on the television, and a household that signs in with a password never meets it.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
-      <li><strong>Cloudflare</strong> — sits in front of the service’s web endpoints and therefore handles connecting IP addresses and request metadata. The device’s own link does not pass through it.</li>
+      <li><strong>Cloudflare</strong> — sits in front of the service’s web address and therefore handles connecting IP addresses and request metadata. That includes the one request an unpaired device makes to ask for a code (§4), so the four identifiers in it pass through Cloudflare on their way to us. The device’s own link, which carries everything else it ever sends, does not.</li>
       <li><strong>Us, when we open a support session.</strong> To answer a question you raised or diagnose a fault, someone operating the service can open your household’s own data directly — the same rules, devices, profiles and history the panel already shows you, nothing more. That is a separate, time-limited session, up to one hour, rather than an unaudited look: every household it enters, and every change made while it is open, is written to a log that only we can read. We do not tell you about an individual visit — that is a deliberate choice, not an oversight — but the log itself is something you can ask about under §11.</li>
     </ul>
   </section>
@@ -464,7 +479,7 @@
       <table>
         <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
         <tbody>
-          <tr><td>Pairing tokens</td><td class="num">10 minutes, then expired automatically. The expired record itself is deleted a week later</td></tr>
+          <tr><td>Pairing codes, and the temporary credential issued with one</td><td class="num">10 minutes, then expired automatically. The temporary credential dies with the pairing it belongs to — it is what the device uses to be handed its own, and it can read nothing else. The expired record itself is deleted a week later</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
           <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
@@ -569,7 +584,7 @@
       <li>Your password is stored as a slow, salted hash (scrypt) chosen so that guessing is expensive even if the database is stolen. We never see it and cannot recover it — only reset it.</li>
       <li>Sessions live in the service’s database, not in a cache that can be evicted, and the cookie that carries one is restricted to this site and unreadable to JavaScript.</li>
       <li>The block screen and the PIN screens are excluded from screenshots and from the recent-apps preview.</li>
-      <li>The device talks to the service only over an encrypted (TLS) connection, and each device is issued its own credential that reaches only its own data.</li>
+      <li>The device talks to the service only over encrypted (TLS) connections — HTTPS for the one request that asks for a code, and its own encrypted link afterwards — and each device is issued its own credential that reaches only its own data. The credential it holds while it waits to be paired can read one thing, the credential it is about to be given, and it stops working the moment that pairing ends.</li>
       <li>The service and database run in the EU with access restricted to the developer.</li>
       <li>Opening a household’s own data directly — for support — is not the same access as running the service: it mints its own time-limited credential, separate from anything a household holds, and every household it touches and every change it makes is recorded rather than passing unseen. See §7.</li>
     </ul>

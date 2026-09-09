@@ -19,7 +19,7 @@ submitting, don't paste blind.**
 | **App activity → In-app search history** | No | — | — | — |
 | **App info and performance → Crash logs** | Yes (via Firebase Crashlytics) | Yes — with Google (Firebase, as the analytics/crash provider) | Analytics | Not user-facing/optional — standard crash reporting |
 | **App info and performance → Diagnostics** | Yes, from two sources: Firebase Crashlytics attaches device/OS info to crash reports, and the device's own status message carries its model, Android version, language and time zone to the household server. See the judgment call below. | Yes — with Google (Firebase) for the crash half. The status half goes only to the household server | Analytics (Firebase) **and** App functionality (naming a device in the panel, and keeping schedules on the household's clock) | Not optional |
-| **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server (same judgment call as the profile-name row) | Analytics (Firebase) **and** App functionality (pairing) | Not optional — the app cannot pair without sending them |
+| **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server, and reach it through **Cloudflare**, which terminates TLS for the app's first request (same judgment call as the profile-name row for the server itself; Cloudflare is a processor either way) | Analytics (Firebase) **and** App functionality (pairing) | Not optional — the app cannot pair without sending them, and they are sent before any pairing is confirmed |
 | **Location** | No | — | — | — |
 | **Financial info** | No | — | — | — |
 | **Health and fitness** | No | — | — | — |
@@ -39,9 +39,20 @@ answer it for the union and be ready to explain the split:
 1. **Firebase Analytics' app-instance ID** — SDK default, goes to Google, not the advertising
    ID, not used for cross-app tracking.
 2. **Pairing identifiers, added when the app gained a real pairing flow** — a random
-   per-installation UUID, the device model string, and `Settings.Secure.ANDROID_ID`. These go to
-   the household server only, and only after a parent confirms the pairing in the web panel; an
-   unpaired app transmits nothing.
+   per-installation UUID, the device model string, `Settings.Secure.ANDROID_ID` and the device
+   kind. They go to the household server only, and they are sent **before** a parent confirms
+   anything: `PairingBootstrapRequest` carries all four in the app's first contact, the
+   `POST /api/v1/pairing/hello` that asks for a pairing code. Do not answer this row as though an
+   unpaired app transmits nothing — it transmits these four, and only these four.
+
+   **That first contact is HTTPS to `control.rovenskyi.com`, which is behind Cloudflare**, so
+   Cloudflare terminates TLS for it and is a processor for those four identifiers and the
+   connecting IP address. Every later message the device sends travels on its own MQTT link to the
+   broker instead, which is DNS-only and does not pass through Cloudflare. This is a **recipients**
+   answer as well as a transport one: Cloudflare was already declared for the web panel, and the
+   change is that the app itself — not only a parent's browser — now reaches us through it.
+   Nothing new is collected; the same four fields previously travelled over MQTT under a shared
+   pairing credential compiled into the package, which no build has any more.
 
 The API name belongs here and **not** on the public policy page, which says "a device
 identifier Android provides to this app" instead. Neither Play's User Data policy nor GDPR
@@ -359,8 +370,10 @@ a choice about the form, not about the code.
 
 ## Security practices section
 
-- **Is all user data encrypted in transit?** Yes — MQTT connection to the household server uses
-  TLS; Firebase SDK traffic is HTTPS by default.
+- **Is all user data encrypted in transit?** Yes, on all three paths: the app's first contact
+  (`POST /api/v1/pairing/hello`) is HTTPS to `control.rovenskyi.com`, terminated by Cloudflare and
+  re-encrypted to the origin; every later device message is MQTT over TLS to the broker, direct,
+  not through Cloudflare; Firebase SDK traffic is HTTPS by default.
 - **Do you provide a way for users to request data deletion?** Yes, at four levels, and the last
   of them is self-service. Unpairing a device from the web panel clears the credentials it holds.
   Signing out everywhere ends every browser session at once, and a single session can be ended on
