@@ -302,8 +302,10 @@
     <h2><span class="num">04</span> What this device sends</h2>
     <p>
       An <strong>unpaired</strong> device sends the household service one kind of request and
-      nothing else &mdash; the only other thing it sends anybody is a crash report, to Google, if
-      that is switched on (&sect;7). To be given a code at all, it has to ask the household service
+      nothing else. The only other things it sends anybody go to Google, if diagnostics are on: a
+      crash report if it crashes, and a count-only product event &mdash; showing a pairing code is
+      itself one of them &mdash; carrying no household, no code and no names (&sect;7, and you can
+      switch both off). To be given a code at all, it has to ask the household service
       for one, and that request carries what the
       device knows about itself &mdash; a random identifier we generate for this installation, a
       device identifier Android provides to this app, the device model reported by Android, and what
@@ -311,7 +313,7 @@
       accounts, no names. It is not sent only once: a code lasts ten minutes, so a television left
       waiting on the pairing screen asks again for a fresh one when the old one runs out, and asks
       again if the request did not get through. It is the same four things every time, and we limit
-      how often any one device or connection may ask.
+      how often any one address, and any one device, may ask.
     </p>
     <p>
       Those requests go to our web address over HTTPS, so they pass through Cloudflare like
@@ -327,9 +329,11 @@
       connecting address of a device that asks for a code and of one fetching a picture, the same
       way it already handles a parent&rsquo;s browser. And <strong>we</strong> count requests for a
       code against the address they came from, and against the device asking, for one hour, so that
-      nobody can ask for codes without limit. The address and a count are what that holds &mdash;
-      the address is what the count is kept under &mdash; and nothing more: it is never turned into
-      a place, it is never attached to your household or to anything else about you, and it is gone
+      nobody can ask for codes without limit. Two counts, kept under two keys: the connecting
+      address, and the device identifier from the list below. An address can point at a household in
+      the hands of somebody who has other records, which is why it has a ground in &sect;6 and an
+      hour&rsquo;s life rather than being called anonymous &mdash; but it is never turned into a
+      place, never joined to your account or your household, and both keys and their counts are gone
       within the hour.
     </p>
     <p>
@@ -403,10 +407,14 @@
       </li>
     </ol>
     <div class="callout">
-      <strong>Every item above is sent by the current release.</strong> The app’s own first-run
-      screen says the same thing in shorter words, and a parent is asked again whenever this list
-      grows — which is what happened for items 2 to 5 and for the description of the device in
-      item 7. Nothing here is a description of a future version.
+      <strong>Every item in the list above is sent by the current release.</strong> The app’s own
+      first-run screen says the same thing in shorter words, and a parent is asked again whenever
+      this list grows — which is what happened for items 2 to 5 and for the description of the
+      device in item 7. The one thing here that runs ahead of the shipped app is the way a device
+      asks for its code, described in the three paragraphs above the list: that arrives with the
+      next release, and it is on this page first because we say what changes before it reaches
+      anybody (§14). Until then a device asks for its code the older way, and sends the same four
+      things doing it.
     </div>
   </section>
 
@@ -426,6 +434,7 @@
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
+          <tr><td>The address a device asks for a pairing code from, and the device identifier it asks with — held as two counters, for one hour (§4)</td><td>Stops anyone making us mint pairing codes without end. Nothing else is stored under them, they are joined to no household, and they expire on their own</td></tr>
           <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
           <tr><td>Approval requests — which app, which child where the device knows, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
           <tr><td>What a screen reports about itself — that it went quiet, was reinstalled, raised an integrity warning, or refused a configuration</td><td>Tells you when a screen stops being supervised, and is what the alerts in your inbox are made from</td></tr>
@@ -456,7 +465,7 @@
           <tr><td>Blocking, time limits, pairing, profiles, approvals</td><td><strong>Performance of a contract.</strong> It is the service you installed the app to get; without it there is no product.</td></tr>
           <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
           <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept while that session is, and for a week after it expires if you never end it yourself; never used to work out where you are. You may object, see §11.</td></tr>
-          <tr><td>Counting requests for a pairing code against the address and the device they came from, for one hour (&sect;4)</td><td><strong>Legitimate interests</strong> — this door is open to anyone on the internet, and without a limit on it a stranger could make us mint codes without end. The interest is keeping pairing available to the households that need it; nothing about that count identifies a person, it is attached to no household, and it is gone within the hour. You may object, see &sect;11.</td></tr>
+          <tr><td>Counting requests for a pairing code against the address and the device they came from, for one hour (&sect;4)</td><td><strong>Legitimate interests</strong> — this door is open to anyone on the internet, and without a limit on it a stranger could make us mint codes without end. The interest is keeping pairing available to the households that need it. An address can identify somebody who holds other records, which is exactly why it is named here with a ground and an hour&rsquo;s retention rather than passed off as anonymous: it is joined to no account and no household, never used to work out where you are, and gone within the hour. You may object, see &sect;11.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You can stop this yourself: <strong>Settings → Privacy → Send diagnostics</strong> on the television, which switches off both crash reporting and product analytics. See §11.</td></tr>
           <tr><td>Opening a household’s own data to answer a support question</td><td><strong>Legitimate interests</strong> — diagnosing and fixing the problem you raised is not possible without seeing what you see. Every session and every change made inside it is logged; see §7. You may object, see §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
@@ -500,7 +509,7 @@
       <table>
         <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
         <tbody>
-          <tr><td>Pairing codes, the temporary credential issued with one, and the record of a pairing nobody confirmed &mdash; which is where the four identifiers in §4 sit until then</td><td class="num">10 minutes, then expired automatically. The temporary credential dies with the pairing it belongs to — it is what the device uses to be handed its own, and it can read nothing else. The expired record itself is deleted a week later</td></tr>
+          <tr><td>Pairing codes, the temporary credential issued with one, and the record of a pairing nobody confirmed &mdash; which is where the four identifiers in §4 sit until then</td><td class="num">10 minutes, then expired automatically. The temporary credential is what the device uses to be handed its own; it can reach nothing belonging to any other household, and it is removed when the pairing is confirmed, or swept away with the expired record if nobody confirms it. The expired record itself is deleted a week later</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
           <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
@@ -508,6 +517,7 @@
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
           <tr><td>A browser session, and the browser, system and address recorded with it</td><td class="num">Until you sign out, end that session, sign out everywhere, or change your password — any of which ends it immediately. A session you simply stop using expires on its own, and its record, including the address, is deleted a week after that. There is no separate history of addresses: when the session goes, they go with it. The hourly count in §4, which is about a device asking for a pairing code rather than about you signing in, is a separate thing and keeps nothing past the hour</td></tr>
+          <tr><td>The pairing-code counters — the asking address, and the device identifier it asked with</td><td class="num">One hour from the request, then gone on their own. Nothing is written anywhere else from them</td></tr>
           <tr><td>Single-use links — a password reset, and the link that connects a Telegram chat to your account</td><td class="num">Until used, or until they expire on their own. Either way the record is deleted a week after it expires</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
           <tr><td>The log of a support session — who opened it, which household, when, and what changed</td><td class="num">Kept indefinitely, as our own operational record rather than as part of a household’s own data. It is append-only by design: nothing edits or removes an entry once written, which is what makes it a record rather than a claim</td></tr>
@@ -605,7 +615,7 @@
       <li>Your password is stored as a slow, salted hash (scrypt) chosen so that guessing is expensive even if the database is stolen. We never see it and cannot recover it — only reset it.</li>
       <li>Sessions live in the service’s database, not in a cache that can be evicted, and the cookie that carries one is restricted to this site and unreadable to JavaScript.</li>
       <li>The block screen and the PIN screens are excluded from screenshots and from the recent-apps preview.</li>
-      <li>The device talks to the service only over encrypted (TLS) connections. Two of them are HTTPS to our web address — the requests that ask for a pairing code, which repeat while the screen waits, and the profile pictures a paired television fetches — and everything else it sends travels on its own encrypted link to the household service. Each device is issued its own credential that reaches only its own data; the one it holds while it waits to be paired can read a single thing, the credential it is about to be given, and it stops working the moment that pairing ends.</li>
+      <li>The device talks to the service only over encrypted (TLS) connections. Two of them are HTTPS to our web address — the requests that ask for a pairing code, which repeat while the screen waits, and the profile pictures a paired television fetches — and everything else it sends travels on its own encrypted link to the household service. Each device is issued its own credential that reaches only its own data; the one it holds while it waits to be paired can reach only its own pairing — never anything belonging to another household — and it is removed when that pairing is confirmed, or swept away with it if nobody ever confirms it.</li>
       <li>The service and database run in the EU with access restricted to the developer.</li>
       <li>Opening a household’s own data directly — for support — is not the same access as running the service: it mints its own time-limited credential, separate from anything a household holds, and every household it touches and every change it makes is recorded rather than passing unseen. See §7.</li>
     </ul>
@@ -641,9 +651,11 @@
       requires it, we will also notify you through the bot or the app.
     </p>
     <p>
-      <strong>Version 1.5, 9 September 2026 &mdash; what changed.</strong> Nothing new is
-      collected. What changed is how a device first reaches us, and therefore who handles it on the
-      way.
+      <strong>Version 1.5, 9 September 2026 &mdash; what changed.</strong> No new kind of
+      information about your household is collected. What changed is how a device first reaches us,
+      therefore who handles it on the way, and one new thing we do with the address it arrives from.
+      The new way of asking for a code arrives with the next release of the app and is on this page
+      first, as this section promises.
     </p>
     <ul>
       <li>
@@ -653,8 +665,9 @@
         which already sat in front of that address, now handles them and the device&rsquo;s
         connecting address on the way to us. And we say for the first time that <strong>we</strong>
         count those requests against that address for an hour, so that nobody can ask for codes
-        without limit &mdash; a limit that was always there and was never described. See &sect;4,
-        &sect;6 and &sect;7.
+        without limit. That limit is <strong>added with this change</strong>, not an old one newly
+        worded: over the connection a device used before, there was no address of its own for us to
+        count. See &sect;4, &sect;6 and &sect;7.
       </li>
       <li>
         &sect;4 said an unpaired device sent nothing at all. That was never right, and it says now
@@ -709,8 +722,10 @@
 
   <footer>
     p-control Privacy Policy, version 1.5, effective 9 September 2026. This page describes the app
-    and service as they behave today. §4 is the whole list of what a paired device sends, and it
-    cannot widen without this page changing and the app asking the household again.
+    and service as they behave today, except where §4 says a change arrives with the next release.
+    §4 is the whole list of what a paired device sends to the household service — what goes to
+    Google instead is §7 — and it cannot widen without this page changing and the app asking the
+    household again.
   </footer>
 
 </div>

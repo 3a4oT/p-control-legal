@@ -43,7 +43,10 @@ answer it for the union and be ready to explain the split:
    kind. They go to the household server only, and they are sent **before** a parent confirms
    anything: `PairingBootstrapRequest` carries all four in the app's first contact, the
    `POST /api/v1/pairing/hello` that asks for a pairing code. Do not answer this row as though an
-   unpaired app transmits nothing — it transmits these four, and only these four, and it repeats
+   unpaired app transmits nothing — it transmits these four to the household server, and only these
+   four **there**; Firebase Analytics is its own path and logs `pairing_code_displayed` from the
+   pairing screen while the app is still unpaired, with the app-instance ID, unless diagnostics are
+   switched off. And it repeats
    the request: `rotateSessionsUntilPaired` re-mints a session at every 10-minute code expiry and
    `askForASession` retries with backoff, against a server budget of 20 hellos an hour per machine
    and 60 per address.
@@ -277,9 +280,17 @@ operating system matched to a short list of known names, and the IP address the 
 seen from. A person can list their sessions and end one.
 
 **No row in the table above changes, and `Location` stays "No".** Play's Data safety form declares
-what **this app** collects and shares. The app does not sign in to the panel, does not see a
-browser, and never handles an IP address of its own — the collection happens in a browser talking
-to the household server. The distinction is worth writing down because "we now store IP addresses"
+what **this app** collects and shares. The app does not sign in to the panel and does not see a
+browser, so a session's stored address is a browser's and not the app's.
+
+**Since 1.5 the app does supply an address of its own, and the conclusion survives while the old
+reasoning does not.** `POST /api/v1/pairing/hello` arrives from the device, and the server counts it
+against that connecting address — so "the app never handles an IP address of its own" is no longer
+the argument. The argument is that an IP address is not `Location` on this form: Play's `Location`
+row is approximate or precise location derived from the device (GPS, network location, and the
+like), nothing in this product derives one, and no address here is ever resolved to a place. It is
+also not *stored* as data about a user — see the counting subsection under the security answers
+below. `Location: No` therefore stands on its own facts rather than on the app having no address. The distinction is worth writing down because "we now store IP addresses"
 sounds like it must belong here, and answering `Location: Yes` because of it would be **wrong** in
 the direction that matters: it would declare a data type the app does not collect, against a
 binary Google can and does check.
@@ -389,6 +400,17 @@ a choice about the form, not about the code.
   service — status, activity, usage, the app list, approvals — is MQTT over TLS straight to the
   broker, which is DNS-only and not proxied. Firebase SDK traffic is its own path to Google and is
   HTTPS by default.
+- **What the server does with the device's connecting address, since 1.5.** Named here because
+  the privacy policy discloses it (§4, §6, §9) and a reviewer re-checking rows against the code
+  would otherwise find the page disclosing something this document denies.
+  `PairingMintRateLimiter.check` writes two counters into the shared cache for every hello — one
+  keyed on the connecting address (`pairing:mint:address:<address>`) and one on `machine_anchor`
+  (`pairing:mint:anchor:<anchor>`), or on the address again when a hello names no anchor — each with
+  a fixed 3600-second window, 60 hellos an hour per address and 20 per anchor. Nothing else is
+  written under those keys, they are joined to no household or account, no location is inferred from
+  an address, and both expire on their own. **This adds no row to the table above**: it is a
+  server-side rate limit on an unauthenticated endpoint rather than data the app collects about a
+  user, and `Location` stays "No" for the reasons in the section on IP addresses.
 - **Do you provide a way for users to request data deletion?** Yes, at four levels, and the last
   of them is self-service. Unpairing a device from the web panel clears the credentials it holds.
   Signing out everywhere ends every browser session at once, and a single session can be ended on
