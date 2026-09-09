@@ -384,9 +384,11 @@ a choice about the form, not about the code.
 - **Is all user data encrypted in transit?** Yes, on every path. Two are HTTPS to
   `control.rovenskyi.com`, terminated by Cloudflare and re-encrypted to the origin: the app's first
   contact (`POST /api/v1/pairing/hello`, repeated while a pairing screen waits) and a paired
-  device's profile-picture fetches (`/media/avatars/<sha>.webp`). Everything a device *sends* after
-  pairing is MQTT over TLS straight to the broker, which is DNS-only and not proxied. Firebase SDK
-  traffic is HTTPS by default.
+  device's profile-picture fetches (`/media/avatars/<sha>.webp`) — a paired device's path, so
+  "after pairing" does not mean "off Cloudflare". What a paired device *reports* to the household
+  service — status, activity, usage, the app list, approvals — is MQTT over TLS straight to the
+  broker, which is DNS-only and not proxied. Firebase SDK traffic is its own path to Google and is
+  HTTPS by default.
 - **Do you provide a way for users to request data deletion?** Yes, at four levels, and the last
   of them is self-service. Unpairing a device from the web panel clears the credentials it holds.
   Signing out everywhere ends every browser session at once, and a single session can be ended on
