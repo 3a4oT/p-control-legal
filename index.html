@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.4 · Effective 4 September 2026</span>
+      <span class="meta">Version 1.5 · Effective 9 September 2026</span>
     </div>
   </div>
 
@@ -299,18 +299,32 @@
   <section id="sent">
     <h2><span class="num">04</span> What this device sends</h2>
     <p>
-      An <strong>unpaired</strong> device sends one thing, once, before anybody has confirmed
-      anything: to be given a code at all, it has to ask the household service for one, and that
-      request carries what the device knows about itself &mdash; a random identifier we generate
-      for this installation, a device identifier Android provides to this app, the device model
-      reported by Android, and what sort of device it is. Nothing else, and nothing about what
-      anybody does on it: no apps, no activity, no accounts, no names.
+      An <strong>unpaired</strong> device sends one kind of request, and nothing else: to be given
+      a code at all, it has to ask the household service for one, and that request carries what the
+      device knows about itself &mdash; a random identifier we generate for this installation, a
+      device identifier Android provides to this app, the device model reported by Android, and what
+      sort of device it is. Nothing about what anybody does on it: no apps, no activity, no
+      accounts, no names. It is not sent only once: a code lasts ten minutes, so a television left
+      waiting on the pairing screen asks again for a fresh one when the old one runs out, and asks
+      again if the request did not get through. It is the same four things every time, and we limit
+      how often any one device or connection may ask.
     </p>
     <p>
-      That one request goes to our web address over HTTPS, so it passes through Cloudflare like
-      every other request to that address (&sect;7). Everything below, and everything the device
-      sends for as long as it stays paired, travels instead on the device&rsquo;s own encrypted
-      link to the household service, which does not pass through Cloudflare.
+      Those requests go to our web address over HTTPS, so they pass through Cloudflare like
+      every other request to that address (&sect;7), and so do the profile pictures a paired
+      television fetches to draw the &ldquo;who&rsquo;s watching&rdquo; screen &mdash; pictures the
+      parent uploaded, fetched from that same address. Everything else the device sends to the
+      household service, including everything listed below, travels instead on the device&rsquo;s
+      own encrypted link, which does not pass through Cloudflare. Crash reports are a separate
+      thing again and go to Google (&sect;7).
+    </p>
+    <p>
+      Two consequences of asking over the web worth stating plainly. Cloudflare handles the
+      connecting address of a device that asks for a code and of one fetching a picture, the same
+      way it already handles a parent&rsquo;s browser. And <strong>we</strong> count requests for a
+      code against the address they came from, and against the device asking, for one hour, so that
+      nobody can ask for codes without limit; that count is all we keep of it, it is never turned
+      into a place, it is not attached to your household, and it is gone within the hour.
     </p>
     <p>
       The television shows the code, the parent confirms it in the web panel, and this is what
@@ -457,7 +471,7 @@
       <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
       <li><strong>Google, again, if the web panel offers its sign-in button.</strong> The button is drawn by Google’s own code, which the panel loads from <code>accounts.google.com</code> when — and only when — the operator has switched that way in on. While it is on, opening the sign-in page tells Google that a browser visited it, before anybody has pressed anything; the panel loads nothing from Google when it is off. Pressing the button hands us a signed statement from Google carrying the two things in §5 and no more. This is separate from Firebase above, it happens in a browser rather than on the television, and a household that signs in with a password never meets it.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
-      <li><strong>Cloudflare</strong> — sits in front of the service’s web address and therefore handles connecting IP addresses and request metadata. That includes the one request an unpaired device makes to ask for a code (§4), so the four identifiers in it pass through Cloudflare on their way to us. The device’s own link, which carries everything else it ever sends, does not.</li>
+      <li><strong>Cloudflare</strong> — sits in front of the service’s web address and therefore handles connecting IP addresses and request metadata. Two things a device does reach us that way: the requests an unpaired device makes to ask for a code, carrying the four identifiers in §4, and the profile pictures a paired device fetches for the “who’s watching” screen. Everything else a device sends travels on its own encrypted link to the household service, which does not pass through Cloudflare.</li>
       <li><strong>Us, when we open a support session.</strong> To answer a question you raised or diagnose a fault, someone operating the service can open your household’s own data directly — the same rules, devices, profiles and history the panel already shows you, nothing more. That is a separate, time-limited session, up to one hour, rather than an unaudited look: every household it enters, and every change made while it is open, is written to a log that only we can read. We do not tell you about an individual visit — that is a deliberate choice, not an oversight — but the log itself is something you can ask about under §11.</li>
     </ul>
   </section>
@@ -479,7 +493,7 @@
       <table>
         <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
         <tbody>
-          <tr><td>Pairing codes, and the temporary credential issued with one</td><td class="num">10 minutes, then expired automatically. The temporary credential dies with the pairing it belongs to — it is what the device uses to be handed its own, and it can read nothing else. The expired record itself is deleted a week later</td></tr>
+          <tr><td>Pairing codes, the temporary credential issued with one, and the record of a pairing nobody confirmed &mdash; which is where the four identifiers in §4 sit until then</td><td class="num">10 minutes, then expired automatically. The temporary credential dies with the pairing it belongs to — it is what the device uses to be handed its own, and it can read nothing else. The expired record itself is deleted a week later</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
           <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
@@ -620,6 +634,31 @@
       requires it, we will also notify you through the bot or the app.
     </p>
     <p>
+      <strong>Version 1.5, 9 September 2026 &mdash; what changed.</strong> Nothing new is
+      collected. What changed is how a device first reaches us, and therefore who handles it on the
+      way.
+    </p>
+    <ul>
+      <li>
+        A device now asks for its pairing code over the web, at the same address as the panel,
+        instead of over the connection it used to share with every other copy of the app. The four
+        things it says about itself are the same four as before; what is new is that Cloudflare,
+        which already sat in front of that address, now handles them and the device&rsquo;s
+        connecting address on the way to us. See &sect;4 and &sect;7.
+      </li>
+      <li>
+        &sect;4 said an unpaired device sent nothing at all. That was never right, and it says now
+        what such a device sends, and that a television waiting on the pairing screen asks more
+        than once. The profile pictures a paired television fetches come over the web from that
+        same address too, which &sect;7 now says.
+      </li>
+      <li>
+        Each device waiting to be paired is given a credential of its own, good for one thing and
+        dead when that pairing ends; there is no longer a shared one inside the app. See &sect;9
+        and &sect;12.
+      </li>
+    </ul>
+    <p>
       <strong>Version 1.4, 4 September 2026 — what changed.</strong> A new way for us to see a
       household’s own data, disclosed before it was used on anyone.
     </p>
@@ -659,7 +698,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.4, effective 4 September 2026. This page describes the app
+    p-control Privacy Policy, version 1.5, effective 9 September 2026. This page describes the app
     and service as they behave today. §4 is the whole list of what a paired device sends, and it
     cannot widen without this page changing and the app asking the household again.
   </footer>

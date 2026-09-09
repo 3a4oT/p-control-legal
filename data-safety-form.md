@@ -43,16 +43,25 @@ answer it for the union and be ready to explain the split:
    kind. They go to the household server only, and they are sent **before** a parent confirms
    anything: `PairingBootstrapRequest` carries all four in the app's first contact, the
    `POST /api/v1/pairing/hello` that asks for a pairing code. Do not answer this row as though an
-   unpaired app transmits nothing — it transmits these four, and only these four.
+   unpaired app transmits nothing — it transmits these four, and only these four, and it repeats
+   the request: `rotateSessionsUntilPaired` re-mints a session at every 10-minute code expiry and
+   `askForASession` retries with backoff, against a server budget of 20 hellos an hour per machine
+   and 60 per address.
 
    **That first contact is HTTPS to `control.rovenskyi.com`, which is behind Cloudflare**, so
-   Cloudflare terminates TLS for it and is a processor for those four identifiers and the
-   connecting IP address. Every later message the device sends travels on its own MQTT link to the
-   broker instead, which is DNS-only and does not pass through Cloudflare. This is a **recipients**
-   answer as well as a transport one: Cloudflare was already declared for the web panel, and the
-   change is that the app itself — not only a parent's browser — now reaches us through it.
-   Nothing new is collected; the same four fields previously travelled over MQTT under a shared
-   pairing credential compiled into the package, which no build has any more.
+   Cloudflare terminates TLS for it and handles those four identifiers and the connecting IP
+   address. It is not the only HTTPS the app makes to that address: a **paired** device fetches
+   profile pictures from `<origin>/media/avatars/<sha>.webp`, so Cloudflare sees a paired device's
+   address and its picture requests too. Everything else a device sends travels on its own MQTT
+   link to the broker, which is DNS-only and does not pass through Cloudflare.
+
+   **How to answer the "shared" column for this.** Cloudflare processes it on our instructions and
+   for no purpose of its own, so under Play's definition it is **not** a third-party share — the
+   same reading as judgment call 1 below about the household server itself. Keep the row's "shared"
+   answer as it is; what changed is a transfer and a processor, which belongs in the security
+   answers and on the policy page (§7), not in a new recipient here. Nothing new is collected: the
+   same four fields previously travelled over MQTT under a shared pairing credential compiled into
+   the package, which no build has any more.
 
 The API name belongs here and **not** on the public policy page, which says "a device
 identifier Android provides to this app" instead. Neither Play's User Data policy nor GDPR
@@ -370,10 +379,12 @@ a choice about the form, not about the code.
 
 ## Security practices section
 
-- **Is all user data encrypted in transit?** Yes, on all three paths: the app's first contact
-  (`POST /api/v1/pairing/hello`) is HTTPS to `control.rovenskyi.com`, terminated by Cloudflare and
-  re-encrypted to the origin; every later device message is MQTT over TLS to the broker, direct,
-  not through Cloudflare; Firebase SDK traffic is HTTPS by default.
+- **Is all user data encrypted in transit?** Yes, on every path. Two are HTTPS to
+  `control.rovenskyi.com`, terminated by Cloudflare and re-encrypted to the origin: the app's first
+  contact (`POST /api/v1/pairing/hello`, repeated while a pairing screen waits) and a paired
+  device's profile-picture fetches (`/media/avatars/<sha>.webp`). Everything a device *sends* after
+  pairing is MQTT over TLS straight to the broker, which is DNS-only and not proxied. Firebase SDK
+  traffic is HTTPS by default.
 - **Do you provide a way for users to request data deletion?** Yes, at four levels, and the last
   of them is self-service. Unpairing a device from the web panel clears the credentials it holds.
   Signing out everywhere ends every browser session at once, and a single session can be ended on
