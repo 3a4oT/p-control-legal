@@ -53,7 +53,9 @@ answer it for the union and be ready to explain the split:
    address. It is not the only HTTPS the app makes to that address: a **paired** device fetches
    profile pictures from `<origin>/media/avatars/<sha>.webp`, so Cloudflare sees a paired device's
    address and its picture requests too. Everything else a device sends travels on its own MQTT
-   link to the broker, which is DNS-only and does not pass through Cloudflare.
+   link to the broker, which is DNS-only and does not pass through Cloudflare. "Everything else"
+   means everything else it sends **to the household service** — Firebase traffic is its own path
+   to Google and is answered in the rows above.
 
    **How to answer the "shared" column for this.** Cloudflare processes it on our instructions and
    for no purpose of its own, so under Play's definition it is **not** a third-party share — the
