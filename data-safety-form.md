@@ -105,12 +105,14 @@ purpose selection, or is covered by the existing "App functionality" answer. It 
 functionality on any reading, and no new data type or recipient appears — so this document treats
 the existing answer as still correct and flags it rather than deciding it.
 
-## Four taxonomy calls this release forces — decide them, do not inherit them
+## Four taxonomy calls this release forces — decided 2026-09-12
 
 Disclosure revision 2 (installed-app detail, icons, the device description, usage as time) puts
 four questions to Play's data-type picker that the picker does not answer cleanly. Each is
-written below as a recommendation with its reasoning and its runner-up, because a wrong row here
-is a policy violation and not a wording preference. **None of them is settled by this document.**
+written below with its reasoning and its runner-up, because a wrong row here is a policy
+violation and not a wording preference. **All four are settled: the recommendation stands in
+every one of them.** The runners-up are kept because the Console's picker can force a fallback —
+call 1 is the only one where that can happen, and it says what to do then.
 
 **1. Where the installed-app list goes.** Play's *App activity* group is documented as including an
 **Installed apps** type — "information about the apps installed on a user's device" — and that is
@@ -443,15 +445,18 @@ a choice about the form, not about the code.
   Do not mark the pairing identifiers optional: they go to the household's own server and the app
   cannot pair without them.
 
-## Two further judgment calls flagged for your decision, not assumed
+## Two further judgment calls — the first is decided, the second is a re-check before every submission
 
-These are older than the three taxonomy calls above and are unrelated to them.
+These are older than the four taxonomy calls above and are unrelated to them.
 
-1. **Is the household's own self-hosted server a "third party" for Play's purposes?** Google's
-   definition centers on *other companies*; a service the developer personally operates for
-   their own users arguably isn't one — I've marked profile-name sharing "No" on that reading.
-   If you'd rather declare it transparently as shared regardless, flip that row to "Yes,
-   shared with: service provider" — it's a defensible, more conservative choice.
+1. **Is the household's own self-hosted server a "third party" for Play's purposes? No — decided
+   2026-09-12.** Google's definition centers on *other companies*, and a service the developer
+   personally operates for their own users is not one. Every row that sends data only to
+   `control.rovenskyi.com` answers "Shared: No", which is what the table above already says; the
+   rows that name Google (Firebase) or Cloudflare keep their "Yes", because those are other
+   companies whatever the household server is. The conservative reading — declaring the
+   household server as a shared "service provider" — was considered and rejected: it would put
+   "shared" on the public card for a destination the household itself owns.
 2. **Firebase Analytics/Crashlytics are consent-gated as of 2026-08-30**, so the rows above are
    no longer "default SDK behavior". `AnalyticsConsentRepository` stores the household's answer and
    `ApplyAnalyticsConsentUseCase` holds both SDKs to it for the life of the process; the default is
@@ -469,6 +474,7 @@ These are older than the three taxonomy calls above and are unrelated to them.
    grep -o 'uses-permission[^>]*' app/build/intermediates/merged_manifests/release/*/AndroidManifest.xml | sort -u
    ```
 
-   Confirmed on the release variant 2026-08-30: eleven permissions, none of them advertising.
+   Confirmed on the release variant again on 2026-09-12, for the `0.4.0` build that is going to
+   closed testing: the same eleven permissions, none of them advertising.
    `com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE` remains and is
    deliberate — install attribution is not the advertising ID and Play does not treat it as one.

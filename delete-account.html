@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p-control — Deleting your account</title>
+<meta name="description" content="How to delete your p-control account and the data held with it, what is removed, and what is kept.">
+<style>
+  :root {
+    --ink: #0F172A;
+    --paper: #F3F5FA;
+    --surface: #FFFFFF;
+    --accent: #2563EB;
+    --accent-2: #38BDF8;
+    --muted: #565F7B;
+    --line: rgba(15, 23, 42, 0.12);
+    --line-strong: rgba(15, 23, 42, 0.22);
+    --code-bg: rgba(37, 99, 235, 0.07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #E7ECF6;
+      --paper: #0B1220;
+      --surface: #131C30;
+      --accent: #5B8DF6;
+      --accent-2: #38BDF8;
+      --muted: #93A1C4;
+      --line: rgba(147, 161, 196, 0.18);
+      --line-strong: rgba(147, 161, 196, 0.32);
+      --code-bg: rgba(91, 141, 246, 0.12);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .doc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .masthead {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .masthead svg { flex: 0 0 auto; border-radius: 22%; }
+  .masthead h1 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .masthead .meta {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .lede {
+    font-size: 1.08rem;
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 0 0 2.5rem;
+  }
+
+  nav.toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 3rem;
+    font-size: 0.92rem;
+  }
+  nav.toc .label {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 1.2rem;
+    columns: 2;
+    column-gap: 1.5rem;
+  }
+  nav.toc li { margin-bottom: 0.35rem; break-inside: avoid; }
+  nav.toc a { color: var(--ink); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  section { margin-bottom: 2.75rem; scroll-margin-top: 1.5rem; }
+  h2 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 1.32rem;
+    font-weight: 600;
+    margin: 0 0 0.9rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  h2 .num {
+    font-family: ui-monospace, monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 1.4rem 0 0.5rem;
+  }
+  p { margin: 0 0 1rem; }
+  ul, ol.plain { margin: 0 0 1rem; padding-left: 1.3rem; }
+  li { margin-bottom: 0.4rem; }
+  a { color: var(--accent); }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.88em;
+  }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; min-width: 560px; }
+  th, td { text-align: left; padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    background: var(--code-bg);
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-variant-numeric: tabular-nums; }
+
+  .callout {
+    background: var(--code-bg);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    font-size: 0.93rem;
+  }
+  .callout strong { color: var(--accent); }
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 520px) {
+    .doc { padding: 2.5rem 1.1rem 4rem; }
+    nav.toc ol { columns: 1; }
+    .masthead { gap: 0.75rem; }
+    .masthead h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="masthead">
+    <svg width="44" height="44" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <rect width="512" height="512" rx="102" fill="#0F172A"/>
+      <path d="M256 70L390 120V240C390 335 330 415 256 442C182 415 122 335 122 240V120L256 70Z" fill="#2563EB"/>
+      <rect x="210" y="160" width="36" height="180" rx="18" fill="#FFFFFF"/>
+      <path d="M228 160H280C307.614 160 330 182.386 330 210C330 237.614 307.614 260 280 260H228V160Z" fill="#38BDF8"/>
+      <circle cx="280" cy="210" r="16" fill="#0F172A"/>
+    </svg>
+    <div>
+      <h1>Deleting your p-control account</h1>
+      <span class="meta">Version 1.0 &middot; Effective 13 September 2026</span>
+    </div>
+  </div>
+
+  <p class="lede">
+    This page is about <strong>p-control</strong>, the Android TV parental-control app published by
+    Petro Rovenskyi. It explains how to delete your account, what is deleted with it, what is kept
+    and for how long, and the three cases where we will refuse.
+  </p>
+
+  <nav class="toc" aria-label="Table of contents">
+    <span class="label">On this page</span>
+    <ol>
+      <li><a href="#how">1. How to delete your account</a></li>
+      <li><a href="#deleted">2. What is deleted</a></li>
+      <li><a href="#kept">3. What is kept, and for how long</a></li>
+      <li><a href="#refused">4. When we cannot delete it</a></li>
+      <li><a href="#partial">5. Deleting some data without closing the account</a></li>
+      <li><a href="#contact">6. Contact</a></li>
+    </ol>
+  </nav>
+
+  <section id="how">
+    <h2><span class="num">01</span> How to delete your account</h2>
+    <p>
+      You do it yourself, from the account it belongs to. No email to us is required, and we do not
+      ask you why.
+    </p>
+    <ol class="plain">
+      <li>Sign in at <a href="https://control.rovenskyi.com">control.rovenskyi.com</a>.</li>
+      <li>Open <strong>Account</strong> (<code>control.rovenskyi.com/account</code>).</li>
+      <li>
+        At the bottom of that page, in its own zone below everything else, press
+        <strong>Close account</strong>. It sits apart from the ordinary settings on purpose: it is
+        the only act on that screen that cannot be undone.
+      </li>
+      <li>
+        Read what it tells you it will close. Before anything is deleted you are shown which
+        households go with the account &mdash; those are the ones where you are the only member
+        left.
+      </li>
+      <li>
+        Confirm with your password. We ask for it again even though you are already signed in,
+        because a session left open on a shared computer must not be able to end somebody&rsquo;s
+        account and their household with it.
+      </li>
+    </ol>
+    <div class="callout">
+      <strong>Deletion is immediate.</strong> There is no waiting period and no recovery window: the
+      records described in &sect;2 are removed when you confirm, not queued for later. If you want a
+      copy of anything, take it first.
+    </div>
+  </section>
+
+  <section id="deleted">
+    <h2><span class="num">02</span> What is deleted</h2>
+    <p>Closing the account removes, permanently:</p>
+    <ul>
+      <li>
+        <strong>Your account itself</strong> &mdash; your email address, your password hash, your
+        language, your sign-in methods, and the link to your Telegram chat if you had connected one.
+      </li>
+      <li>
+        <strong>Every browser session</strong> you had open, and what was recorded with each one.
+      </li>
+      <li>
+        <strong>Each household where you were the only member</strong>, and everything inside it:
+        the children&rsquo;s profiles and their names, the screens you had paired, every rule,
+        schedule and limit, the record of what was watched and for how long, the approval requests,
+        the alerts, and the list of apps each screen had reported.
+      </li>
+      <li>
+        <strong>The credentials your televisions used.</strong> Each paired screen&rsquo;s broker
+        account is revoked as part of the same operation, so a device that is switched on afterwards
+        cannot reach the service at all.
+      </li>
+    </ul>
+    <p>
+      Households where other people remain are not deleted &mdash; they are not yours alone to end.
+      You are removed from them, and they carry on without you. If you were the last person there
+      who could manage members, see &sect;4.
+    </p>
+  </section>
+
+  <section id="kept">
+    <h2><span class="num">03</span> What is kept, and for how long</h2>
+    <p>
+      One thing survives the deletion of an account, and only for accounts it applies to:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Operator audit records.</strong> If this account was used to act inside
+              somebody else&rsquo;s household as an operator of the service, the record of what it
+              did there remains. That record is not ours to erase: it exists so the people whose
+              household was touched can find out who touched it, which is the carve-out GDPR
+              Article 17(3) makes for records kept to establish or defend legal claims
+            </td>
+            <td class="num">Kept. An account with such a record cannot be deleted through the
+              cabinet at all &mdash; see &sect;4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Everything else in a household is already on a clock of its own while the account is open, and
+      those limits apply whether or not you ever delete anything:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Data</th><th class="num">Kept for</th></tr></thead>
+        <tbody>
+          <tr><td>Hour-by-hour detail of what was watched</td><td class="num">At most 90 days, and less if your plan&rsquo;s history window is shorter &mdash; then deleted automatically, leaving only the daily totals</td></tr>
+          <tr><td>Daily totals, approval requests, alerts, and what a screen reported about itself</td><td class="num">Your plan&rsquo;s history window &mdash; 90 days on the current plan &mdash; then deleted automatically</td></tr>
+          <tr><td>A pairing code, and the temporary credential issued with it</td><td class="num">10 minutes, then expired automatically; the expired record is deleted a week later</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The full retention table, including what the app never collects in the first place, is in the
+      <a href="index.html">Privacy Policy</a>.
+    </p>
+  </section>
+
+  <section id="refused">
+    <h2><span class="num">04</span> When we cannot delete it</h2>
+    <p>
+      The cabinet tells you which of these applies before you type your password, rather than
+      failing afterwards.
+    </p>
+    <ul>
+      <li>
+        <strong>You are the last person who can manage members in a household where others
+        remain.</strong> Deleting you would leave a household nobody can administer, and that
+        household is not yours alone to end. Hand the permission to another member first, or remove
+        the others, and then close the account.
+      </li>
+      <li>
+        <strong>The account holds operator audit records</strong> (&sect;3). Write to us at the
+        address below and we will handle it by hand, keeping only what Article 17(3) requires.
+      </li>
+      <li>
+        <strong>It is the demonstration account</strong> used by Google Play&rsquo;s review team.
+        It is protected so that a review is not broken by a deletion nobody expected.
+      </li>
+    </ul>
+  </section>
+
+  <section id="partial">
+    <h2><span class="num">05</span> Deleting some data without closing the account</h2>
+    <p>
+      You do not have to close the account to get rid of data. From the cabinet you can unpair a
+      screen, which removes its app list and the credentials it was using; remove a child&rsquo;s
+      profile, which takes their rules and their name with it; or delete a household outright while
+      keeping your account. Each of those is immediate in the same way.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2><span class="num">06</span> Contact</h2>
+    <p>
+      Petro Rovenskyi &mdash;
+      <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>. Use this for a
+      deletion the cabinet refuses, for a copy of your data before you delete it, or for anything
+      on this page that does not match what you see.
+    </p>
+  </section>
+
+  <footer>
+    p-control account deletion, version 1.0, effective 13 September 2026. This page describes the
+    service as it behaves today. What the app and the service collect, and why, is the
+    <a href="index.html">Privacy Policy</a>.
+  </footer>
+
+</div>
+</body>
+</html>
