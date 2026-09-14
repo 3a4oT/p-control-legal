@@ -174,6 +174,16 @@ user's action, so they sit under *App info and performance → Diagnostics*. Pur
 (telling a household when its screen went unprotected). Not shared, not optional, sent only after
 in-app disclosure revision 3 is accepted.
 
+**Stored, not processed ephemerally — from policy 1.7.** `p-control-server` keeps the latest report
+on the screen's `devices` row (`process_started_at`, `last_exit_reason`, `last_exited_at`,
+`session_reconnects`, `last_disconnect_cause`), overwritten by each report from a device at
+revision 3 or later and deleted with the screen. A stretch without a running process becomes a
+`protection_gap` row in `device_events` (`from`, `until`, `minutes`, `reason`), swept with the
+household's history window like every other `device_events` row. `device_presence.ended_activity_state`
+records whether an online stretch ended with the screen asleep, and follows `device_presence`'s
+window. None of this adds a data type, a recipient or a purpose, so the Diagnostics row above stands;
+the Console's "processed ephemerally" answer for it must stay **No**.
+
 ## What the current app version does NOT transmit
 
 The list is short now, and that is the point of keeping it: the app version that carries

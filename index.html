@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.6 · Effective 14 September 2026</span>
+      <span class="meta">Version 1.7 · Effective 15 September 2026</span>
     </div>
   </div>
 
@@ -414,14 +414,13 @@
       </li>
     </ol>
     <div class="callout">
-      <strong>Every item in the list above is sent by the current release, except whether the app was running, in item 7, which arrives with the next release.</strong>
+      <strong>Every item in the list above is sent by the current release;</strong> whether the app
+      was running, in item 7, is sent from version 0.4.6 of the app on.
       The app’s own
       first-run screen says the same thing in shorter words, and a parent is asked again whenever
-      this list grows — which is what happened for items 2 to 5 and for the description of the
-      device in item 7, and happens again for whether the app was running. That part is on this page
-      first because we say what changes before it reaches anybody (§14). The way a device asks for
-      its code, described in the three paragraphs above the list, is how the current release
-      already does it.
+      this list grows — which is what happened for items 2 to 5, for the description of the device
+      in item 7, and for whether the app was running. The way a device asks for its code, described
+      in the three paragraphs above the list, is how the current release already does it.
     </div>
   </section>
 
@@ -444,7 +443,9 @@
           <tr><td>The address a device asks for a pairing code from, and the device identifier it asks with — held as two counters, for one hour (§4)</td><td>Stops anyone making us mint pairing codes without end. Nothing else is stored under them, they are joined to no household, and they expire on their own</td></tr>
           <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
           <tr><td>Approval requests — which app, which child where the device knows, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
-          <tr><td>What a screen reports about itself — that it went quiet, was reinstalled, raised an integrity warning, or refused a configuration</td><td>Tells you when a screen stops being supervised, and is what the alerts in your inbox are made from</td></tr>
+          <tr><td>What a screen reports about itself — that it went quiet, was reinstalled, raised an integrity warning, refused a configuration, or stood without protection because the app was not running, with when that began and ended and the reason Android gave</td><td>Tells you when a screen stops being supervised, and is what the alerts in your inbox are made from</td></tr>
+          <tr><td>Whether the app on each screen is running — when it last started, how and when its previous run ended, how often it has reconnected, and why its connection last dropped (§4)</td><td>Shows a parent on the screen's page whether protection is running, and is how the service notices a stretch in which it was not. Kept only from a screen whose household agreed to the first-run screen that names it</td></tr>
+          <tr><td>How each stretch of a screen being online ended — whether the screen had gone to sleep</td><td>Tells a screen that was switched off or asleep apart from one whose app stopped, so a sleeping television is not reported as unprotected</td></tr>
           <tr><td>The list of apps installed on each device, with the details in §4, and their icons</td><td>Fills the app picker the parent chooses rules from, and shows each app as it looks on the television. The newest list replaces the previous one rather than accumulating</td></tr>
           <tr><td>Per-app usage — which app, which hour, how many of its seconds the app held the screen, when a session began inside it, and whose time it is: a child, an adult who answered, or nobody</td><td>Shows a parent how time is spent, and is what a daily limit is counted against across every device in the household</td></tr>
           <tr><td>What each device is — model, Android version, language, time zone — and whether it is online</td><td>Shows the parent which television is which and whether it is reachable, and keeps a schedule on the household’s clock rather than the device’s</td></tr>
@@ -454,8 +455,7 @@
     <p>
       §4 is the authoritative list of what leaves a device; this table is what the service holds
       once it arrives. Parts of the service are still being built, so some of what the device
-      sends — per-app usage, icons, the device description, whether the app was running and how its
-      last run ended — is received and not yet kept
+      sends — per-app usage, icons, the device description — is received and not yet kept
       anywhere. That gap can only shrink what is stored; it never widens what is sent, and §4 is
       what the app asks your agreement to.
     </p>
@@ -521,6 +521,8 @@
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
           <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
           <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
+          <tr><td>Whether the app on a screen is running, as its last report said</td><td class="num">Until that screen's next report replaces it — each report overwrites the one before, so no history of it builds up — and removed with the screen. A stretch without protection that it revealed is kept as something the screen reported about itself, in the row above</td></tr>
+          <tr><td>When a screen was online, and whether each stretch ended with the screen asleep</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically</td></tr>
           <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
@@ -534,8 +536,7 @@
     </div>
     <p>
       Each row is the longest anything is kept, not a promise that it is kept. As §5 says, per-app
-      usage, the icons, the device description and whether the app was running — how its last run
-      ended — are received by the service and not yet stored
+      usage, the icons and the device description are received by the service and not yet stored
       anywhere at all — for those, the answer today is that nothing is retained, and the row above
       is the bound that applies once they are.
     </p>
@@ -661,6 +662,15 @@
       requires it, we will also notify you through the bot or the app.
     </p>
     <p>
+      <strong>Version 1.7, 15 September 2026 &mdash; what changed.</strong> Nothing new leaves a
+      television. The service now keeps what 1.6 said it only received: whether the app on a screen
+      is running is kept on that screen's record until its next report, and a stretch in which the
+      app was not running is kept with what the screen reported about itself, for your household's
+      history window (§5, §9). It is what the screen's page and the new alert about a screen without
+      protection are made from. The service also keeps whether each stretch of a screen being online
+      ended with the screen asleep, for the same window.
+    </p>
+    <p>
       <strong>Version 1.6, 14 September 2026 &mdash; what changed.</strong> A television now also tells your household's
       service whether the app on it was running: when it last started, how its previous run ended,
       how often it reconnected and why its connection last dropped (§4). Nothing about what anyone
@@ -737,7 +747,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.6, effective 14 September 2026. This page describes the app
+    p-control Privacy Policy, version 1.7, effective 15 September 2026. This page describes the app
     and service as they behave today, except where §4 says a change arrives with the next release.
     §4 is the whole list of what a paired device sends to the household service — what goes to
     Google instead is §7 — and it cannot widen without this page changing and the app asking the
