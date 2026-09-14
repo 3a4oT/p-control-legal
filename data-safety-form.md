@@ -18,7 +18,7 @@ submitting, don't paste blind.**
 | **App activity → Installed apps** | Yes — the apps on the device that can be opened, plus the home screen itself, each with name, version, first-install and last-update times, install source, Android's own category, and whether it is a system app — plus the app's own launcher icon, sent only for the apps the server asks for. Sent on connect and on every install/update/removal. See the judgment call below. | No (same reading) | App functionality — it is the picker a parent chooses rules from | Required; there is no way to choose an app to block without a list of apps |
 | **App activity → In-app search history** | No | — | — | — |
 | **App info and performance → Crash logs** | Yes (via Firebase Crashlytics) | Yes — with Google (Firebase, as the analytics/crash provider) | Analytics | Not user-facing/optional — standard crash reporting |
-| **App info and performance → Diagnostics** | Yes, from two sources: Firebase Crashlytics attaches device/OS info to crash reports, and the device's own status message carries its model, Android version, language and time zone to the household server. See the judgment call below. | Yes — with Google (Firebase) for the crash half. The status half goes only to the household server | Analytics (Firebase) **and** App functionality (naming a device in the panel, and keeping schedules on the household's clock) | Not optional |
+| **App info and performance → Diagnostics** | Yes, from two sources: Firebase Crashlytics attaches device/OS info to crash reports, and the device's own status message carries its model, Android version, language and time zone to the household server; and whether the app was running — previous exit reason and time, process start time, reconnect count, last disconnect cause — in the device's status message to the household server. See the judgment call below. | Yes — with Google (Firebase) for the crash half. The status half goes only to the household server | Analytics (Firebase) **and** App functionality (naming a device in the panel, and keeping schedules on the household's clock) | Not optional |
 | **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server, and reach it through **Cloudflare**, which terminates TLS for the app's first request (same judgment call as the profile-name row for the server itself; Cloudflare is a processor either way) | Analytics (Firebase) **and** App functionality (pairing) | Not optional — the app cannot pair without sending them, and they are sent before any pairing is confirmed |
 | **Location** | No | — | — | — |
 | **Financial info** | No | — | — | — |
@@ -165,6 +165,14 @@ arrives elsewhere, and Play's reviewers see the account, the profile name and th
 same panel. The unresolved half — a child's rights being reachable only through the parent's
 account, and no separate handling for teenagers — is stated on the policy page's §10 rather than
 argued away here, and it is legal work, not a form answer.
+
+## Process health in the status message — Diagnostics, not App activity
+
+`DeviceStatus` fields 14–17 (`last_process_exit`, `process_started_at_epoch_millis`,
+`session_reconnects`, `last_disconnect_cause`) describe the agent's own process and link, never a
+user's action, so they sit under *App info and performance → Diagnostics*. Purpose: App functionality
+(telling a household when its screen went unprotected). Not shared, not optional, sent only after
+in-app disclosure revision 3 is accepted.
 
 ## What the current app version does NOT transmit
 
