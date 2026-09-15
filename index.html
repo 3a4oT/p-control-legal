@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.7 · Effective 15 September 2026</span>
+      <span class="meta">Version 1.8 · Effective 15 September 2026</span>
     </div>
   </div>
 
@@ -244,10 +244,11 @@
       to a server we operate. There is no separate mobile app.
     </p>
     <p>
-      <strong>Managing a household needs an account.</strong> It is an email address and a
-      password you choose, and it exists so that rules belong to a person rather than to whoever
-      is holding a phone. Creating one adds your email address, your password stored only as a
-      hash, and a browser session, to everything §5 lists. It changes nothing about what the
+      <strong>Managing a household needs an account.</strong> It is an email address with either
+      a password you choose or a Google account you sign in with, and it exists so that rules
+      belong to a person rather than to whoever is holding a phone. Creating one adds your email
+      address, your password stored only as a hash or your Google account's identifier, and a
+      browser session, to everything §5 lists. It changes nothing about what the
       device collects or sends.
     </p>
     <p>
@@ -348,13 +349,16 @@
         device’s user profile, cannot be used to recognise it in any other app, and is not an
         advertising identifier; the device model reported by Android; and what sort of device it is
         (a television, a tablet, a phone). The device identifier
-        exists for two things. First, so that reinstalling p-control is recognised as the same
+        exists for three things. First, so that reinstalling p-control is recognised as the same
         device returning, instead of leaving a dead entry in the parent’s list. Second, so that
         if a device already registered to one household is paired into another, the household
         that loses it is told — the alternative is a television that goes quiet with no
         explanation, which is indistinguishable from one that was switched off. That alert names
         the device the losing household already knows about, the time, and nothing about the
-        household that claimed it.
+        household that claimed it. Third, when we offer a free trial of a paid plan, so that the
+        same television does not receive one more than once a year: if a household created from
+        this television receives a trial, a one-way fingerprint of the identifier is kept for a
+        year (§5, §9). Nothing new is sent for this; it is the same identifier.
       </li>
       <li>
         <strong>Which apps anyone here can open, and the home screen itself</strong>, so a parent
@@ -431,17 +435,18 @@
         <thead><tr><th>Data</th><th>Why</th></tr></thead>
         <tbody>
           <tr><td>Your email address</td><td>Identifies the account that controls the household, and is how we reach you about it</td></tr>
-          <tr><td>Your password, as a hash</td><td>Lets you sign in. Stored only as a slow, salted hash (scrypt) — never as the password, and it cannot be read back out</td></tr>
+          <tr><td>Your password, as a hash — <strong>only if you set one</strong></td><td>Lets you sign in. Stored only as a slow, salted hash (scrypt) — never as the password, and it cannot be read back out</td></tr>
           <tr><td>Browser sessions — including the browser and operating system you signed in with, and the IP address that session was last seen from</td><td>Keeps you signed in, and lets you answer one question the panel could not answer before: <em>is one of these sessions not me?</em> The browser and system are matched to a short list of known names — “Firefox”, “Linux” — and the browser’s own identification string is never stored. The address is kept as it is and is <strong>never turned into a place</strong>: we do no geolocation, here or anywhere, and it is not shared with anyone. Both exist because “Firefox on Linux” describes both parents’ laptops in most homes, and without the address the list cannot tell you which row is the one you do not recognise. You can end any single session, or all of them, from the panel</td></tr>
           <tr><td>Your chosen language</td><td>So the panel and any messages arrive in the language you picked</td></tr>
           <tr><td>Telegram chat ID — <strong>only if you link one</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
           <tr><td>Your phone number — <strong>only if you link Telegram</strong></td><td>Linking finishes by tapping Telegram’s “share my number” button, so we know the account was linked by the person holding that phone rather than by whoever opened the link. It is never shown to anyone else, including other members of your own household, and no other part of the service reads it. Absent for anyone who never links Telegram. Unlinking removes the chat but keeps the number, the same way it keeps your email address — close your account (§9) and it goes with it</td></tr>
-          <tr><td>A linked Google account — <strong>only if you sign in with Google</strong></td><td>Google's own account identifier and the address Google confirmed it has verified. The identifier, not the address, is what signs you in afterwards: an address can move between Google accounts and an identifier cannot. We ask Google for nothing else, we are given nothing else, and we can read nothing in your Google account. Absent for anyone who signs in with a password, and removed when you remove that way in from your account page</td></tr>
+          <tr><td>A linked Google account — <strong>only if you sign in with Google</strong></td><td>Google's own account identifier and the address Google confirmed it has verified. The identifier, not the address, is what signs you in afterwards: an address can move between Google accounts and an identifier cannot. We ask Google for nothing else, we are given nothing else, and we can read nothing in your Google account. Absent for anyone who signs in with a password, and removed when you remove that way in from your account page — except that if a household you created received a free trial while this Google account was linked, a one-way fingerprint of the identifier is kept for a year, separately and without your name, address or household (see “A trial fingerprint” below, and §9)</td></tr>
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
           <tr><td>Block rules and time limits</td><td>The rules the parent set</td></tr>
           <tr><td>The address a device asks for a pairing code from, and the device identifier it asks with — held as two counters, for one hour (§4)</td><td>Stops anyone making us mint pairing codes without end. Nothing else is stored under them, they are joined to no household, and they expire on their own</td></tr>
           <tr><td>Device identifiers from §4</td><td>Binds the device to the household, recognises a reinstall, and tells a household when a device it holds is claimed by another one</td></tr>
+          <tr><td>A trial fingerprint — <strong>only for a television or a Google account that received a free trial</strong></td><td>Keeps a free trial of a paid plan to once a year per television and per Google account. When a household created from a television receives a trial, we keep a keyed one-way fingerprint (HMAC-SHA256) of that television’s device identifier from §4, and of the identifier of every Google account its founder signs in with. The key that makes the fingerprint is held outside the database. Nothing else is stored with it — no name, no email address, no household, and not which kind of identifier it came from — and nothing reads it except the check made when a new household is created. A new household from the same television or Google account within the year is created normally, on the free plan, and is told the trial was already used. Nothing is kept for a television or an account that did not receive a trial, and nothing at all while no trial is offered</td></tr>
           <tr><td>Approval requests — which app, which child where the device knows, when, and the decision</td><td>Records the outcome of “ask a parent”</td></tr>
           <tr><td>What a screen reports about itself — that it went quiet, was reinstalled, raised an integrity warning, refused a configuration, or stood without protection because the app was not running, with when that began and ended and the reason Android gave</td><td>Tells you when a screen stops being supervised, and is what the alerts in your inbox are made from</td></tr>
           <tr><td>Whether the app on each screen is running — when it last started, how and when its previous run ended, how often it has reconnected, and why its connection last dropped (§4)</td><td>Shows a parent on the screen's page whether protection is running, and is how the service notices a stretch in which it was not. Kept only from a screen whose household agreed to the first-run screen that names it</td></tr>
@@ -454,10 +459,8 @@
     </div>
     <p>
       §4 is the authoritative list of what leaves a device; this table is what the service holds
-      once it arrives. Parts of the service are still being built, so some of what the device
-      sends — per-app usage, icons, the device description — is received and not yet kept
-      anywhere. That gap can only shrink what is stored; it never widens what is sent, and §4 is
-      what the app asks your agreement to.
+      once it arrives. Nothing is stored that §4 does not send, and §4 is what the app asks your
+      agreement to.
     </p>
   </section>
 
@@ -474,6 +477,7 @@
           <tr><td>Your account and its sessions</td><td><strong>Performance of a contract.</strong> Rules have to belong to somebody, and there is no way to give a parent control of a household without knowing which parent it is.</td></tr>
           <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept while that session is, and for a week after it expires if you never end it yourself; never used to work out where you are. You may object, see §11.</td></tr>
           <tr><td>Counting requests for a pairing code against the address and the device they came from, for one hour (&sect;4)</td><td><strong>Legitimate interests</strong> — this door is open to anyone on the internet, and without a limit on it a stranger could make us mint codes without end. The interest is keeping pairing available to the households that need it. An address can identify somebody who holds other records, which is exactly why it is named here with a ground and an hour&rsquo;s retention rather than passed off as anonymous: it is joined to no account and no household, never used to work out where you are, and gone within the hour. You may object, see &sect;11.</td></tr>
+          <tr><td>The trial fingerprint of a television and of a Google account that received a free trial (&sect;5)</td><td><strong>Legitimate interests</strong> — keeping a free trial to its terms, once a year per television and per Google account, which is the prevention of fraud the GDPR recognises as a legitimate interest (recital 47). It is limited to what that strictly needs: a keyed one-way fingerprint rather than the identifier, only for what actually received a trial, for a year, read by nothing but the check made when a household is created. Its only effect on you is not receiving a second trial within that year. It is kept when you close your account, because closing an account and opening another is exactly what it exists to notice — but <strong>you may object to it at any time and it is then removed</strong>, without an account and without writing to us; see &sect;11.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You can stop this yourself: <strong>Settings → Privacy → Send diagnostics</strong> on the television, which switches off both crash reporting and product analytics. See §11.</td></tr>
           <tr><td>Opening a household’s own data to answer a support question</td><td><strong>Legitimate interests</strong> — diagnosing and fixing the problem you raised is not possible without seeing what you see. Every session and every change made inside it is logged; see §7. You may object, see §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
@@ -519,16 +523,17 @@
         <tbody>
           <tr><td>Pairing codes, the temporary credential issued with one, and the record of a pairing nobody confirmed &mdash; which is where the four identifiers in §4 sit until then</td><td class="num">10 minutes, then expired automatically. The temporary credential is what the device uses to be handed its own; it can reach nothing belonging to any other household, and it is removed when the pairing is confirmed, or swept away with the expired record if nobody confirms it. The expired record itself is deleted a week later</td></tr>
           <tr><td>Household, device and profile records, and the rules</td><td class="num">While the household is in use, then deleted on request</td></tr>
-          <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically, decided or not</td></tr>
+          <tr><td>Approval requests, and what a screen reported about itself</td><td class="num">Your household’s history window — 7 days on the free plan, 90 on a paid plan that sets that window, and no set window on a plan without one — then deleted automatically, decided or not</td></tr>
           <tr><td>The copies of those in your inbox, one per parent</td><td class="num">Never longer than the record they copy. One you have read, for something that has expired, goes after 90 days; an unread alert waits for you and then leaves with the record</td></tr>
           <tr><td>Whether the app on a screen is running, as its last report said</td><td class="num">Until that screen's next report replaces it — each report overwrites the one before, so no history of it builds up — and removed with the screen. A stretch without protection that it revealed is kept as something the screen reported about itself, in the row above</td></tr>
-          <tr><td>When a screen was online, and whether each stretch ended with the screen asleep</td><td class="num">Your household’s history window — 90 days on the current plan — then deleted automatically</td></tr>
+          <tr><td>When a screen was online, and whether each stretch ended with the screen asleep</td><td class="num">Your household’s history window — 7 days on the free plan, 90 on a paid plan that sets that window, and no set window on a plan without one — then deleted automatically</td></tr>
           <tr><td>A device’s app list and the icons for it</td><td class="num">While that device is paired — each new list replaces the one before it, and unpairing removes it</td></tr>
           <tr><td>Per-app usage, and the live signal</td><td class="num">The signal is not stored at all. Usage: while the household is in use, then deleted on request — and see the note below this table</td></tr>
           <tr><td>Your account — email address, password hash, language, and the phone number if you linked Telegram</td><td class="num">Until you ask us to delete it</td></tr>
           <tr><td>A browser session, and the browser, system and address recorded with it</td><td class="num">Until you sign out, end that session, sign out everywhere, or change your password — any of which ends it immediately. A session you simply stop using expires on its own, and its record, including the address, is deleted a week after that. There is no separate history of addresses: when the session goes, they go with it. The hourly count in §4, which is about a device asking for a pairing code rather than about you signing in, is a separate thing and keeps nothing past the hour</td></tr>
           <tr><td>The pairing-code counters — the asking address, and the device identifier it asked with</td><td class="num">One hour from the request, then gone on their own. Nothing is written anywhere else from them</td></tr>
           <tr><td>Single-use links — a password reset, and the link that connects a Telegram chat to your account</td><td class="num">Until used, or until they expire on their own. Either way the record is deleted a week after it expires</td></tr>
+          <tr><td>The trial fingerprint of a television or a Google account that received a free trial</td><td class="num">365 days from the trial, then deleted automatically. A later attempt to receive another trial does not extend it. It is <strong>not</strong> deleted when you close your account (§6 says why), and you can have it removed at any time at <a href="https://control.rovenskyi.com/privacy/trial-record">control.rovenskyi.com/privacy/trial-record</a> (§11)</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
           <tr><td>The log of a support session — who opened it, which household, when, and what changed</td><td class="num">Kept indefinitely, as our own operational record rather than as part of a household’s own data. It is append-only by design: nothing edits or removes an entry once written, which is what makes it a record rather than a claim</td></tr>
         </tbody>
@@ -549,9 +554,12 @@
       <a href="https://control.rovenskyi.com/account">control.rovenskyi.com/account</a>. It takes
       your email address, your phone number, every session and your Telegram link with it, and any
       home you are the only member of closes with you — every screen in it disconnected and
-      everything in §5 erased. The panel names those homes before you agree, and asks for your
-      password again, because a session left open on a shared computer should not be able to end
-      your account.
+      everything in §5 erased. The panel names those homes before you agree, and asks you to prove
+      the account again — with its password, or, for an account that signs in only with Google, a
+      fresh Google sign-in — because a session left open on a shared computer should not be able to
+      end your account. One thing is kept afterwards: the trial fingerprint in the table above, if
+      a household you created received a free trial. It carries nothing that names you, lasts no
+      longer than its year, and you can have it removed as §11 describes.
     </p>
     <p>
       Two cases the panel refuses, and it tells you which one applies. If you are the last person
@@ -597,13 +605,26 @@
         for it.</li>
       <li>Uninstall the app — which ends all collection on that device.</li>
     </ul>
+    <div class="callout">
+      <strong>Your right to object to the trial fingerprint.</strong> You may object at any time to
+      our keeping the trial fingerprint in §5, and we honour it without asking why. Go to
+      <a href="https://control.rovenskyi.com/privacy/trial-record">control.rovenskyi.com/privacy/trial-record</a>
+      — no account is needed, including after you have closed yours — and prove the thing the
+      fingerprint was made from: sign in there with the Google account, or enter the pairing code
+      your television is showing. The fingerprint is removed at once. The page gives the same answer
+      whether a fingerprint existed or not, so that nobody can use it to find out whether a
+      television or an account ever had a trial. This is also how to ask for access to or erasure
+      of that fingerprint: we cannot tell whose it is any other way, because nothing stored with it
+      names anybody. The consequence of removing it is only that a new household from that
+      television or Google account may receive a trial again.
+    </div>
     <p>For the rest, write to <a href="mailto:petro.rovenskyi@gmail.com">petro.rovenskyi@gmail.com</a>:</p>
     <ul>
       <li><strong>Access</strong> — a copy of what we hold about you, including whether a support session has opened your household (§7) and when.</li>
       <li><strong>Correction</strong> — fix anything inaccurate.</li>
       <li><strong>Erasure</strong> — delete a household and everything in §5. You can close your own account without asking us: <a href="delete-account.html">Deleting your account</a> says how, what goes with it, and the three cases where we have to refuse.</li>
       <li><strong>Restriction</strong> — have us stop using data while a dispute is resolved.</li>
-      <li><strong>Objection</strong> — to anything we base on legitimate interests (§6).</li>
+      <li><strong>Objection</strong> — to anything we base on legitimate interests (§6). For the trial fingerprint you do not need to write: see the box above.</li>
       <li><strong>Portability</strong> — your data in a machine-readable form.</li>
     </ul>
     <p>
@@ -661,6 +682,36 @@
       effective date before that change reaches anyone, and we say what changed. Where the law
       requires it, we will also notify you through the bot or the app.
     </p>
+    <p>
+      <strong>Version 1.8, 15 September 2026 &mdash; what changed.</strong> Nothing new leaves a
+      television, and before any of it is kept this page says so.
+    </p>
+    <ul>
+      <li>
+        When we offer a free trial of a paid plan, a household created from a television receives
+        it only if neither that television nor a Google account its founder signs in with had one
+        in the last year. To know that, we keep a keyed one-way fingerprint of the television's
+        device identifier and of the Google account's identifier — only for those that received a
+        trial, for 365 days, and also after an account is closed. Its ground is legitimate
+        interests, and you can object to it and have it removed yourself at
+        <a href="https://control.rovenskyi.com/privacy/trial-record">control.rovenskyi.com/privacy/trial-record</a>.
+        See §4, §5, §6, §9 and §11.
+      </li>
+      <li>
+        The history window in §9 now says what each plan keeps: 7 days on the free plan, 90 on a
+        paid plan that sets a window. It said 90 for every household, which was not true of the free
+        plan.
+      </li>
+      <li>
+        Closing an account that signs in only with Google is confirmed with a fresh Google sign-in
+        rather than a password it does not have (§9).
+      </li>
+      <li>
+        §2 says an account can be a Google sign-in instead of a password, and §5 no longer says
+        per-app usage, icons and the device description are received but not kept — §5's own table
+        already listed them as kept, and they are.
+      </li>
+    </ul>
     <p>
       <strong>Version 1.7, 15 September 2026 &mdash; what changed.</strong> Nothing new leaves a
       television. The service now keeps what 1.6 said it only received: whether the app on a screen
@@ -747,7 +798,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.7, effective 15 September 2026. This page describes the app
+    p-control Privacy Policy, version 1.8, effective 15 September 2026. This page describes the app
     and service as they behave today, except where §4 says a change arrives with the next release.
     §4 is the whole list of what a paired device sends to the household service — what goes to
     Google instead is §7 — and it cannot widen without this page changing and the app asking the

@@ -19,7 +19,7 @@ submitting, don't paste blind.**
 | **App activity → In-app search history** | No | — | — | — |
 | **App info and performance → Crash logs** | Yes (via Firebase Crashlytics) | Yes — with Google (Firebase, as the analytics/crash provider) | Analytics | Not user-facing/optional — standard crash reporting |
 | **App info and performance → Diagnostics** | Yes, from two sources: Firebase Crashlytics attaches device/OS info to crash reports, and the device's own status message carries its model, Android version, language and time zone to the household server; and whether the app was running — previous exit reason and time, process start time, reconnect count, last disconnect cause — in the device's status message to the household server. See the judgment call below. | Yes — with Google (Firebase) for the crash half. The status half goes only to the household server | Analytics (Firebase) **and** App functionality (naming a device in the panel, keeping schedules on the household's clock, and telling a household when its screen went unprotected) | Not optional |
-| **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server, and reach it through **Cloudflare**, which terminates TLS for the app's first request (same judgment call as the profile-name row for the server itself; Cloudflare is a processor either way) | Analytics (Firebase) **and** App functionality (pairing) | Not optional — the app cannot pair without sending them, and they are sent before any pairing is confirmed |
+| **Device or other IDs → Device or other IDs** | Yes — **two separate sources**, see the note below | Yes — with Google (Firebase) for the app-instance ID. The pairing identifiers go only to the household server, and reach it through **Cloudflare**, which terminates TLS for the app's first request (same judgment call as the profile-name row for the server itself; Cloudflare is a processor either way) | Analytics (Firebase) **and** App functionality (pairing) **and** Fraud prevention, security, and compliance (a paid-plan trial once per television — see "The trial ledger" below) | Not optional — the app cannot pair without sending them, and they are sent before any pairing is confirmed. Retention note: a keyed fingerprint of `ANDROID_ID` may be kept up to 365 days after the trial, including after the account is deleted |
 | **Location** | No | — | — | — |
 | **Financial info** | No | — | — | — |
 | **Health and fitness** | No | — | — | — |
@@ -94,7 +94,12 @@ existing field is a real change even when nothing new leaves the device:
    device and the time, and learns nothing about who claimed it; the claimant is told only that
    the machine is registered somewhere else, never where or to whom.
 
-Neither adds a field to the wire, a recipient, or a retention period — `control/v1` is unchanged
+A third use arrives with policy 1.8 and is the one that **does** change the form: **keeping a
+paid-plan trial to once a year per television**, for which a keyed fingerprint of the anchor is
+retained for 365 days. It is answered in "The trial ledger" below, because unlike the two above it
+adds a Play purpose (Fraud prevention, security, and compliance) and a retention period.
+
+Neither of the first two adds a field to the wire, a recipient, or a retention period — `control/v1` is unchanged
 and the anchor never leaves the household service. `p-control-server`'s
 `2026-08-14-device-reinstall-design.md` owns the design and records the rule that the anchor is
 never shown to a human and never accepted as input, so it cannot become a search index across
@@ -256,7 +261,7 @@ afterwards.
 | Data type | Collected | Shared | Purpose | Notes |
 |---|---|---|---|---|
 | **Personal info → Email address** | Already declared above; Google supplies a verified one for a parent who signs in this way | No | App functionality (authentication) | The same row as the address a parent types — the source differs, the collection does not |
-| **Personal info → User IDs** | Yes — Google's account identifier for that parent, when they use this way in | No | App functionality (authentication) | Absent for a parent who signs in with a password, and removed with the linked account from the account page. It is an identifier for **the parent's own account**, never for a child or a device |
+| **Personal info → User IDs** | Yes — Google's account identifier for that parent, when they use this way in | No | App functionality (authentication) **and** Fraud prevention, security, and compliance (a paid-plan trial once per Google account — see "The trial ledger" below) | Absent for a parent who signs in with a password, and the identifier itself is removed with the linked account from the account page. Retention note: if a household that person created received a trial, a keyed fingerprint of the `sub` may be kept up to 365 days after the trial, including after the linked account or the whole account is deleted. It is an identifier for **the parent's own account**, never for a child or a device |
 
 **What is shared with Google, and by whom.** Not by us: the browser loads Google's own script from
 `accounts.google.com` to draw the button, so Google learns that a browser opened the panel's
@@ -281,10 +286,22 @@ client to the server, and the television's agent is not in that path. Re-prompti
 to accept a revision that describes no change to their device would train them to tap through the
 prompt that does matter.
 
-**The first account is not created through an open sign-up form.** It comes from first-run setup,
-gated on a token the server prints once to its own log; every account after it is created by
-redeeming an invite. There is no public registration endpoint, and the form should not be answered
-as though there were one.
+**How an account comes into being.** The installation's first account comes from first-run setup,
+gated on a token the server prints once to its own log. After that a person gets an account three
+ways, each a door the operator opens or shuts at `/admin/signup` (`p-control-server`'s
+`2026-09-07-how-a-person-signs-in-and-who-may-sign-up-design.md`):
+
+1. **An invite** a super admin mints, redeemed at `POST /auth/signup`.
+2. **A pairing code read off a television** (`signup.pairing_code`): the claim creates the account,
+   its household and the paired screen in one act — so an account can be created by somebody who
+   has only the television in front of them.
+3. **Signing up with Google** (`signup.google = sign_up`): a Google sign-in with no matching account
+   creates one, with the email address and `sub` from the ID token.
+
+So there **is** public registration whenever door 2 or 3 is open, capped by `signup.max_accounts`.
+No new data type follows from it — each way collects what the Email address and User IDs rows
+already declare — but the form must not be answered as though sign-up were invite-only. Play's *App
+access* declaration still rests on the demo account, not on any of these doors.
 
 **What this row does NOT cover.** The account is the parent's own data on the server; it is
 unrelated to what a television sends, and adding an account changed nothing about the device's
@@ -383,9 +400,9 @@ retention.
 bounded window, which is a Data safety **retention** answer rather than a new data type.
 
 `p-control-server`'s `RetentionSweep` now deletes `approval_requests`, `device_events` and the
-per-parent copies in `notifications` at the household's plan window (`plans.usage_history_days`,
-90 days on the seeded free plan), on the same schedule that already swept usage and presence. A
-plan naming no window keeps them, which is what an unlimited-history tier means.
+per-parent copies in `notifications` at the household's plan window (`plans.usage_history_days`:
+7 days on `free`, 90 on `bos`, NULL on `super_bos`), on the same schedule that already swept usage
+and presence. A plan naming no window keeps them, which is what an unlimited-history tier means.
 
 Three details this form has to carry, because the page states them only in plain words:
 
@@ -409,6 +426,56 @@ reports.
 user" and whether it is deleted automatically. Both are now true for these categories, and the
 answer should say so — but which of the form's fixed phrasings fits a *plan-dependent* window is
 a choice about the form, not about the code.
+
+## The trial ledger — a fingerprint that outlives the account
+
+**From policy 1.8, 15 September 2026.** `p-control-server`'s
+`2026-09-15-a-trial-once-per-screen-and-account-design.md` owns the mechanism. When the operator
+configures a paid-plan trial (`households.trial_days` above zero), a household created from a
+television receives it only if neither that television's `machine_anchor` (`ANDROID_ID`, from the
+pending pairing) nor any Google `sub` in the founder's `auth_identities` already has a row in
+`trial_ledger`.
+
+- **What is stored:** `trial_ledger(fingerprint bytea, granted_at, expires_at)`, where
+  `fingerprint = HMAC-SHA256(TRIAL_LEDGER_KEY, kind || ":" || value)` and `kind` is `machine` or
+  `google`. No person, household, address, raw identifier or kind column. The key is an environment
+  secret held in SOPS, not in the database (GDPR Art. 4(5)). Rows are written **only** for keys that
+  received a trial; a withheld claim rolls back its savepoint and leaves nothing.
+- **Retention:** `expires_at = granted_at + 365 days`, not extended by later attempts;
+  `RetentionSweep` deletes expired rows. `AccountDeletionService` does not touch the table, so a row
+  **survives account deletion and unlinking Google** by design.
+- **Removal on request:** `/privacy/trial-record`, unauthenticated, proves control by a fresh
+  Google sign-in or by the pairing code a television is showing, and answers identically whether a
+  row existed. This is the Art. 21 objection honoured, and the route for access/erasure requests
+  about the ledger.
+- **Basis:** legitimate interests, Art. 6(1)(f) — fraud prevention (recital 47). The page's §6
+  carries it, and §11 presents the objection separately (Art. 21(4)).
+- **Aggregate counts:** `trial_decisions_daily(day, decision, count)` is kept for the same year and
+  holds no identifier. Not personal data, and not a Data safety data type.
+
+What it changes on the form:
+
+| Row | Change |
+|---|---|
+| **Device or other IDs** | Purpose gains **Fraud prevention, security, and compliance**; retention note that a keyed fingerprint may be kept up to a year after deletion |
+| **Personal info → User IDs** | The same purpose and the same retention note, for the Google `sub` |
+
+**Nothing new leaves the device, and no new recipient appears** — the anchor and the `sub` are
+already collected; the ledger is written and read only inside the household service. Whether
+`CURRENT_DATA_DISCLOSURE_VERSION` should move is a separate question — see the judgment calls
+below.
+
+**Judgment calls left to a human:**
+
+- Whether a keyed, pseudonymous fingerprint is still "Device or other IDs" / "User IDs" data for
+  Play's purposes, or whether Play would treat it as neither. This document declares it under both
+  rows, the conservative reading.
+- How Play's **"data deleted on request"** question is answered given that these fingerprints
+  survive an account deletion but are removable on request at `/privacy/trial-record`. Check the
+  live Play Console form's wording when entering the answers; this document asserts no answer.
+- Whether the in-app disclosure on the television must name the new purpose. The revision tracks
+  what leaves the device, and nothing new does; but Play's prominent-disclosure rule asks for how
+  data is **used**, and the use of `ANDROID_ID` widened.
 
 ## Security practices section
 
@@ -440,8 +507,10 @@ a choice about the form, not about the code.
   **A parent closes the whole account themselves**, from Account → Close this account. It takes
   the email address, the phone, the password hash, every session and the Telegram link with it,
   and any home the person is the only member of closes with them — every screen in it disconnected
-  and every child's history erased. The panel names those homes before the act and asks for the
-  password again, because a session left open on a shared machine may not end somebody's account.
+  and every child's history erased. The panel names those homes before the act and asks for proof
+  of the account again — the password, or for an account with no password a fresh Google sign-in
+  to a linked Google account (`AccountDeletionService.Proof.googleSubject`) — because a session
+  left open on a shared machine may not end somebody's account.
 
   Two accounts cannot do it and the panel says which applies. One that is the last person able to
   administer a home other people are still in is refused, because erasing it would leave a home
@@ -449,6 +518,12 @@ a choice about the form, not about the code.
   people's homes as a server administrator is refused, because that record is not the account
   holder's to erase — the accountability carve-out GDPR Article 17(3) makes. Both are answered by a
   person at the address in privacy policy §11.
+
+  **One thing outlives the closure, from policy 1.8:** the trial ledger's fingerprints (see "The
+  trial ledger" below). They are removed on request at `/privacy/trial-record`, without an account.
+  How Play's "data deleted on request" question is answered in light of it is **checked against the
+  live Play Console form when the answers are entered** — this document does not assert which of
+  Play's options fits.
 - **Data collection is required or can users opt out?** Two different answers, and Play's form
   takes them per data type rather than once.
   - **Core enforcement data (app activity) is required** — it is the product's function, and a
