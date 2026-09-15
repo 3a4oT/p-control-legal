@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.9 · Effective 15 September 2026</span>
+      <span class="meta">Version 1.10 · Effective 16 September 2026</span>
     </div>
   </div>
 
@@ -322,7 +322,9 @@
       television fetches to draw the &ldquo;who&rsquo;s watching&rdquo; screen &mdash; pictures the
       parent uploaded, fetched from that same address. Everything else the device sends to the
       household service, including everything listed below, travels instead on the device&rsquo;s
-      own encrypted link, which does not pass through Cloudflare. Crash reports go to Google
+      own encrypted link, which does not pass through Cloudflare. The server at the other end of
+      that link sees the address the device connects from, as any server does, and notes it in its
+      technical log when the device connects; we use that log only to diagnose faults. Crash reports go to Google
       instead, not to us (&sect;7).
     </p>
     <p>
@@ -534,16 +536,14 @@
           <tr><td>The pairing-code counters — the asking address, and the device identifier it asked with</td><td class="num">One hour from the request, then gone on their own. Nothing is written anywhere else from them</td></tr>
           <tr><td>Single-use links — a password reset, and the link that connects a Telegram chat to your account</td><td class="num">Until used, or until they expire on their own. Either way the record is deleted a week after it expires</td></tr>
           <tr><td>The trial fingerprint of a television or a Google account that received a free trial</td><td class="num">365 days from the trial, then deleted automatically. A later attempt to receive another trial does not extend it. It is <strong>not</strong> deleted when you close your account (§6 says why), and you can have it removed at any time at <a href="https://control.rovenskyi.com/privacy/trial-record">control.rovenskyi.com/privacy/trial-record</a> (§11)</td></tr>
+          <tr><td>The service’s technical logs, including the address a device connects from</td><td class="num">Overwritten automatically as the log fills. Read only to diagnose a fault, never joined to your account, never turned into a place</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
           <tr><td>The log of a support session — who opened it, which household, when, and what changed</td><td class="num">Kept indefinitely, as our own operational record rather than as part of a household’s own data. It is append-only by design: nothing edits or removes an entry once written, which is what makes it a record rather than a claim</td></tr>
         </tbody>
       </table>
     </div>
     <p>
-      Each row is the longest anything is kept, not a promise that it is kept. As §5 says, per-app
-      usage, the icons and the device description are received by the service and not yet stored
-      anywhere at all — for those, the answer today is that nothing is retained, and the row above
-      is the bound that applies once they are.
+      Each row is the longest anything is kept, not a promise that it is kept.
     </p>
     <p>
       Unpairing a device deletes the credentials it holds.
@@ -683,6 +683,11 @@
       requires it, we will also notify you through the bot or the app.
     </p>
     <p>
+      <strong>Version 1.10, 16 September 2026 &mdash; what changed.</strong> Nothing new is collected.
+      §4 and §9 now say that the service’s technical log notes the address a device connects from.
+      §9 no longer says the device description is received but not kept; §5 already listed it as kept.
+    </p>
+    <p>
       <strong>Version 1.9, 15 September 2026 &mdash; what changed.</strong> The privacy contact is
       now <a href="mailto:privacy@control.rovenskyi.com">privacy@control.rovenskyi.com</a>.
       Nothing about what is collected changed.
@@ -803,7 +808,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.9, effective 15 September 2026. This page describes the app
+    p-control Privacy Policy, version 1.10, effective 16 September 2026. This page describes the app
     and service as they behave today, except where §4 says a change arrives with the next release.
     §4 is the whole list of what a paired device sends to the household service — what goes to
     Google instead is §7 — and it cannot widen without this page changing and the app asking the

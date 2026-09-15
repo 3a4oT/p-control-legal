@@ -58,7 +58,10 @@ answer it for the union and be ready to explain the split:
    address and its picture requests too. Everything else a device sends travels on its own MQTT
    link to the broker, which is DNS-only and does not pass through Cloudflare. "Everything else"
    means everything else it sends **to the household service** — Firebase traffic is its own path
-   to Google and is answered in the rows above.
+   to Google and is answered in the rows above. The broker writes the connecting address beside the
+   device's MQTT username (its device ID) to its container log on connect; that is operational
+   logging on our own processor (Hetzner), not a Data safety data type, and the policy says so in
+   §4 and §9.
 
    **How to answer the "shared" column for this.** Cloudflare processes it on our instructions and
    for no purpose of its own, so under Play's definition it is **not** a third-party share — the
