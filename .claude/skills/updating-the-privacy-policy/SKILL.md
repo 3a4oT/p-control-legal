@@ -94,6 +94,52 @@ handled: the child's own rights are reachable only through the parent's account,
 "teen" case. Whether that is sufficient depends on jurisdiction (COPPA under 13, GDPR-K 13–16
 depending on member state) and is legal work, not an architectural claim.
 
+## How it is written, so the next feature does not need a lawyer
+
+A policy written like a changelog of the code has to be reissued every sprint, and each reissue is
+a chance to contradict the last one. A policy written like marketing says nothing and fails review.
+The shape that survives both is **category and purpose, with the implementation left out** — and it
+is a drafting style, not a way of hiding anything.
+
+**Write one level above the code.** «A device identifier Android provides to this app» covers the
+symbol, the day the symbol changes, and the day a second platform supplies its own. Adding a field
+inside a category the page already describes is then an edit to `data-safety-form.md` alone. What
+still forces an edit to the page: a new **category** of data, a new **purpose**, a new **recipient**,
+a longer **retention**, or a change in **whether something is optional**.
+
+**«May» is for a genuine option, never for something already done.** A regulator reads «we may
+collect» as «we collect», and Play reads the Data safety form as the truth whatever the page says.
+So «may» belongs where the answer really depends on the reader's own choice or on a setting of this
+installation («if you link a Telegram chat», «where this installation requires it») — and the page
+says which position is in force today. Anywhere else, write the present tense.
+
+**Name the recipients you use, in a sentence that survives replacing one.** GDPR allows categories
+of recipients; review — Google's and a regulator's — goes better when the ones in the path today are
+named. «Hosting in Germany (Hetzner), or another provider of the same kind that replaces it» keeps
+both: a reader learns who holds their data, and swapping a host is not a policy amendment.
+
+**Keep the numbers in one table.** Retention is the one place vagueness reads as evasion, and it is
+also the cheapest thing to keep exact: one table, one row per category. A number that changes is an
+edit you have to make, and that is the deal the rest of the style buys.
+
+**Say what is optional, in the reader's terms.** «Only if you link Telegram» is worth more than a
+paragraph of qualifiers, and it is what makes an **Optional** answer on the Data safety form true.
+The moment a setting makes that data a condition of using the product, the page says so and the form
+flips to **Required** in the same change — the two answers are read side by side.
+
+**Every version is dated and says what changed in one sentence.** That block is what proves the page
+tracked the product rather than being rewritten under pressure, and a reader who saw the old text
+can tell in ten seconds whether the change touches them.
+
+**What the style never buys:** a missing legal basis, an unnamed purpose, a retention nobody stated,
+or an Optional answer for data the product actually requires. Those are the four things transparency
+enforcement looks for first, and vagueness there is what regulators call out
+([EDPB's 2026 transparency focus](https://www.nixondigital.io/blog/edpb-transparency-enforcement-2026/)).
+On the Play side the recurring rejection is **drift** — a form that still describes last year's
+behaviour, an account-deletion link that is missing or broken, or a policy URL that does not resolve
+in every locale
+([2026 rejection reasons](https://qawerk.com/blog/google-play-rejection-reasons/)).
+
 ## Model it on a shipped product, not on instinct
 
 The page is written; do not start it over from a template. When a new obligation appears, look at

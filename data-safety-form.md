@@ -253,6 +253,14 @@ The row this adds to the table above:
 | **Personal info → Email address** | Yes (the parent's, at sign-up) | No | App functionality (account management, authentication) | Required. It identifies the account that owns a household and is how the developer reaches that parent about it. The password is not a Data safety data type — it is a credential, stored only as a scrypt hash — but it belongs in the security section below |
 | **Personal info → Phone number** | Yes (the parent's, when they link a Telegram chat) | No | App functionality (account management) | **Optional**, and optional in the sense Play means: a parent who never links a chat never provides one, and every feature except Telegram delivery works without it. It arrives from Telegram's own `request_contact` button — the parent taps to share their own number, so Telegram has verified it against the device holding it — and `p-control-server` stores it on the account. Nothing else reads it, and it is shown to no one but its owner. The Android app never touches it: linking happens between the parent's Telegram client and the server |
 
+> **The one switch that flips this row to Required.** `settings.signup.require_telegram` on the
+> server makes linking a Telegram chat a condition of using the web panel, and the linking step ends
+> with Telegram's share-a-number button — so while it is on, the phone number and the Telegram chat
+> ID are **Required**, not Optional, and this form has to be resubmitted with both rows flipped in
+> the same change that flips the setting. The published policy's §2 and §5 say the same thing from
+> their side. It is **off** today, and the rows below describe that position.
+
+
 ### Signing in with Google — LIVE since 7 September 2026
 
 A parent may sign in at `control.rovenskyi.com` with a Google account instead of a password, when

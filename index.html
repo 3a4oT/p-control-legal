@@ -252,10 +252,16 @@
       device collects or sends.
     </p>
     <p>
-      <strong>Telegram is optional.</strong> A parent may link a Telegram account to receive
-      approval requests and alerts in a chat, and may unlink it again; nothing requires it, and a
-      household that never links one loses no feature it needs. Where this page mentions Telegram,
-      it describes a channel you chose, not a step you must take.
+      <strong>Telegram is a channel, and whether it is required is a setting of this
+      installation.</strong> A parent links a Telegram account to receive approval requests and
+      alerts in a chat, and to recover access if a password is lost. <strong>Today linking is
+      optional</strong> on <code>control.rovenskyi.com</code>: a household that never
+      links one loses no feature it needs, and you may unlink at any time. We may turn linking into
+      a condition of using the web panel — the product is built for a parent who can be reached in
+      the moment a child asks — and where it is in force you are asked to link a chat before the
+      panel opens, unlinking is refused while you use the panel, and the phone number described in
+      §5 stops being optional. This page names the position in force and its date; the panel itself
+      always tells you which one applies to you.
     </p>
   </section>
 
@@ -440,8 +446,8 @@
           <tr><td>Your password, as a hash — <strong>only if you set one</strong></td><td>Lets you sign in. Stored only as a slow, salted hash (scrypt) — never as the password, and it cannot be read back out</td></tr>
           <tr><td>Browser sessions — including the browser and operating system you signed in with, and the IP address that session was last seen from</td><td>Keeps you signed in, and lets you answer one question the panel could not answer before: <em>is one of these sessions not me?</em> The browser and system are matched to a short list of known names — “Firefox”, “Linux” — and the browser’s own identification string is never stored. The address is kept as it is and is <strong>never turned into a place</strong>: we do no geolocation, here or anywhere, and it is not shared with anyone. Both exist because “Firefox on Linux” describes both parents’ laptops in most homes, and without the address the list cannot tell you which row is the one you do not recognise. You can end any single session, or all of them, from the panel</td></tr>
           <tr><td>Your chosen language</td><td>So the panel and any messages arrive in the language you picked</td></tr>
-          <tr><td>Telegram chat ID — <strong>only if you link one</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
-          <tr><td>Your phone number — <strong>only if you link Telegram</strong></td><td>Linking finishes by tapping Telegram’s “share my number” button, so we know the account was linked by the person holding that phone rather than by whoever opened the link. It is never shown to anyone else, including other members of your own household, and no other part of the service reads it. Absent for anyone who never links Telegram. Unlinking removes the chat but keeps the number, the same way it keeps your email address — close your account (§9) and it goes with it</td></tr>
+          <tr><td>Telegram chat ID — <strong>if you link one; required of everyone where this installation requires linking (§2)</strong></td><td>Delivers approvals and alerts to that chat. Absent for a household that never links Telegram, and deleted when you unlink</td></tr>
+          <tr><td>Your phone number — <strong>if you link Telegram; required of everyone where this installation requires linking (§2)</strong></td><td>Linking finishes by tapping Telegram’s “share my number” button, so we know the account was linked by the person holding that phone rather than by whoever opened the link. It is never shown to anyone else, including other members of your own household, and no other part of the service reads it. Absent for anyone who never links Telegram. Unlinking removes the chat but keeps the number, the same way it keeps your email address — close your account (§9) and it goes with it</td></tr>
           <tr><td>A linked Google account — <strong>only if you sign in with Google</strong></td><td>Google's own account identifier and the address Google confirmed it has verified. The identifier, not the address, is what signs you in afterwards: an address can move between Google accounts and an identifier cannot. We ask Google for nothing else, we are given nothing else, and we can read nothing in your Google account. Absent for anyone who signs in with a password, and removed when you remove that way in from your account page — except that if a household you created received a free trial while this Google account was linked, a one-way fingerprint of the identifier is kept for a year, separately and without your name, address or household (see “A trial fingerprint” below, and §9)</td></tr>
           <tr><td>Household and device names</td><td>Labels the parent chose, e.g. “Living room TV”</td></tr>
           <tr><td>Child profile name and its 4-digit code</td><td>Lets a child say who they are at the “who’s watching” screen. The code is a selector, not a password, and we say so plainly rather than implying it protects anything.</td></tr>
@@ -681,6 +687,13 @@
       If what we collect, how we use it, or who receives it changes, we update this page and its
       effective date before that change reaches anyone, and we say what changed. Where the law
       requires it, we will also notify you through the bot or the app.
+    </p>
+    <p>
+      <strong>Version 1.11, 16 September 2026 &mdash; what changed.</strong> Nothing new is
+      collected, and nothing new leaves a television. §2 now says that whether linking a Telegram
+      chat is required is a setting of this installation, names the position in force today
+      (optional) and says what changes while it is required; §5 says the same about the chat ID and
+      the phone number.
     </p>
     <p>
       <strong>Version 1.10, 16 September 2026 &mdash; what changed.</strong> Nothing new is collected.
