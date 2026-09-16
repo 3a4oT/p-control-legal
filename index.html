@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.10 · Effective 16 September 2026</span>
+      <span class="meta">Version 1.12 · Effective 16 September 2026</span>
     </div>
   </div>
 
@@ -461,6 +461,7 @@
           <tr><td>How each stretch of a screen being online ended — whether the screen had gone to sleep</td><td>Tells a screen that was switched off or asleep apart from one whose app stopped, so a sleeping television is not reported as unprotected</td></tr>
           <tr><td>The list of apps installed on each device, with the details in §4, and their icons</td><td>Fills the app picker the parent chooses rules from, and shows each app as it looks on the television. The newest list replaces the previous one rather than accumulating</td></tr>
           <tr><td>Per-app usage — which app, which hour, how many of its seconds the app held the screen, when a session began inside it, and whose time it is: a child, an adult who answered, or nobody</td><td>Shows a parent how time is spent, and is what a daily limit is counted against across every device in the household</td></tr>
+          <tr><td>Counts of what happens on the way in — <strong>with nothing attached to them</strong></td><td>Shows us where people get stuck setting the product up, so the next change to it can be judged by a number rather than by a hunch. Per day, we count how many times each step happened, which family of browser and of device it came from — “Firefox”, “Android”, matched to a short list of known names, never the browser’s own identification string — and, where something was refused, the same message the person was shown. <strong>Nothing about the visit itself is stored</strong>: no name, no account, no household, no screen, no address and no session. While a person is setting the product up, their browser also carries a random number for that one attempt, so we can tell “ten people started and six finished” from “one person tried ten times”. It is not a cookie, is tied to no account, is gone when the tab closes, and the records carrying it are deleted after 90 days; the daily counts that outlive them have nobody to relate them to</td></tr>
           <tr><td>What each device is — model, Android version, language, time zone — and whether it is online</td><td>Shows the parent which television is which and whether it is reachable, and keeps a schedule on the household’s clock rather than the device’s</td></tr>
         </tbody>
       </table>
@@ -486,6 +487,7 @@
           <tr><td>The browser, system and address recorded with each session</td><td><strong>Legitimate interests</strong> — letting you see where your account is signed in and end a session you do not recognise, which is how somebody notices an account they have lost control of. Kept while that session is, and for a week after it expires if you never end it yourself; never used to work out where you are. You may object, see §11.</td></tr>
           <tr><td>Counting requests for a pairing code against the address and the device they came from, for one hour (&sect;4)</td><td><strong>Legitimate interests</strong> — this door is open to anyone on the internet, and without a limit on it a stranger could make us mint codes without end. The interest is keeping pairing available to the households that need it. An address can identify somebody who holds other records, which is exactly why it is named here with a ground and an hour&rsquo;s retention rather than passed off as anonymous: it is joined to no account and no household, never used to work out where you are, and gone within the hour. You may object, see &sect;11.</td></tr>
           <tr><td>The trial fingerprint of a television and of a Google account that received a free trial (&sect;5)</td><td><strong>Legitimate interests</strong> — keeping a free trial to its terms, once a year per television and per Google account, which is the prevention of fraud the GDPR recognises as a legitimate interest (recital 47). It is limited to what that strictly needs: a keyed one-way fingerprint rather than the identifier, only for what actually received a trial, for a year, read by nothing but the check made when a household is created. Its only effect on you is not receiving a second trial within that year. It is kept when you close your account, because closing an account and opening another is exactly what it exists to notice — but <strong>you may object to it at any time and it is then removed</strong>, without an account and without writing to us; see &sect;11.</td></tr>
+          <tr><td>The counts of what happens on the way in, and the random number for one setting-up attempt (&sect;5)</td><td><strong>Legitimate interests</strong> &mdash; understanding where the product loses people, and where it refuses them, so it can be improved. It is limited to what that needs: the daily counts carry no subject at all, and the one value that could tie two steps together is random, held by the browser for a single attempt, tied to no account, and deleted with its records after 90 days. It is never used to build a profile, is shared with nobody, and has no effect on you. You may object, see &sect;11.</td></tr>
           <tr><td>Crash reports and count-only product analytics</td><td><strong>Legitimate interests</strong> — keeping the app working and finding faults. You can stop this yourself: <strong>Settings → Privacy → Send diagnostics</strong> on the television, which switches off both crash reporting and product analytics. See §11.</td></tr>
           <tr><td>Opening a household’s own data to answer a support question</td><td><strong>Legitimate interests</strong> — diagnosing and fixing the problem you raised is not possible without seeing what you see. Every session and every change made inside it is logged; see §7. You may object, see §11.</td></tr>
           <tr><td>Records we are obliged to keep</td><td><strong>Legal obligation</strong>, where one applies.</td></tr>
@@ -542,6 +544,8 @@
           <tr><td>The pairing-code counters — the asking address, and the device identifier it asked with</td><td class="num">One hour from the request, then gone on their own. Nothing is written anywhere else from them</td></tr>
           <tr><td>Single-use links — a password reset, and the link that connects a Telegram chat to your account</td><td class="num">Until used, or until they expire on their own. Either way the record is deleted a week after it expires</td></tr>
           <tr><td>The trial fingerprint of a television or a Google account that received a free trial</td><td class="num">365 days from the trial, then deleted automatically. A later attempt to receive another trial does not extend it. It is <strong>not</strong> deleted when you close your account (§6 says why), and you can have it removed at any time at <a href="https://control.rovenskyi.com/privacy/trial-record">control.rovenskyi.com/privacy/trial-record</a> (§11)</td></tr>
+          <tr><td>The record of one setting-up attempt — the step, the browser and device families, and the random number for that attempt (§5)</td><td class="num">90 days, then deleted automatically</td></tr>
+          <tr><td>The daily counts made from those records — a day, a step, a reason, two families and a number</td><td class="num">Kept indefinitely. There is nobody to relate a row to: no account, no household, no device, no address and no random number survive into them, which is what makes a count of a day in 2026 still readable in 2029 without holding anything about anyone</td></tr>
           <tr><td>The service’s technical logs, including the address a device connects from</td><td class="num">Overwritten automatically as the log fills. Read only to diagnose a fault, never joined to your account, never turned into a place</td></tr>
           <tr><td>Crash reports and product events (Firebase)</td><td class="num">Google’s own retention for those products</td></tr>
           <tr><td>The log of a support session — who opened it, which household, when, and what changed</td><td class="num">Kept indefinitely, as our own operational record rather than as part of a household’s own data. It is append-only by design: nothing edits or removes an entry once written, which is what makes it a record rather than a claim</td></tr>
@@ -689,6 +693,16 @@
       requires it, we will also notify you through the bot or the app.
     </p>
     <p>
+      <strong>Version 1.12, 16 September 2026 &mdash; what changed.</strong> Nothing new leaves a
+      television. The web panel now counts, per day, how many times each step of setting the
+      product up happened, which family of browser and of device it came from, and the message
+      shown where something was refused &mdash; as numbers with nothing attached to them. While a
+      person is setting up, their browser carries a random number for that one attempt so that
+      &ldquo;ten started, six finished&rdquo; can be told from &ldquo;one person tried ten
+      times&rdquo;; it is not a cookie, is tied to no account, and is deleted with its records
+      after 90 days. &sect;5, &sect;6 and &sect;9 say it.
+    </p>
+    <p>
       <strong>Version 1.11, 16 September 2026 &mdash; what changed.</strong> Nothing new is
       collected, and nothing new leaves a television. §2 now says that whether linking a Telegram
       chat is required is a setting of this installation, names the position in force today
@@ -821,7 +835,7 @@
   </section>
 
   <footer>
-    p-control Privacy Policy, version 1.10, effective 16 September 2026. This page describes the app
+    p-control Privacy Policy, version 1.12, effective 16 September 2026. This page describes the app
     and service as they behave today, except where §4 says a change arrives with the next release.
     §4 is the whole list of what a paired device sends to the household service — what goes to
     Google instead is §7 — and it cannot widen without this page changing and the app asking the

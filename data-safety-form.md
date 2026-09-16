@@ -354,6 +354,41 @@ Two things follow, and neither is optional:
   app — this call reverses and the row is real. Whoever writes that build reads this paragraph
   first.
 
+## The panel's own funnel counts — Analytics, and why no row in the table changes
+
+**Added 2026-09-16.** The web panel now records, per day, how many times each step of setting the
+product up happened, which family of browser and of device the step came from (`firefox`,
+`android`, … — derived by the server from the `User-Agent`, never stored raw, never sent by the
+client), and, where something was refused, the `user_message_key` of the sentence the person was
+shown. `p-control-server`'s `docs/superpowers/specs/2026-09-16-counting-what-happens-design.md`
+owns it; the tables are `product_events` (90 days) and `product_event_days` (indefinite).
+
+**Is this an Analytics entry for Play? No row in the table above changes, and the reason is the
+same one the session-records section above gives.** The form declares what **this app** collects
+and shares. This counting happens in a **browser**, on the panel's own origin; the Android app
+makes no request to `POST /api/v1/funnel`, has no code that could, and reports no step. There is
+therefore no data type the app collects because of it and no purpose to add to an existing row.
+
+Two things follow, and neither is optional:
+
+- **The privacy policy carries it**, because that page covers the service and not only the app —
+  §5 names the counts and the per-attempt random number, §6 gives the ground (legitimate
+  interests, with a right to object), and §9 gives the two retentions. Version 1.12.
+- **If an app build ever reports a step of its own** — an onboarding funnel on the television, a
+  `plans_seen` from the set — this call reverses: the row is **App info and performance →
+  Diagnostics** or a new **Analytics** purpose on an existing row, and `product_events` becomes
+  data the app collects. Whoever writes that build reads this paragraph first. The vocabulary
+  already declares names nothing emits yet (the payment ones), and declaring a name is **not**
+  emitting it — the question for this form is always what the binary sends.
+
+**What keeps it out of the "identifiers" question.** `product_events.flow_id` is a random uuid the
+**browser** mints in `sessionStorage` for one onboarding attempt. It is not a device identifier,
+not a cookie, not an advertising ID, is tied to no account, never leaves the panel's own origin,
+and is deleted with its rows at 90 days. The daily rollup it feeds keeps no identifier of any kind.
+Under GDPR the raw rows are pseudonymous personal data while they last, which is exactly why they
+expire and why §6 offers an objection — on Play's form, neither table describes app behaviour at
+all.
+
 ## The developer's own support access, and why this form does not grow a data-type row
 
 **Added 2026-09-04.** A super admin — today, the developer alone — can now open a household's own
