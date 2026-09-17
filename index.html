@@ -192,7 +192,7 @@
     </svg>
     <div>
       <h1>Privacy Policy — p-control</h1>
-      <span class="meta">Version 1.12 · Effective 16 September 2026</span>
+      <span class="meta">Version 1.13 · Effective 17 September 2026</span>
     </div>
   </div>
 
@@ -509,7 +509,7 @@
       <li><strong>Telegram</strong> — delivers the bot’s messages, under its own terms, and only for a household that linked a Telegram account.</li>
       <li><strong>Google, again, if the web panel offers its sign-in button.</strong> The button is drawn by Google’s own code, which the panel loads from <code>accounts.google.com</code> when — and only when — the operator has switched that way in on. While it is on, opening the sign-in page tells Google that a browser visited it, before anybody has pressed anything; the panel loads nothing from Google when it is off. Pressing the button hands us a signed statement from Google carrying the two things in §5 and no more. This is separate from Firebase above, it happens in a browser rather than on the television, and a household that signs in with a password never meets it.</li>
       <li><strong>Hetzner</strong> — hosts the service and its database in the EU, on our instructions only.</li>
-      <li><strong>Cloudflare</strong> — sits in front of the service’s web address and therefore handles connecting IP addresses and request metadata. Two things a device does reach us that way: the requests an unpaired device makes to ask for a code, carrying the four identifiers in §4, and the profile pictures a paired device fetches for the “who’s watching” screen. Everything else a device sends travels on its own encrypted link to the household service, which does not pass through Cloudflare.</li>
+      <li><strong>Cloudflare</strong> — sits in front of the service’s web address and therefore handles connecting IP addresses and request metadata. Two things a device does reach us that way: the requests an unpaired device makes to ask for a code, carrying the four identifiers in §4, and the profile pictures a paired device fetches for the “who’s watching” screen. Everything else a device sends travels on its own encrypted link to the household service, which does not pass through Cloudflare. <strong>One page also counts its visitors through Cloudflare:</strong> the public product page at <code>control.rovenskyi.com</code> — the one a person meets before they have an account — loads Cloudflare Web Analytics, a script that records that a page was viewed, from which country and on what kind of browser, and sets no cookie and keeps no identifier of the visitor. It runs on that page only. The web panel, where household data is, does not load it, and nothing a television sends passes through it.</li>
       <li><strong>Us, when we open a support session.</strong> To answer a question you raised or diagnose a fault, someone operating the service can open your household’s own data directly — the same rules, devices, profiles and history the panel already shows you, nothing more. That is a separate, time-limited session, up to one hour, rather than an unaudited look: every household it enters, and every change made while it is open, is written to a log that only we can read. We do not tell you about an individual visit — that is a deliberate choice, not an oversight — but the log itself is something you can ask about under §11.</li>
     </ul>
   </section>
@@ -691,6 +691,13 @@
       If what we collect, how we use it, or who receives it changes, we update this page and its
       effective date before that change reaches anyone, and we say what changed. Where the law
       requires it, we will also notify you through the bot or the app.
+    </p>
+    <p>
+      <strong>Version 1.13, 17 September 2026 &mdash; what changed.</strong> Nothing new is collected
+      from a television or a household. The public product page at <code>control.rovenskyi.com</code>
+      &mdash; the page a person sees before they have an account &mdash; now counts its visitors
+      through Cloudflare Web Analytics, which sets no cookie and keeps no identifier. The web panel
+      does not load it. &sect;7 says it.
     </p>
     <p>
       <strong>Version 1.12, 16 September 2026 &mdash; what changed.</strong> Nothing new leaves a
